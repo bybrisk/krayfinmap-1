@@ -50,10 +50,10 @@ export default {
         name: "PicURL",
         label: "PicURL"
       },
-      BusinessID: {
-        name: "BusinessID",
-        label: "Business ID*",
-        requiredErrorMsg: "Business ID is required"
+      AgentID: {
+        name: "AgentID",
+        label: "Agent ID*",
+        requiredErrorMsg: "Agent ID is required"
       },
   }
   };

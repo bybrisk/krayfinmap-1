@@ -10,7 +10,7 @@ const {
     AgentType,
     PhoneNumber,
     MaxWeightCapacity,
-    BusinessID,
+    AgentID,
     MaxHourCapacity ,
       }
 } = AgentModel;
@@ -25,9 +25,9 @@ export default
     [Pin.name]: Yup.string().required(`${Pin.requiredErrorMsg}`),
     [AgentType.name]: Yup.string().required(`${AgentType.requiredErrorMsg}`),
     [PhoneNumber.name]: Yup.string().required(`${PhoneNumber.requiredErrorMsg}`),
-    [MaxWeightCapacity.name]: Yup.string().required(`${MaxWeightCapacity.requiredErrorMsg}`),
-    [MaxHourCapacity.name]: Yup.string().required(`${MaxHourCapacity.requiredErrorMsg}`),
-    [BusinessID.name]: Yup.string().required(`${BusinessID.requiredErrorMsg}`)
+    [MaxWeightCapacity.name]: Yup.number().required(`${MaxWeightCapacity.requiredErrorMsg}`),
+    [MaxHourCapacity.name]: Yup.number().required(`${MaxHourCapacity.requiredErrorMsg}`),
+    [AgentID.name]: Yup.string().required(`${AgentID.requiredErrorMsg}`)
 
 })
  

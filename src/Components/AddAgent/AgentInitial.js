@@ -11,7 +11,7 @@ const {
     MaxWeightCapacity,
     MaxHourCapacity,
     PicURL,
-    BusinessID
+    AgentID
   }
 } = AgentModel;
 
@@ -26,5 +26,5 @@ export default {
   [MaxHourCapacity.name]: "",
   [MaxWeightCapacity.name]: "",
   [PicURL.name]: '',
-  [BusinessID.name]:'',
+  [AgentID.name]:'',
 };

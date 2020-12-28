@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect,useState} from 'react';
 import { makeStyles, styled } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -11,7 +11,7 @@ import { domain } from "../App";
 import { FormSetter, FormContainer, Wrapper } from "../Helpers/Styles";
 import '../App.css'
 import Button from '../CustomComponents/ReactButton/ReactButton';
-
+import {fetchAgentDetail} from '../Helpers/NetworkRequest'
 const StyledText = styled(Typography)({
     minWidth:250,
 })
@@ -59,10 +59,16 @@ const AgentTypeData = [
 ];
 
 
-export default function AddAgent() {
+export default function AddAgent(id) {
   const classes = useStyles();
-
-
+const [details,setDetails] = useState({})
+useEffect(() => {
+const response =  fetchAgentDetail(id);
+setDetails(response.data);
+  return () => {
+    
+  }
+}, [])
 
 
   return (

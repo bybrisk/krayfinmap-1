@@ -8,7 +8,7 @@ import Modal from "@material-ui/core/Modal";
 import Backdrop from '@material-ui/core/Backdrop';
 import Grow from '@material-ui/core/Grow';
 
-import AddAgent from '../AddAgent/AddAgent';
+import AgentAdd from '../AddAgent/AddAgent';
 import '../../App.css'
 //styles for enhanced table toolbar
 const useToolbarStyles = makeStyles((theme) => ({
@@ -68,7 +68,7 @@ const useToolbarStyles = makeStyles((theme) => ({
 
       <section style={{background:'#ffffff',width:'100%',height:'100%'}}> 
       <p onClick={handleClose} style={{fontSize:40,textAlign:'right',cursor:'pointer',padding:'0 30px',margin:0}}>x</p>
-        <AddAgent />
+        <AgentAdd closeModal={handleClose} />
       </section>
       </Grow>
       </Modal>

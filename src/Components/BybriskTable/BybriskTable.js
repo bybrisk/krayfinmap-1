@@ -1,5 +1,5 @@
 //basic dependencies
-import React from 'react';
+import React,{useEffect} from 'react';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 //dependecies for table
@@ -13,12 +13,15 @@ import TableRow from '@material-ui/core/TableRow';
 import Modal from "@material-ui/core/Modal";
 import Backdrop from '@material-ui/core/Backdrop';
 import Grow from '@material-ui/core/Grow';
+import Avatar from '@material-ui/core/Avatar';
+
 //divided component to make them one
 import EnhancedTableToolbar from './EnhancedToolbar';
 import EnhancedTableHead from './TableHead';
 import { getComparator, stableSort, StyledTableCell, StyledTableRow } from './TableHelpers';
-import { rows } from './TableRow';
 import AgentDetail from '../AgentDetails'
+import {fetchAgents} from '../../Helpers/NetworkRequest'
+import {useSelector} from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,14 +54,28 @@ export default function BybriskTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [open, setOpen] = React.useState(false);
+  const [rows,setAgents] = React.useState([])
+  const bybId = useSelector(state => state.bybId);
+  console.log(bybId)
   const handleOpen = () => {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handleClose = (props) => {
     setOpen(false);
+    if(props.makeRequest){
+      fetchAgents({bybId,setAgents});
+console.log(rows)
+    }
   };
 
+  useEffect(() => {
+    const response = fetchAgents({bybId,setAgents});
+console.log(response)
+    return () => {
+      
+    }
+  }, [])
 
   //this function set the state for sorting information
   const handleRequestSort = (event, property) => {
@@ -101,7 +118,8 @@ export default function BybriskTable() {
               rowCount={rows.length}
             />
             <TableBody>
-              {stableSort(rows, getComparator(order, orderBy))
+              {rows && (
+                stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
 
@@ -111,16 +129,18 @@ export default function BybriskTable() {
                       key={row.name}
                     >
               <StyledTableCell>
-                {row.photo}
+              <Avatar alt="Remy Sharp" src={row.PicURL} />
               </StyledTableCell>
-              <StyledTableCell align="center">{row.agentid}</StyledTableCell>
-              <StyledTableCell align="center">{row.name}</StyledTableCell>
-              <StyledTableCell align="center">{row.type}</StyledTableCell>
-              <StyledTableCell align="center">{row.mobile}</StyledTableCell>
+              <StyledTableCell align="center">{row.AgentID}</StyledTableCell>
+              <StyledTableCell align="center">{row.AgentName}</StyledTableCell>
+              <StyledTableCell align="center">{row.agentType}</StyledTableCell>
+              <StyledTableCell align="center">{row.PhoneNumber}</StyledTableCell>
               <StyledTableCell align="center" style={{cursor:'pointer',color:'blue'}} onClick={handleOpen}>View</StyledTableCell>
                     </StyledTableRow>
                   );
-                })}
+                })
+              )
+                }
               {emptyRows > 0 && (
                 <TableRow >
                   <TableCell colSpan={6} />
@@ -144,8 +164,8 @@ export default function BybriskTable() {
     <Modal
         open={open}
         onClose={handleClose}
-        aria-labelledby="Add-Agent"
-        aria-describedby="Add-Agent"
+        aria-labelledby="Agent-detail"
+        aria-describedby="Agent-detail"
         closeAfterTransition
                 BackdropComponent={Backdrop}
                 BackdropProps={{

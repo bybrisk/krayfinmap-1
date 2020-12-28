@@ -14,9 +14,9 @@ import AgentModel from "./AgentModel";
 import formInitialValues from "./AgentInitial";
 import '../../App.css'
 import Button from '../../CustomComponents/ReactButton/ReactButton';
-const { formId, formField:{Name,Locality,Landmark,City,Pin,BusinessID,PhoneNumber,MaxHourCapacity,MaxWeightCapacity,PicURL,AgentType} } = AgentModel;
-
-
+import {useSelector} from "react-redux";
+import axios from 'axios';
+const { formId, formField:{Name,Locality,Landmark,City,Pin,AgentID,PhoneNumber,MaxHourCapacity,MaxWeightCapacity,PicURL,AgentType} } = AgentModel;
 
 
 const useStyles = makeStyles((theme) => ({
@@ -50,12 +50,28 @@ const AgentTypeData = [
 ];
 
 
-export default function AddAgent() {
+export default function AgentAdd({closeModal}) {
   const classes = useStyles();
-
+const bybId = useSelector(state => state.bybId)
 
   function _handleSubmit(values, actions) {
-   console.log(values)
+    const article = JSON.stringify({
+      Address: values.Locality + "+"+ values.Landmark + "+"+ values.City + "+"+  values.Pin,
+      MaxWeightCapacity: values.MaxWeightCapacity,
+      MaxHourCapacity: values.MaxHourCapacity,
+      PhoneNumber: values.PhoneNumber,
+      AgentName: values.Name,
+      agentType: values.AgentType,
+      BusinessID:bybId,
+      AgentID:values.AgentID
+    });
+    console.log(article)
+    axios.post(`${domain}/agents/create`,article)
+    .then(response=>{
+        console.log(response);
+
+        closeModal({makeRequest:true});
+    });
   }
 
 
@@ -71,7 +87,9 @@ export default function AddAgent() {
             <Form id={formId} style={{width:'100%',display:'flex',justifyContent:'center',alignItems:'center',flexDirection:'column'}}>
             <Grid container className={classes.root} spacing={2} style={{justifyContent:'space-between',marginBottom:30}}>
 <Avatar className={classes.avatar} />
-<Button width={"100px"}>Save</Button>
+<Button width={"100px"} type="submit" disabled = {props.isSubmitting}
+   disableFocusRipple = {true}
+   disableElevation = {true}>Save</Button>
 </Grid>
 
     <Grid container className={classes.root} spacing={2}>
@@ -88,7 +106,7 @@ export default function AddAgent() {
             style={{minWidth:300}}
           />  </Grid>
             <Grid item style={{marginLeft:20}}>
-            <ReactInput name={PhoneNumber.name} label={PhoneNumber.label}  style={{minWidth:300}}/>
+            <ReactInput name={PhoneNumber.name} label={PhoneNumber.label}  type="tel" style={{minWidth:300}}/>
             </Grid>
 
         </Grid>
@@ -113,13 +131,13 @@ export default function AddAgent() {
         </Grid>
         <Grid container justify="left" spacing={4}>
             <Grid item style={{marginLeft:20}}>
-<ReactInput name={MaxWeightCapacity.name} label={MaxWeightCapacity.label}  style={{minWidth:300}}/>
+<ReactInput name={MaxWeightCapacity.name} label={MaxWeightCapacity.label} type="number" style={{minWidth:300}}/>
             </Grid>
             <Grid item style={{marginLeft:20}}>
-            <ReactInput name={MaxHourCapacity.name} label={MaxHourCapacity.label}  style={{minWidth:300}}/>
+            <ReactInput name={MaxHourCapacity.name} label={MaxHourCapacity.label} type="number"  style={{minWidth:300}}/>
   </Grid>
             <Grid item style={{marginLeft:20}}>
-            <ReactInput name={BusinessID.name} label={BusinessID.label}  style={{minWidth:300}}/>
+            <ReactInput name={AgentID.name} label={AgentID.label}  style={{minWidth:300}}/>
             </Grid>
 
         </Grid>

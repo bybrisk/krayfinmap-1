@@ -31,8 +31,9 @@ import RegistrationModel from "./FormModel/registrationModel";
 import formInitialValues from "./FormModel/formInitialValues";
 import Logo from '../Assets/logo.png'
 import {
-  makePostRequest
-} from './Requests'
+  CreateAccount
+} from '../Helpers/NetworkRequest'
+import axios from 'axios'
 // import useStyles from "./styles";
 import '../App.css'
 const steps = ["Shipping address", "Payment details", "Review your order"];
@@ -98,49 +99,55 @@ export default function Registration(props) {
       InstantDelivery: values.deliveryTime === '24' ? false : true,
       BusinessPlan: "1"
     });
-    console.log(article);
 
-    // axios.post('http://localhost:5000/register', article, {headers})
-    //     .then(data=>console.log(data))
-    //     .catch(err=>console.log(err))
-    let xhr = new XMLHttpRequest();
-    xhr.open("POST", `${domain}/account`, true);
-    xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-    xhr.setRequestHeader("Access-Control-Allow-origin", "*");
-    xhr.setRequestHeader("Access-Control-Allow-Headers", "Content-Type,Access-Control-Allow-Headers,Access-Control-Allow-origin,Access-Control-Allow-Methods");
-    xhr.setRequestHeader("Access-Control-Allow-Methods", "PUT,DELETE,GET,POST,OPTIONS");
+    axios.post(`${domain}/account`,{article})
+    .then(response=>{
+        console.log(response.data);
+        // article.bybID = response.bybID;
+  localStorage.setItem("user", JSON.stringify(article));
+  localStorage.setItem("bybId", JSON.stringify(response.data.bybID));
 
-    xhr.send(article);
+  dispatch({
+    type: "LOG_IN",
+    payload: true
+  });
+  dispatch({
+    type: "ID",
+    payload: response.data.bybID
+  });
+  dispatch({
+    type: "USER",
+    payload: article
+  });
+  actions.setSubmitting(false);
+  history.push("/home");
 
-    xhr.onload = () => {
-      const data = JSON.parse(xhr.response);
-      if (data.error) {
-        console.log(data.error)
-      } else {
-        console.log(data.bybID);
-        values.bybID = data.bybID;
-        console.log(values);
-        // notifysuccess("successfully signed in");
-        localStorage.setItem("user", JSON.stringify(data.user));
-        localStorage.setItem("token", JSON.stringify(data.token));
-        dispatch({
-          type: "LOG_IN",
-          payload: true
-        });
-        dispatch({
-          type: "ID",
-          payload: data.bybID
-        });
-        dispatch({
-          type: "USER",
-          payload: values
-        });
-        actions.setSubmitting(false);
+    });
+// if(response.bybID){
+//   article.bybID = response.bybID;
+//   localStorage.setItem("user", JSON.stringify(response.user));
 
+//   dispatch({
+//     type: "LOG_IN",
+//     payload: true
+//   });
+//   dispatch({
+//     type: "ID",
+//     payload: response.bybID
+//   });
+//   dispatch({
+//     type: "USER",
+//     payload: article
+//   });
+//   actions.setSubmitting(false);
+//   history.push("/home");
 
-        history.push("/home");
-      }
-    };
+// }
+// else{
+//   actions.setSubmitting(false);
+
+// }
+   
   }
 
   function _handleSubmit(values, actions) {
@@ -199,9 +206,7 @@ onSubmit = {_handleSubmit} >
    {props.isSubmitting ?  <CircularProgress size = {24}/> :(isLastStep ? 'Complete Signup' : 'Continue')}
     </Button> 
     
-   )
- }
-
+  
  </div>
 
  </Form>

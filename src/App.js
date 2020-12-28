@@ -1,7 +1,7 @@
 import { createMuiTheme, responsiveFontSizes, ThemeProvider } from "@material-ui/core/styles";
-import React from "react";
-import { Provider } from "react-redux";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import React,{useEffect} from "react";
+import { Provider,useDispatch } from "react-redux";
+import { BrowserRouter, Route, Switch ,useHistory} from "react-router-dom";
 // import ForgotPassword from "./Authentication/ForgotPassword";
 import Login from "./Registration/Forms/Login";
 import Signup from "./Registration/Forms/Signup";
@@ -11,23 +11,23 @@ import { PrivateRoute } from "./Helpers/PrivateRoute";
 import Slider from "./Components/Slider/Slider";
 import store from "./Redux/Store";
 import "./App.css";
-import Registration from "./Registration";
-import Bybriskdropdown from './Components/ByBriskSidebar/BybriskDropdown'
-import Bybriskdrawer from './Components/ByBriskSidebar/BybriskDrawer'
-import EnhancedToolbar from './Components/BybriskTable/EnhancedToolbar'
-import AddAgent from './Components/AddAgent/AddAgent'
-import BybriskTable from "./Components/BybriskTable/BybriskTable";
 const Routing = () => {
-  // const dispatch = useDispatch();
-  // var data = useSelector((state) => state.user);
-  // useEffect(() => {
-  //   const user = JSON.parse(localStorage.getItem("user"));
-  //   const jwt = JSON.parse(localStorage.getItem("token"));
-  //   if (user) {
-  //     dispatch({ type: "LOG_IN", payload: true });
-  //   }
-  // }, [dispatch]);
-  // console.log(data.role);
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const bybId = JSON.parse(localStorage.getItem("bybId"));
+console.log(bybId,user)
+    if (bybId) {
+      dispatch({ type: "LOG_IN", payload: true });
+      dispatch({
+        type: "ID",
+        payload:bybId
+      })
+    }
+    history.push('/home')
+  }, []);
   return (
     <Switch>
       <Route exact path="/" component={Slider} />
@@ -146,7 +146,6 @@ export default function App() {
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <div className="App">
-<BybriskTable/>
           <BrowserRouter>
 <Routing/>
           </BrowserRouter>

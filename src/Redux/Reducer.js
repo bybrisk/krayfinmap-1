@@ -2,7 +2,8 @@ const AuthReducer = (
     state = {
       login: false,
       user: [],
-      bybId: ""
+      bybId: "",
+      Agents:[]
     },
     action
   ) => {
@@ -18,7 +19,15 @@ const AuthReducer = (
           ...state,
           bybId: action.payload
         };
-      case "USER":
+        case "AddAgent":
+          let agent = state.Agents
+          agent.push(action.payload)
+        return {
+            ...state,
+            Agents: agent
+          };
+  
+        case "USER":
         console.log("called", action.payload);
         return {
           ...state,
