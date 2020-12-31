@@ -104,9 +104,9 @@ export default function Registration(props) {
       headers:{
         "Content-Type": 'application/json',
         "Access-Control-Allow-Origin": 'https://bybrisk.com',
-        "Access-Control-Allow-Methods": "PUT, POST, GET,OPTIONS",
-        "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token,Content-Type, Accept, Access-Control-Request-Method,Access-Control-Request-Headers, Authorization",
-        "HTTP/1.1":"200 OK"
+        "Access-Control-Request-Method": "PUT, POST, GET,OPTIONS",
+        "Access-Control-Request-Headers": "Origin, Content-Type, X-Auth-Token,Content-Type, Accept, Access-Control-Request-Method,Access-Control-Request-Headers, Authorization",
+        "Origin":"https://maps.bybrisk.com"
       }
     })
     .then(response=>{
