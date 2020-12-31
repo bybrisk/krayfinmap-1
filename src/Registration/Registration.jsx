@@ -100,7 +100,15 @@ export default function Registration(props) {
       BusinessPlan: "1"
     });
 
-    axios.post(`${domain}/account`,{article})
+    axios.post(`${domain}/account`,{article},{
+      headers:{
+        "Content-Type": 'application/json',
+        "Access-Control-Allow-Origin": 'https://developers.bybrisk.com',
+        "Access-Control-Allow-Methods": "PUT, POST, GET"
+
+
+      }
+    })
     .then(response=>{
         console.log(response.data);
         // article.bybID = response.bybID;
