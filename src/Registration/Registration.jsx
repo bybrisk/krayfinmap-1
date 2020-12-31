@@ -106,7 +106,7 @@ export default function Registration(props) {
         "Access-Control-Allow-Origin": 'https://bybrisk.com',
         "Access-Control-Allow-Methods": "PUT, POST, GET,OPTIONS",
         "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token,Content-Type, Accept, Access-Control-Request-Method,Access-Control-Request-Headers, Authorization",
-        "HTTP/1.1 200 OK"
+        "HTTP/1.1":"200 OK"
       }
     })
     .then(response=>{
