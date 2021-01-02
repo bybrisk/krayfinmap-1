@@ -5,10 +5,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { StyledTableCell } from './TableHelpers';
 const headCells = [
-    { id: 'agentid', numeric: true, disablePadding: false, label: 'Agent Id' },
-    { id: 'name', numeric: false, disablePadding: false, label: 'Agent Name' },
-    { id: 'type', numeric: false, disablePadding: false, label: 'Type' },
-    { id: 'mobile', numeric: true, disablePadding: false, label: 'Phone Number' },
+    { id: 'AgentID', numeric: true, disablePadding: false, label: 'Agent Id' },
+    { id: 'AgentName', numeric: false, disablePadding: false, label: 'Agent Name' },
+    { id: 'agentType', numeric: false, disablePadding: false, label: 'Type' },
+    { id: 'PhoneNumber', numeric: true, disablePadding: false, label: 'Phone Number' },
   ];
   
   //this is function to desplay table heads

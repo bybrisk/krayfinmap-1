@@ -96,7 +96,7 @@ color:'#ffffff'
     },
     MuiFormLabel:{
 root:{
-  fontSize:'1.3rem',
+  fontSize:'1rem',
   color:'#000000'
 }
     },

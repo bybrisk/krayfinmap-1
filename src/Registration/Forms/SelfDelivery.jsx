@@ -30,15 +30,14 @@ const SelfDelivery = (props) => {
             name={avgWorkingHours.name}
             label={avgWorkingHours.label}
             type={"number"}
-          />
-          <ReactCheckbox
-            name={haveDeliveryAgent.name}
-            label={haveDeliveryAgent.label}
+            tip={avgWorkingHours.tip}
+
           />
           <ReactSelect
             name={deliveryTime.name}
             label={deliveryTime.label}
             data={agentDeliveryTime}
+            tip={deliveryTime.tip}
           />
         </FormSetter>
         </>

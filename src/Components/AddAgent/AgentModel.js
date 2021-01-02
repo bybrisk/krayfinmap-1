@@ -1,8 +1,8 @@
 export default {
     formId: "AddAgentForm",
     formField: {
-      Name: {
-        name: "Name",
+      AgentName: {
+        name: "AgentName",
         label: "Name*",
         requiredErrorMsg: "Name is required"
       },
@@ -26,8 +26,8 @@ export default {
         label: "Pin*",
         requiredErrorMsg: "Pin is required"
       },
-      AgentType: {
-        name: "AgentType",
+      agentType: {
+        name: "agentType",
         label: "Agent Type*",
         requiredErrorMsg: "Agent Type is required"
       },

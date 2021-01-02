@@ -7,9 +7,11 @@ import AddIcon from '@material-ui/icons/Add';
 import Modal from "@material-ui/core/Modal";
 import Backdrop from '@material-ui/core/Backdrop';
 import Grow from '@material-ui/core/Grow';
-
+import {useSelector} from "react-redux";
 import AgentAdd from '../AddAgent/AddAgent';
 import '../../App.css'
+import {fetchAgents} from '../../Helpers/NetworkRequest'
+
 //styles for enhanced table toolbar
 const useToolbarStyles = makeStyles((theme) => ({
     root: {
@@ -27,15 +29,20 @@ const useToolbarStyles = makeStyles((theme) => ({
   
   //thiis is to show "Agent" at top Helps in fixing 
   //them just above table
-  const EnhancedTableToolbar = () => {
+  const EnhancedTableToolbar = (props) => {
     const classes = useToolbarStyles();
     const [open, setOpen] = React.useState(false);
+    const bybId = useSelector(state => state.bybId);
+
   const handleOpen = () => {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handleClose = (newprops) => {
     setOpen(false);
+    if(newprops.makeRequest){
+      props.handleAgent();
+    }
   };
 
     return (

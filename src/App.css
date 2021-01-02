@@ -17,6 +17,7 @@
 }
 .container {
   width: 100%;
+  margin-bottom: 15px;
 }
 
 .container input {
@@ -25,18 +26,16 @@
 }
 
 .container label {
-  height: 56px;
+  height: 20px;
+  text-align: left;
   top: 9px;
 }
 
 .container label[data-shrink="true"] {
   top: 0;
 }
-@media (max-width: 1000px){
-  .wrapper {
-    overflow:scroll;
-    height:auto;
-  }
+.wrapper {
+  height:auto;
 }
 
 

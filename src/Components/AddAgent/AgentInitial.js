@@ -1,12 +1,12 @@
 import AgentModel from "./AgentModel";
 const {
   formField: {
-    Name,
+    AgentName,
     Locality,
     Landmark,
     City,
     Pin,
-    AgentType,
+    agentType,
     PhoneNumber,
     MaxWeightCapacity,
     MaxHourCapacity,
@@ -16,12 +16,12 @@ const {
 } = AgentModel;
 
 export default {
-  [Name.name]: "",
+  [AgentName.name]: "",
   [Locality.name]: "",
   [Landmark.name]: "",
   [City.name]: "",
   [Pin.name]: "",
-  [AgentType.name]: "",
+  [agentType.name]: "",
   [PhoneNumber.name]: "",
   [MaxHourCapacity.name]: "",
   [MaxWeightCapacity.name]: "",

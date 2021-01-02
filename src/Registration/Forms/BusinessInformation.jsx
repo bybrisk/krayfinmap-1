@@ -33,22 +33,30 @@ const BusinessInformation = (props) => {
             name={businessName.name}
             label={businessName.label}
             type={"text"}
+            tip={businessName.tip}
+
           />
           <ReactInput
             name={businessCategory.name}
             label={businessCategory.label}
             type={"text"}
+            tip={businessCategory.tip}
+
           />
 
           <ReactInput
             name={businessAddress.name}
             label={businessAddress.label}
             type={"text"}
+            tip={businessAddress.tip}
+
           />
           <ReactSelect
             name={delivery.name}
             label={delivery.label}
             data={deliveryType}
+            tip={delivery.tip}
+
           />
         </FormSetter>
         </>

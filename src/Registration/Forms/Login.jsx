@@ -3,6 +3,8 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { styled } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
+import InputLabel from "@material-ui/core/InputLabel";
+
 import { Form as FORM, Formik } from "formik";
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
@@ -16,7 +18,7 @@ import Logo from '../../Assets/logo.png'
 // Styled componenst with material styled
 const StyledField = styled(TextField)({
   borderRadius: "1000rem",
-  marginTop: "10px"
+  marginTop: "5px"
 });
 
 
@@ -103,6 +105,11 @@ export default function (props) {
                 return (
                   <FORM autoComplete="true" style={{ width: "100%" }}>
                     <div className="container">
+                    <InputLabel htmlFor="input-with-icon-adornment">Email ID
+            {/* <Tooltip title={tip} placement="right">
+<HelpOutlineIcon style={{fontSize:'.9rem',marginLeft:5}}/>
+            </Tooltip> */}
+</InputLabel>
                       <StyledField
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -112,15 +119,23 @@ export default function (props) {
                         margin="dense"
                         type="tel"
                         pattern="[0-9]{10}"
-                        label="Email No."
                         name="Email"
                         error={errors.Email && touched.Email ? true : false}
                         helperText={
                           errors.Email && touched.Email ? errors.Email : null
                         }
+                        InputLabelProps={{
+            shrink: true,
+          }}
                       />
                     </div>
                     <div className="container">
+                    <InputLabel htmlFor="input-with-icon-adornment">Password
+            {/* <Tooltip title={tip} placement="right">
+<HelpOutlineIcon style={{fontSize:'.9rem',marginLeft:5}}/>
+            </Tooltip> */}
+</InputLabel>
+
                       <StyledField
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -129,8 +144,11 @@ export default function (props) {
                         fullWidth
                         margin="dense"
                         type="password"
-                        label="Password"
                         name="Password"
+                        InputLabelProps={{
+            shrink: true,
+          }}
+
                         error={
                           errors.Password && touched.Password ? true : false
                         }

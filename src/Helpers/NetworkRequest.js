@@ -1,12 +1,21 @@
 import axios from 'axios'
-const domain = 'https://developers.bybrisk.com/'
+const domain = 'https://developers.bybrisk.com'
 
-export async function fetchAgentDetail(id){
+export async function fetchAgentDetail(props){
 	const response = await axios ({
-        url: `${domain}/agents/one/${id}`,
+        url: `${domain}/agents/one/${props.id.id}`,
         method: "GET"
     })
-    return response;
+
+    if(response.data!==null){
+var data = response.data;
+        data.Locality = data.Address.split(' & ')[0]
+data.City = data.Address.split(' & ')[2];
+data.Pin = data.Address.split(' & ')[3];
+data.Landmark = data.Address.split(' & ')[1];
+data.bybId = props.id.id;
+        props.setDetails(data);
+    }
 }
 
 export async function fetchAgents(props){
@@ -30,7 +39,7 @@ export async function modifyAgent(param){
 
 export async function deleteAgent(id){
     const response = await axios ({
-        url: `${domain}/agents/delete/${id}`,
+        url: `${domain}/agents/delete/${id.id}`,
         method: "GET"
     })
     return response;

@@ -103,10 +103,9 @@ export default function Registration(props) {
     axios.post(`${domain}/account`,{article},{
       headers:{
         "Content-Type": 'application/json',
-        "Access-Control-Allow-Origin": 'https://bybrisk.com',
-        "Access-Control-Request-Method": "PUT, POST, GET,OPTIONS",
-        "Access-Control-Request-Headers": "Origin, Content-Type, X-Auth-Token,Content-Type, Accept, Access-Control-Request-Method,Access-Control-Request-Headers, Authorization",
-        "Origin":"https://maps.bybrisk.com"
+        "Access-Control-Allow-Origin": '*',
+        "Access-Control-Allow-Method": "PUT, POST, GET,OPTIONS",
+        "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token,Content-Type, Accept, Access-Control-Request-Method,Access-Control-Request-Headers, Authorization",
       }
     })
     .then(response=>{
@@ -175,7 +174,7 @@ export default function Registration(props) {
 
   return ( 
   <React.Fragment >
-      <Wrapper className = "wrapper" > 
+      <Wrapper className = "wrapper"> 
       <FormContainer >
       <React.Fragment>
       <img src = {Logo} style = {{maxWidth: 140}} alt="Krayfinmap"/>
@@ -190,7 +189,6 @@ onSubmit = {_handleSubmit} >
   
   <Form id={formId} style = {{
        width: '100%',
-       height: '480px',
        display: 'flex',
        justifyContent: 'center',
        alignItems: 'center',
@@ -226,14 +224,14 @@ onSubmit = {_handleSubmit} >
 </React.Fragment>
 
 
-    <Typography style = {{marginTop: "10px"}} varient = "caption" >Already have a account ? {" "}
+   {activeStep===0&&(<Typography style = {{marginTop: "10px"}} varient = "caption" >Already have a account ? {" "}
      <a style = {{
         textDecoration: "none",
         color: "#FF6F1F",
         cursor: 'pointer'}}
   onClick = {props.clickHandler} >
     Login </a> </Typography>  
-    </React.Fragment>
+)}     </React.Fragment>
 
     </FormContainer> </Wrapper>
    

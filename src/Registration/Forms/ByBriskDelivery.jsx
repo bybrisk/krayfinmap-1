@@ -27,16 +27,15 @@ const ByBriskDelivery = (props) => {
           <StyledText variant="h4">ByBrisk Delivery</StyledText>
 
 <FormSetter>
-          <ReactCheckbox
-            name={deliveryAgentRequired.name}
-            label={deliveryAgentRequired.label}
-          />
           <ReactInput
             name={deliveryTime.name}
             label={deliveryTime.label}
             data={DeliveryTime}
+            tip={deliveryTime.tip}
+
           />
-          <ReactCheckbox name={autoScaling.name} label={autoScaling.label} />
+          <ReactCheckbox name={autoScaling.name} label={autoScaling.label}             tip={autoScaling.tip}
+/>
         </FormSetter>
         </>
   );

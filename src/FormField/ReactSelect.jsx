@@ -4,6 +4,9 @@ import { at } from "lodash";
 import { useField } from "formik";
 import { makeStyles } from "@material-ui/core/styles";
 import '../App.css'
+import Tooltip from '@material-ui/core/Tooltip';
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
+
 import {
   InputLabel,
   FormControl,
@@ -25,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 function SelectField(props) {
   const classes = useStyles();
 
-  const { label, data, ...rest } = props;
+  const { label, data,tip, ...rest } = props;
   const [field, meta] = useField(props);
   const { value: selectedValue } = field;
   const [touched, error] = at(meta, "touched", "error");
@@ -37,9 +40,17 @@ function SelectField(props) {
   }
 
   return (
-    <FormControl {...rest} error={isError} className={classes.formControl}>
-      <InputLabel style={{ marginLeft: 20,fontSize:'.9em',fontWeight:'normal' }}>{label}</InputLabel>
-      <Select
+    <div className="container">
+
+            <InputLabel htmlFor="input-with-icon-adornment">{label}
+            <Tooltip title={tip} placement="right">
+<HelpOutlineIcon style={{fontSize:'.9rem',marginLeft:5}}/>
+            </Tooltip>
+
+            </InputLabel>    
+            <FormControl {...rest} error={isError} className={classes.formControl}>
+ 
+             <Select
         {...field}
         value={selectedValue ? selectedValue : ""}
         variant={"outlined"}
@@ -57,6 +68,7 @@ function SelectField(props) {
       </Select>
       {_renderHelperText()}
     </FormControl>
+    </div>
   );
 }
 

@@ -9,7 +9,7 @@ export const Wrapper = styled("div")({
   alignItems: "center",
   justifyContent: "center",
   flexDirection: "column",
-  height:'100%',
+  // height:'100%',
 });
 
 export const FormContainer = styled("div")({

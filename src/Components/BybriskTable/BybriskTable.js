@@ -9,12 +9,14 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
+import red from '@material-ui/core/colors/indigo';
+
 //dependencies for modal
 import Modal from "@material-ui/core/Modal";
 import Backdrop from '@material-ui/core/Backdrop';
 import Grow from '@material-ui/core/Grow';
 import Avatar from '@material-ui/core/Avatar';
-
+import Person from '@material-ui/icons/Person';
 //divided component to make them one
 import EnhancedTableToolbar from './EnhancedToolbar';
 import EnhancedTableHead from './TableHead';
@@ -45,33 +47,41 @@ const useStyles = makeStyles((theme) => ({
     top: 20,
     width: 1,
   },
+  avatar: {
+    color: '#ffffff',
+    backgroundColor:red[700],
+  },
 }));
 
-export default function BybriskTable() {
+export default function BybriskTable(props) {
+  const {theme} = props;
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('agentid');
+  const [orderBy, setOrderBy] = React.useState('AgentID');
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [open, setOpen] = React.useState(false);
   const [rows,setAgents] = React.useState([])
   const bybId = useSelector(state => state.bybId);
+  const ColorCode = () => 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
+
   console.log(bybId)
   const handleOpen = () => {
     setOpen(true);
   };
+    function handleAgent(){
+      fetchAgents({bybId,setAgents});
+  }
+
 
   const handleClose = (props) => {
     setOpen(false);
-    if(props.makeRequest){
-      fetchAgents({bybId,setAgents});
-console.log(rows)
-    }
+    fetchAgents({bybId,setAgents});
+
   };
 
   useEffect(() => {
-    const response = fetchAgents({bybId,setAgents});
-console.log(response)
+  fetchAgents({bybId,setAgents});
     return () => {
       
     }
@@ -103,7 +113,7 @@ console.log(response)
     <>
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar  />
+        <EnhancedTableToolbar  handleAgent={handleAgent}/>
         <TableContainer>
           <Table
             className={classes.table}
@@ -122,14 +132,14 @@ console.log(response)
                 stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-
                   return (
+                    <>
                     <StyledTableRow
                       tabIndex={-1}
                       key={row.name}
                     >
               <StyledTableCell>
-              <Avatar alt="Remy Sharp" src={row.PicURL} />
+              <Avatar alt={row.AgentName} src={row.PicURL || row.AgentName[0]} />
               </StyledTableCell>
               <StyledTableCell align="center">{row.AgentID}</StyledTableCell>
               <StyledTableCell align="center">{row.AgentName}</StyledTableCell>
@@ -137,6 +147,34 @@ console.log(response)
               <StyledTableCell align="center">{row.PhoneNumber}</StyledTableCell>
               <StyledTableCell align="center" style={{cursor:'pointer',color:'blue'}} onClick={handleOpen}>View</StyledTableCell>
                     </StyledTableRow>
+                    <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="Agent-detail"
+        aria-describedby="Agent-detail"
+        closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                    timeout: 400,
+                }}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection:'column',
+          background:'#ffffff'
+        }}
+      >
+                      <Grow in={open} timeout={250}>
+
+      <section style={{background:'#ffffff',width:'100%',height:'100%'}}> 
+      <p onClick={handleClose} style={{fontSize:40,textAlign:'right',cursor:'pointer',padding:'0 30px',margin:0}}>x</p>
+
+        <AgentDetail id={row.bybid} handleClose={handleClose}/>
+      </section>
+      </Grow>
+      </Modal>
+   </>
                   );
                 })
               )
@@ -161,34 +199,7 @@ console.log(response)
       </Paper>
       
     </div>
-    <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="Agent-detail"
-        aria-describedby="Agent-detail"
-        closeAfterTransition
-                BackdropComponent={Backdrop}
-                BackdropProps={{
-                    timeout: 400,
-                }}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          flexDirection:'column',
-          background:'#ffffff'
-        }}
-      >
-                      <Grow in={open} timeout={250}>
 
-      <section style={{background:'#ffffff',width:'100%',height:'100%'}}> 
-      <p onClick={handleClose} style={{fontSize:40,textAlign:'right',cursor:'pointer',padding:'0 30px',margin:0}}>x</p>
-
-        <AgentDetail />
-      </section>
-      </Grow>
-      </Modal>
-     
   </>
   );
 }

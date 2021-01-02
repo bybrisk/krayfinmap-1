@@ -15,15 +15,20 @@ const Signup = (props) => {
           <ReactInput
             name={username.name}
             label={username.label}
+            tip={username.tip}
+
             type={"text"}
           />
-          <ReactInput name={email.name} label={email.label} type={"email"} />
+          <ReactInput name={email.name} label={email.label} tip={email.tip}
+type={"email"} />
           <ReactInput
             name={password.name}
             label={password.label}
             type={"password"}
+            tip={password.tip}
           />
         </FormSetter>
+        
         </>
   );
 };
