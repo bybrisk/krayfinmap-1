@@ -80,9 +80,6 @@ export default function Registration(props) {
   const currentValidationSchema = validationSchema[activeStep];
   const isLastStep = activeStep === steps.length - 1;
 
-  function _sleep(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
 
   async function _submitForm(values, actions) {
     const article = JSON.stringify({

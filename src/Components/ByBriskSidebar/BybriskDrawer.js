@@ -16,8 +16,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import BybriskTable from '../BybriskTable/BybriskTable'
+import AgentTable from '../AgentTable/AgentTable'
 import BybriskDropdown from './BybriskDropdown';
+import AccountDropdown from './AccountDropdown'
 import Logo from '../../Assets/logo.png'
 
 const drawerWidth = 240;
@@ -78,6 +79,10 @@ function ResponsiveDrawer(props) {
   const drawer = (
     <div>
       <div className={classes.toolbar}>
+      <div style={{background:'#ffffff',width:'100%',height:64,display:'flex',justifyContent:'center'}}>
+          <img src={Logo} style={{height:'inherit'}}/>
+
+          </div>
 
       </div>
       <List>
@@ -98,7 +103,12 @@ function ResponsiveDrawer(props) {
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar style={{background:'#061336',justifyContent:'space-between'}}>
         
-         <div>
+         <div style={{display:'flex'}}>
+          
+          <div style={{background:'#ffffff',marginRight:10,marginLeft:10}}>
+          <img src={Logo} style={{maxHeight:40}}/>
+
+          </div>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -109,13 +119,13 @@ function ResponsiveDrawer(props) {
             <MenuIcon />
           </IconButton>
          
-          <div style={{background:'#ffffff'}}>
-          <img src={Logo} style={{maxHeight:64}}/>
-
           </div>
-          </div>
-          <div>
-            result
+          <div style={{width: 50,
+    minHeight: 64,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"}}>
+            <AccountDropdown/>
           </div>
         </Toolbar>
       </AppBar>
@@ -152,7 +162,7 @@ function ResponsiveDrawer(props) {
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar2} />
-       <BybriskTable/>
+       <AgentTable/>
         </main>
     </div>
   );

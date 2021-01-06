@@ -1,16 +1,6 @@
-do this for continously updating your table
-make your setAgent export by default and use it in network request(best is use in redux)
-
-
-make a way to look profile picture in big picture
-
-remaining tasks
-1) delete agent
-2) modify agent
-3) get full details of a agent
-(above things cant be done without bybid of agent)
 in onboarding
 
 1) make a ui for account update and modify password
 2) find a way for get business account (login)
 (login can be perform with cookies(encrypted one) set from server or from client)
+
