@@ -10,6 +10,7 @@ import Home from "./Components/ByBriskSidebar/BybriskDrawer";
 import { PrivateRoute } from "./Helpers/PrivateRoute";
 import Slider from "./Components/Slider/Slider";
 import store from "./Redux/Store";
+import DeliveryAgent from './Components/AgentTable/DeliveryTable/DeliveryTable'
 import "./App.css";
 const Routing = () => {
   const dispatch = useDispatch();
@@ -46,7 +47,7 @@ console.log(bybId,user)
 let theme = createMuiTheme({
   breakpoints: {
     values: {
-      xs: 0,
+      xs: 300,
       sm: 450,
       md: 800,
       lg: 1000,

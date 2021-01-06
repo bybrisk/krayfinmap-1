@@ -8,20 +8,20 @@ import InputBase from "@material-ui/core/InputBase";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Grow from "@material-ui/core/Grow";
-import ReactButton from "./ReactButton";
+import ReactButton from "../../../CustomComponents/ReactButton/ReactButton";
 import AddIcon from "@material-ui/icons/Add";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
 import Grid from "@material-ui/core/Grid";
-
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 const CardComponent = (props) => {
   const { title, stat } = props;
 
   return (
     <Card
       onClick={props.onClick}
-      style={{ width: 220, height: 158, textAlign: "center" }}
+      style={{ width: 220, height: 158, textAlign: "center",cursor:'pointer'}}
     >
       <CardHeader title={title} />
       <CardContent style={{ padding: 0 }}>
@@ -41,10 +41,26 @@ const useToolbarStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
     alignItems: "center",
     padding: "0 30px",
-    width: "100%"
+    width: "100%",
+    [theme.breakpoints.down("xs")]: {
+      justifyContent: "center",
+      flexDirection:'column',
+      alignItems: "flex-start",
+      }
+
   },
   title: {
-    flex: "1 1 100%"
+    flex: "1 1 100%",
+    textAlign:'left',
+    [theme.breakpoints.down("xs")]: {
+      marginBottom:10  
+      }
+  
+  },
+  reactbutton:{
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
   gridcontainer: {
     justifyContent: "flex-start",
@@ -63,7 +79,7 @@ const useToolbarStyles = makeStyles((theme) => ({
     },
     marginLeft: 0,
     minWidth: "250px",
-    width: "100%"
+    width: "50%"
   },
   searchIcon: {
     padding: theme.spacing(0, 2),
@@ -112,28 +128,31 @@ const EnhancedTableToolbar = (props) => {
     }
   };
 
-  const handleFilter = (item) => {
+  const addFilter = (item) => {
     console.log(item, deliveryFilter, "kjgjh");
     setQuery(item);
     setFilter(true);
   };
+  const removeFilter = () => {
+    setQuery("");
+    setFilter(false);
+  };
+
   console.log(deliveryFilter);
 
   return (
     <>
       <Toolbar style={{ flexDirection: "column" }}>
         <div className={classes.root}>
-          <Typography variant="h5">Deliveries</Typography>
+          <Typography variant="h5" className={classes.title}>Deliveries</Typography>
           <ReactButton
             width={"140px"}
             style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center"
             }}
             onClick={handleOpen}
+            className={classes.reactbutton}
           >
-            Add Agent <AddIcon style={{ fontSize: "25px", marginTop: "4px" }} />
+            Add Delivery <AddIcon style={{ fontSize: "25px", marginTop: "4px" }} />
           </ReactButton>
           <Modal
             open={open}
@@ -175,10 +194,11 @@ const EnhancedTableToolbar = (props) => {
           </Modal>
         </div>
         {deliveryFilter && (
-            <Grow in={deliveryFilter} timeout={250}>
-            <p style={{ color: query==='confirm'?'green':(query==='pending'?'yellow':'red'),fontSize:'2rem'}}>{query}</p>
-          </Grow>
-        )}
+          <Grow in={deliveryFilter} timeout={250}>
+ <section style={{display:'flex',width:'100%',alignItems:'center',marginBottom:10}}>
+          <ArrowBackIcon onClick={removeFilter} style={{fontSize:"2rem"}}/>
+<p style={{ background: query==='confirm'?'green':(query==='pending'?'yellow':'red'),fontSize:'1.4rem',marginLeft:20,padding:5,color:'#ffffff',borderRadius:6}}> deliveries {query}</p> </section>
+     </Grow>   )}
 
         {/* {deliveryFilter ? (
           <div style={{ color: "green" }}>{query}</div>
@@ -198,7 +218,7 @@ const EnhancedTableToolbar = (props) => {
               <CardComponent
                 title={item.title}
                 stat={item.stat}
-                onClick={() => handleFilter(item.filter)}
+                onClick={() => addFilter(item.filter)}
               />
             </Grid>
           );
@@ -211,7 +231,9 @@ const EnhancedTableToolbar = (props) => {
           style={{
             display: "flex",
             justifyContent: "flex-start",
-            width: "100%"
+            width: "100%",
+            marginBottom:20,
+            marginLeft:-10
           }}
         >
           <div className={classes.search}>

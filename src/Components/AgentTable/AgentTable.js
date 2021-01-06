@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     width: '100%',
     marginBottom: theme.spacing(2),
+    paddingTop:20
   },
   table: {
     minWidth: 750,
@@ -63,7 +64,6 @@ export default function BybriskTable(props) {
   const [open, setOpen] = React.useState(false);
   const [rows,setAgents] = React.useState([])
   const bybId = useSelector(state => state.bybId);
-  const ColorCode = () => 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
   const headCells = [
     { id: 'AgentID', numeric: true, disablePadding: false, label: 'Agent Id' },
     { id: 'AgentName', numeric: false, disablePadding: false, label: 'Agent Name' },

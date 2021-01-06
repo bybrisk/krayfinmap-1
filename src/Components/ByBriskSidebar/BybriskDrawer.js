@@ -17,6 +17,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import AgentTable from '../AgentTable/AgentTable'
+import DeliveryTable from '../AgentTable/DeliveryTable/DeliveryTable'
 import BybriskDropdown from './BybriskDropdown';
 import AccountDropdown from './AccountDropdown'
 import Logo from '../../Assets/logo.png'
@@ -34,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   appBar: {
+    
     [theme.breakpoints.up('md')]: {
       width: "100%",
     },
@@ -63,6 +65,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
+    width:"100%"
   },
 }));
 
@@ -162,7 +165,7 @@ function ResponsiveDrawer(props) {
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar2} />
-       <AgentTable/>
+       <DeliveryTable/>
         </main>
     </div>
   );
