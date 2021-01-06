@@ -20,7 +20,7 @@ import Person from '@material-ui/icons/Person';
 //divided component to make them one
 import EnhancedTableToolbar from './EnhancedToolbar';
 import EnhancedTableHead from './TableHead';
-import { getComparator, stableSort, StyledTableCell, StyledTableRow } from './TableHelpers';
+import { getComparator, search, StyledTableCell, StyledTableRow } from '../TableHelpers';
 import AgentDetail from '../AgentDetails'
 import {fetchAgents} from '../../Helpers/NetworkRequest'
 import {useSelector} from "react-redux";
@@ -61,23 +61,29 @@ export default function BybriskTable(props) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [open, setOpen] = React.useState(false);
+  const [query, setQuery] = React.useState('');
   const [rows,setAgents] = React.useState([])
   const bybId = useSelector(state => state.bybId);
-  const ColorCode = () => 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
   const headCells = [
-    { id: 'AgentID', numeric: true, disablePadding: false, label: 'Agent Id' },
-    { id: 'AgentName', numeric: false, disablePadding: false, label: 'Agent Name' },
-    { id: 'agentType', numeric: false, disablePadding: false, label: 'Type' },
-    { id: 'PhoneNumber', numeric: true, disablePadding: false, label: 'Phone Number' },
-  ];
+    { id: 'CustomerName', numeric: false, disablePadding: false, label: 'Name' },
+    { id: 'CustomerAddress', numeric: false, disablePadding: false, label: 'Address' },
+    { id: 'itemWeight', numeric: true, disablePadding: false, label: 'Item Weight' },
+    { id: 'paymentMode', numeric: false, disablePadding: false, label: 'Payment' },
+    { id: 'phone', numeric: false, disablePadding: false, label: 'Mobile' },
+    { id: 'deliveryStatus', numeric: false, disablePadding: false, label: 'Delivery Status' },
 
+  ];
   console.log(bybId)
   const handleOpen = () => {
     setOpen(true);
   };
-    function handleAgent(){
-      fetchAgents({bybId,setAgents});
-  }
+const handleQuery = (query) =>{
+setQuery(query.toLowerCase())
+}
+
+  //   function handleAgent(){
+  //     fetchAgents({bybId,setAgents});
+  // }
 
 
   const handleClose = (props) => {
@@ -119,7 +125,7 @@ export default function BybriskTable(props) {
     <>
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar  handleAgent={handleAgent}/>
+        <EnhancedTableToolbar setQuery={handleQuery} query={query}/>
         <TableContainer>
           <Table
             className={classes.table}
@@ -136,7 +142,7 @@ export default function BybriskTable(props) {
             />
             <TableBody>
               {rows && (
-                stableSort(rows, getComparator(order, orderBy))
+                search(rows,query,getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   return (
@@ -145,20 +151,19 @@ export default function BybriskTable(props) {
                       tabIndex={-1}
                       key={row.name}
                     >
-              <StyledTableCell>
-              <Avatar alt={row.AgentName} src={row.PicURL || row.AgentName[0]} />
-              </StyledTableCell>
-              <StyledTableCell align="center">{row.AgentID}</StyledTableCell>
-              <StyledTableCell align="center">{row.AgentName}</StyledTableCell>
-              <StyledTableCell align="center">{row.agentType}</StyledTableCell>
-              <StyledTableCell align="center">{row.PhoneNumber}</StyledTableCell>
-              <StyledTableCell align="center" style={{cursor:'pointer',color:'blue'}} onClick={handleOpen}>View</StyledTableCell>
+              <StyledTableCell align="center">{row.CustomerName}</StyledTableCell>
+              <StyledTableCell align="center">{row.CustomerAddress}</StyledTableCell>
+              <StyledTableCell align="center">{row.itemWeight}</StyledTableCell>
+              <StyledTableCell align="center">{row.paymentMode}</StyledTableCell>              
+              <StyledTableCell align="center">{row.phone}</StyledTableCell>
+              <StyledTableCell align="center" style={{color: row.deliveryStatus==='confirm'?'green':(row.deliveryStatus==='pending'?'yellow':'red')}}>{row.deliveryStatus}</StyledTableCell>
+
                     </StyledTableRow>
                     <Modal
         open={open}
         onClose={handleClose}
-        aria-labelledby="Agent-detail"
-        aria-describedby="Agent-detail"
+        aria-labelledby="Deliveries"
+        aria-describedby="Deliveries"
         closeAfterTransition
                 BackdropComponent={Backdrop}
                 BackdropProps={{
@@ -181,7 +186,9 @@ export default function BybriskTable(props) {
       </section>
       </Grow>
       </Modal>
+
    </>
+  
                   );
                 })
               )

@@ -30,6 +30,17 @@ export function stableSort(array, comparator) {
     return stabilizedThis.map((el) => el[0]);
   }
 
+export function search(rows,query,comparator){
+let filteredrow=rows;
+  if(query){
+    filteredrow  = rows.filter(item=>{
+  return(
+    item.CustomerName.toLowerCase().includes(query) || item.CustomerAddress.toLowerCase().includes(query) || item.itemWeight.toLowerCase().includes(query) || item.paymentMode.toLowerCase().includes(query) || item.phone.toLowerCase().includes(query) || item.deliveryStatus.toLowerCase().includes(query)
+  )
+})
+}
+return stableSort(filteredrow,comparator)
+}
 
 export const StyledTableCell = withStyles((theme) => ({
     head: {
