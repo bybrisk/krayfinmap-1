@@ -97,16 +97,9 @@ export default function Registration(props) {
       BusinessPlan: "1"
     });
 
-    axios.post(`${domain}/account`,{article},{
-      headers:{
-        "Content-Type": 'application/json',
-        "Access-Control-Allow-Origin": '*',
-        "Access-Control-Allow-Method": "PUT, POST, GET,OPTIONS",
-        "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token,Content-Type, Accept, Access-Control-Request-Method,Access-Control-Request-Headers, Authorization",
-      }
-    })
+    axios.post(`${domain}/onboarding/createAccount`,{article})
     .then(response=>{
-        console.log(response.data);
+        console.log(response,"-------------------------");
         // article.bybID = response.bybID;
   localStorage.setItem("user", JSON.stringify(article));
   localStorage.setItem("bybId", JSON.stringify(response.data.bybID));

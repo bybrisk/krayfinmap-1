@@ -1,26 +1,20 @@
 import axios from 'axios'
-const domain = 'https://developers.bybrisk.com'
+const domain = 'https://bybriskbackend.herokuapp.com'
 
 export async function fetchAgentDetail(props){
+    console.log(props)
 	const response = await axios ({
-        url: `${domain}/agents/one/${props.id.id}`,
+        url: `${domain}/agents/fetchAgentDetails?id=${props.id}`,
+
         method: "GET"
     })
-
-    if(response.data!==null){
-var data = response.data;
-        data.Locality = data.Address.split(' & ')[0]
-data.City = data.Address.split(' & ')[2];
-data.Pin = data.Address.split(' & ')[3];
-data.Landmark = data.Address.split(' & ')[1];
-data.bybId = props.id.id;
-        props.setDetails(data);
-    }
+        props.setDetails(response.data);
+    
 }
 
 export async function fetchAgents(props){
     const response = await axios ({
-        url: `${domain}/agents/all/${props.bybId}`,
+        url: `${domain}/agents/fetchAgents?bybid=${props.bybId}`,
         method: "GET"
     })
     console.log(response);
@@ -30,7 +24,7 @@ export async function fetchAgents(props){
 }
 
 export async function modifyAgent(param){
-    axios.post(`${domain}/agents/update`,{param})
+    axios.post(`${domain}/agents/modifyAgent`,{param})
     .then(response=>{
         console.log(response);
         return response;
@@ -39,7 +33,7 @@ export async function modifyAgent(param){
 
 export async function deleteAgent(id){
     const response = await axios ({
-        url: `${domain}/agents/delete/${id.id}`,
+        url: `${domain}/agents/delteAgent?id=${id.id}`,
         method: "GET"
     })
     return response;
@@ -48,7 +42,7 @@ export async function deleteAgent(id){
 
 export async function AddAgent(props){
     const response = await axios ({
-        url: `${domain}/agents/create`,
+        url: `${domain}/agents/addAgent`,
         method: "POST",
 params:props.article
 
@@ -58,7 +52,7 @@ params:props.article
 }
 
 export async function CreateAccount(param){
-    axios.post(`${domain}/account`,{param})
+    axios.post(`${domain}/onboarding/createAccount`,{param})
     .then(response=>{
         console.log(response);
         return response;
@@ -66,7 +60,7 @@ export async function CreateAccount(param){
 }
 
 export async function UpdateAccount(param){
-    axios.post(`${domain}/accountUpdate`,{param})
+    axios.post(`${domain}/onboarding/updateAccount`,{param})
     .then(response=>{
         console.log(response);
         return response;
@@ -74,7 +68,23 @@ export async function UpdateAccount(param){
 }
 
 export async function UpdatePassword(param){
-    axios.post(`${domain}/accountUpdate/password`,{param})
+    axios.post(`${domain}/onboarding/updatePassword`,{param})
+    .then(response=>{
+        console.log(response);
+        return response;
+    });
+}
+
+// export async function UpdatePassword(param){
+//     axios.post(`${domain}/onboarding/updatePassword`,{param})
+//     .then(response=>{
+//         console.log(response);
+//         return response;
+//     });
+// }
+
+export async function AddDelivery(param){
+    axios.post(`${domain}/delivery/addDelivery`,{param})
     .then(response=>{
         console.log(response);
         return response;

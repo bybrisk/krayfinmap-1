@@ -165,7 +165,7 @@ function ResponsiveDrawer(props) {
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar2} />
-       <DeliveryTable/>
+       <AgentTable/>
         </main>
     </div>
   );

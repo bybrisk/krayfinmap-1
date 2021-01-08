@@ -157,4 +157,4 @@ export default function App() {
 }
 
 export const domain =
-  "https://developers.bybrisk.com";
+  "https://bybriskbackend.herokuapp.com";

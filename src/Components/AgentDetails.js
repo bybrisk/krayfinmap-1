@@ -63,7 +63,9 @@ const AgentTypeData = [
 ];
 
 
-export default function AgentDetails(id) {
+export default function AgentDetails(prop) {
+  const {id,handleClose} = prop;
+  console.log(id)
   const classes = useStyles();
 const [details,setDetails] = useState({})
 const [isEditing,setEditing] = useState(false);
@@ -79,9 +81,9 @@ useEffect(() => {
   }
 }, [])
 
-const handleDeleting = (prop) =>{
+const handleDeleting = () =>{
   deleteAgent(id);
-id.handleClose()
+handleClose()
   }
   return (
     <>

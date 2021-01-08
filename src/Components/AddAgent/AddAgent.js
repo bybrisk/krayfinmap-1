@@ -67,7 +67,7 @@ const handleChange = function loadFile(event) {
 
 
   function _handleSubmit(values, actions) {
-    const article = JSON.stringify({
+    const article = {
       Address: values.Locality + " & "+ values.Landmark + " & "+ values.City + " & "+  values.Pin,
       MaxWeightCapacity: values.MaxWeightCapacity,
       MaxHourCapacity: values.MaxHourCapacity,
@@ -78,14 +78,14 @@ const handleChange = function loadFile(event) {
       AgentID:values.AgentID,
       PicURL:pic,
       bybID:values.bybId
-    });
+    };
     console.log(article)
     let newDomain 
     if(props.values){
-      newDomain = `${domain}/agents/update`
+      newDomain = `${domain}/agents/modifyAgent`
     }
     else{
-      newDomain = `${domain}/agents/create`
+      newDomain = `${domain}/agents/addAgent`
     }
     axios.post(newDomain,article)
     .then(response=>{

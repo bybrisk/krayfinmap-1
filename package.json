@@ -2,7 +2,7 @@
   "name": "bybrisk",
   "version": "1.0.0",
   "description": "",
-  "proxy": "https://developers.bybrisk.com/",
+  "proxy": "http://localhost:5000",
   "keywords": [],
   "engines": {
     "node": "12.14.1",
@@ -27,17 +27,15 @@
     "styled-components": "5.2.1",
     "yup": "0.32.8"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "docz:dev": "docz dev",
-    "docz:build": "docz build",
-    "docz:serve": "docz build && docz serve"
+    "eject": "react-scripts eject"
+  },
+
+  "eslintConfig": {
+    "extends": "react-app"
   },
   "browserslist": [
     ">0.2%",
