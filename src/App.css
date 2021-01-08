@@ -60,3 +60,18 @@ input:-internal-autofill-selected{
 .align-start{
   align-items: flex-start;
 }
+
+div[aria-labelledby="Add-Agent"]>section{
+  overflow: scroll;
+}
+
+.scrollarrow  {
+  position:absolute;
+  bottom:10px;
+  right:10px;
+  display: none;
+}
+
+.scollable{
+display: block;
+}

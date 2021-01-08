@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import React from 'react';
+import React,{useState,useRef,useCallback} from 'react';
 import ReactButton from '../../CustomComponents/ReactButton/ReactButton'
 import AddIcon from '@material-ui/icons/Add';
 import Modal from "@material-ui/core/Modal";
@@ -44,7 +44,6 @@ const useToolbarStyles = makeStyles((theme) => ({
       props.handleAgent();
     }
   };
-
     return (
       <>
       <Toolbar
@@ -73,13 +72,17 @@ const useToolbarStyles = makeStyles((theme) => ({
       >
                             <Grow in={open} timeout={250}>
 
-      <section style={{background:'#ffffff',width:'100%',height:'100%'}}> 
+      <section style={{background:'#ffffff',width:'100%',height:'100%'}}         
+    >
+
+
       <p onClick={handleClose} style={{fontSize:40,textAlign:'right',cursor:'pointer',padding:'0 30px',margin:0}}>x</p>
         <AgentAdd closeModal={handleClose} />
+
       </section>
+
       </Grow>
       </Modal>
-      
       </>
     );
   };

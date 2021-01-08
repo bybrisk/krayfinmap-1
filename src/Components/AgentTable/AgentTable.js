@@ -1,5 +1,5 @@
 //basic dependencies
-import React,{useEffect} from 'react';
+import React,{useEffect,useRef} from 'react';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 //dependecies for table
@@ -57,6 +57,7 @@ const useStyles = makeStyles((theme) => ({
 export default function BybriskTable(props) {
   const {theme} = props;
   const classes = useStyles();
+  const sectionRef = useRef(null);
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('AgentID');
   const [page, setPage] = React.useState(0);
@@ -169,12 +170,12 @@ export default function BybriskTable(props) {
           alignItems: "center",
           justifyContent: "center",
           flexDirection:'column',
-          background:'#ffffff'
+          background:'#ffffff',
         }}
       >
-                      <Grow in={open} timeout={250}>
+                      <Grow in={open} timeout={250} >
 
-      <section style={{background:'#ffffff',width:'100%',height:'100%'}}> 
+      <section style={{background:'#ffffff',width:'100%',height:'100%',overflow:'scroll'}}> 
       <p onClick={handleClose} style={{fontSize:40,textAlign:'right',cursor:'pointer',padding:'0 30px',margin:0}}>x</p>
 
         <AgentDetail id={row.bybid} handleClose={handleClose}/>
