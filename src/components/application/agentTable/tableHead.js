@@ -17,7 +17,6 @@ import { StyledTableCell } from '../tableHelpers/helpers';
     return (
       <TableHead>
         <TableRow>
-          <StyledTableCell>Photo</StyledTableCell>
           {headCells.map((headCell) => (
             <StyledTableCell
               key={headCell.id}
@@ -39,9 +38,7 @@ import { StyledTableCell } from '../tableHelpers/helpers';
                 ) : null}
               </TableSortLabel>
             </StyledTableCell>
-          ))}
-                  <StyledTableCell>Action</StyledTableCell>
-  
+          ))}  
         </TableRow>
       </TableHead>
     );

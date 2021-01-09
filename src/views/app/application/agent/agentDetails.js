@@ -52,7 +52,7 @@ useEffect(() => {
 
 const handleDeleting = () =>{
   deleteAgent(id);
-handleClose()
+handleClose({makeRequest:true})
   }
   return (
     <>

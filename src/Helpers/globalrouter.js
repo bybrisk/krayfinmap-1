@@ -43,7 +43,7 @@ export const Routing = () => {
         <PrivateRoute path="/dashboard" 
         component={ViewApp}
         />
-        <Redirect to="/error" />
+        {/* <Redirect to="/error" /> */}
       </Switch>
       </Suspense>
       

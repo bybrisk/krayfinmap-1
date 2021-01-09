@@ -1,0 +1,330 @@
+{
+  "config": {
+    "title": "Bybrisk",
+    "description": "My awesome app using docz",
+    "menu": [],
+    "version": "1.0.0",
+    "repository": null,
+    "native": false,
+    "themeConfig": {},
+    "separator": "-"
+  },
+  "entries": [
+    {
+      "key": "README.md",
+      "value": {
+        "id": "04c6e90faac2675aa89e2176d2eec7d8",
+        "filepath": "README.md",
+        "fullpath": "E:\\Office\\krayfinmap-1\\README.md",
+        "link": "",
+        "hidden": false,
+        "slug": "readme",
+        "route": "/readme",
+        "name": "Readme",
+        "menu": "",
+        "headings": []
+      }
+    },
+    {
+      "key": "src/documentation/App.mdx",
+      "value": {
+        "0": "N",
+        "1": "a",
+        "2": "m",
+        "3": "e",
+        "4": ":",
+        "5": "F",
+        "6": "i",
+        "7": "l",
+        "8": "e",
+        "9": " ",
+        "10": "S",
+        "11": "t",
+        "12": "r",
+        "13": "u",
+        "14": "c",
+        "15": "t",
+        "16": "u",
+        "17": "r",
+        "18": "e",
+        "19": " ",
+        "20": "r",
+        "21": "o",
+        "22": "u",
+        "23": "t",
+        "24": "e",
+        "25": ":",
+        "26": "/",
+        "27": "a",
+        "28": "p",
+        "29": "p",
+        "id": "a559385bb69b4fe183cdbb747fdd8a0e",
+        "filepath": "src/documentation/App.mdx",
+        "fullpath": "E:\\Office\\krayfinmap-1\\src\\documentation\\App.mdx",
+        "link": "",
+        "hidden": false,
+        "slug": "src-documentation-app",
+        "route": "/src-documentation-app",
+        "name": "App",
+        "menu": "",
+        "headings": [
+          {
+            "slug": "file-structure",
+            "depth": 1,
+            "value": "File Structure"
+          }
+        ]
+      }
+    },
+    {
+      "key": "src/documentation/networkRequest.mdx",
+      "value": {
+        "0": "N",
+        "1": "a",
+        "2": "m",
+        "3": "e",
+        "4": ":",
+        "5": "u",
+        "6": "r",
+        "7": "l",
+        "8": "s",
+        "9": " ",
+        "10": "r",
+        "11": "o",
+        "12": "u",
+        "13": "t",
+        "14": "e",
+        "15": ":",
+        "16": "/",
+        "17": "u",
+        "18": "r",
+        "19": "l",
+        "20": "s",
+        "id": "7f17c95fb957f9122a0a6f6467bc6a4a",
+        "filepath": "src/documentation/networkRequest.mdx",
+        "fullpath": "E:\\Office\\krayfinmap-1\\src\\documentation\\networkRequest.mdx",
+        "link": "",
+        "hidden": false,
+        "slug": "src-documentation-network-request",
+        "route": "/src-documentation-network-request",
+        "name": "Network request",
+        "menu": "",
+        "headings": [
+          {
+            "slug": "url-configuration",
+            "depth": 1,
+            "value": "url Configuration"
+          }
+        ]
+      }
+    },
+    {
+      "key": "src/documentation/register.mdx",
+      "value": {
+        "0": "N",
+        "1": "a",
+        "2": "m",
+        "3": "e",
+        "4": ":",
+        "5": "F",
+        "6": "i",
+        "7": "l",
+        "8": "e",
+        "9": " ",
+        "10": "S",
+        "11": "t",
+        "12": "r",
+        "13": "u",
+        "14": "c",
+        "15": "t",
+        "16": "u",
+        "17": "r",
+        "18": "e",
+        "19": " ",
+        "20": "r",
+        "21": "o",
+        "22": "u",
+        "23": "t",
+        "24": "e",
+        "25": ":",
+        "26": "/",
+        "27": "a",
+        "28": "p",
+        "29": "p",
+        "id": "b259fc74b42089e0fe85dee6121e047c",
+        "filepath": "src/documentation/register.mdx",
+        "fullpath": "E:\\Office\\krayfinmap-1\\src\\documentation\\register.mdx",
+        "link": "",
+        "hidden": false,
+        "slug": "src-documentation-register",
+        "route": "/src-documentation-register",
+        "name": "Register",
+        "menu": "",
+        "headings": [
+          {
+            "slug": "file-structure",
+            "depth": 1,
+            "value": "File Structure"
+          }
+        ]
+      }
+    },
+    {
+      "key": "src/documentation/routers.mdx",
+      "value": {
+        "0": "N",
+        "1": "a",
+        "2": "m",
+        "3": "e",
+        "4": ":",
+        "5": "R",
+        "6": "o",
+        "7": "u",
+        "8": "t",
+        "9": "e",
+        "10": "r",
+        "11": "s",
+        "12": " ",
+        "13": "r",
+        "14": "o",
+        "15": "u",
+        "16": "t",
+        "17": "e",
+        "18": ":",
+        "19": "/",
+        "20": "r",
+        "21": "o",
+        "22": "u",
+        "23": "t",
+        "24": "e",
+        "25": "r",
+        "26": "s",
+        "id": "4e350dd8cdcf0d2db491f73e67d0c096",
+        "filepath": "src/documentation/routers.mdx",
+        "fullpath": "E:\\Office\\krayfinmap-1\\src\\documentation\\routers.mdx",
+        "link": "",
+        "hidden": false,
+        "slug": "src-documentation-routers",
+        "route": "/src-documentation-routers",
+        "name": "Routers",
+        "menu": "",
+        "headings": [
+          {
+            "slug": "router-configuration",
+            "depth": 1,
+            "value": "Router Configuration"
+          }
+        ]
+      }
+    },
+    {
+      "key": "src/documentation/table.mdx",
+      "value": {
+        "0": "N",
+        "1": "a",
+        "2": "m",
+        "3": "e",
+        "4": ":",
+        "5": "R",
+        "6": "o",
+        "7": "u",
+        "8": "t",
+        "9": "e",
+        "10": "r",
+        "11": "s",
+        "12": " ",
+        "13": "r",
+        "14": "o",
+        "15": "u",
+        "16": "t",
+        "17": "e",
+        "18": ":",
+        "19": "/",
+        "id": "6e35df42655d98be5fbcb32dc9362d8c",
+        "filepath": "src/documentation/table.mdx",
+        "fullpath": "E:\\Office\\krayfinmap-1\\src\\documentation\\table.mdx",
+        "link": "",
+        "hidden": false,
+        "slug": "src-documentation-table",
+        "route": "/src-documentation-table",
+        "name": "Table",
+        "menu": "",
+        "headings": [
+          {
+            "slug": "router-configuration",
+            "depth": 1,
+            "value": "Router Configuration"
+          }
+        ]
+      }
+    }
+  ],
+  "props": [
+    {
+      "key": "src/App.js",
+      "value": [
+        {
+          "description": "",
+          "displayName": "App",
+          "methods": [],
+          "actualName": "App"
+        }
+      ]
+    },
+    {
+      "key": "src/components/user/forms/BusinessInformation.jsx",
+      "value": [
+        {
+          "description": "",
+          "displayName": "BusinessInformation",
+          "methods": [],
+          "actualName": "BusinessInformation"
+        }
+      ]
+    },
+    {
+      "key": "src/components/user/forms/ByBriskDelivery.jsx",
+      "value": [
+        {
+          "description": "",
+          "displayName": "ByBriskDelivery",
+          "methods": [],
+          "actualName": "ByBriskDelivery"
+        }
+      ]
+    },
+    {
+      "key": "src/components/user/forms/SelfDelivery.jsx",
+      "value": [
+        {
+          "description": "",
+          "displayName": "SelfDelivery",
+          "methods": [],
+          "actualName": "SelfDelivery"
+        }
+      ]
+    },
+    {
+      "key": "src/components/user/forms/Signup.jsx",
+      "value": [
+        {
+          "description": "",
+          "displayName": "Signup",
+          "methods": [],
+          "actualName": "Signup"
+        }
+      ]
+    },
+    {
+      "key": "src/components/user/slider/Slider.js",
+      "value": [
+        {
+          "description": "",
+          "displayName": "Slider",
+          "methods": [],
+          "actualName": "Slider"
+        }
+      ]
+    }
+  ]
+}

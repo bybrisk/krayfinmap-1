@@ -57,23 +57,28 @@ const useStyles = makeStyles((theme) => ({
 export default function AgentTable(props) {
   const {theme} = props;
   const classes = useStyles();
-  const sectionRef = useRef(null);
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('AgentID');
   const [page, setPage] = React.useState(0);
+  const [agentid, setagentid] = React.useState('');
+  
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [open, setOpen] = React.useState(false);
   const [rows,setAgents] = React.useState([])
   const bybId = useSelector(state => state.bybId);
   const headCells = [
+    { id: 'PicURL', numeric: true, disablePadding: false, label: 'Photo' },
     { id: 'AgentID', numeric: true, disablePadding: false, label: 'Agent Id' },
     { id: 'AgentName', numeric: false, disablePadding: false, label: 'Agent Name' },
     { id: 'agentType', numeric: false, disablePadding: false, label: 'Type' },
     { id: 'PhoneNumber', numeric: true, disablePadding: false, label: 'Phone Number' },
+    { id: 'action', numeric: true, disablePadding: false, label: 'Action' },
+
   ];
 
   console.log(bybId)
-  const handleOpen = () => {
+  const handleOpen = (id) => {
+    setagentid(id);
     setOpen(true);
   };
     function handleAgent(){
@@ -81,10 +86,10 @@ export default function AgentTable(props) {
   }
 
 
-  const handleClose = (props) => {
+  const handleClose = () => {
+   
     setOpen(false);
-    fetchAgents({bybId,setAgents});
-
+handleAgent();
   };
 
   useEffect(() => {
@@ -153,36 +158,9 @@ export default function AgentTable(props) {
               <StyledTableCell align="center">{row.AgentName}</StyledTableCell>
               <StyledTableCell align="center">{row.agentType}</StyledTableCell>
               <StyledTableCell align="center">{row.PhoneNumber}</StyledTableCell>
-              <StyledTableCell align="center" style={{cursor:'pointer',color:'blue'}} onClick={handleOpen}>View</StyledTableCell>
+              <StyledTableCell align="center" style={{cursor:'pointer',color:'blue'}} onClick={()=>handleOpen(row.bybid)}>View</StyledTableCell>
                     </StyledTableRow>
-                    <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="Agent-detail"
-        aria-describedby="Agent-detail"
-        closeAfterTransition
-                BackdropComponent={Backdrop}
-                BackdropProps={{
-                    timeout: 400,
-                }}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          flexDirection:'column',
-          background:'#ffffff',
-        }}
-      >
-                      <Grow in={open} timeout={250} >
-
-      <section style={{background:'#ffffff',width:'100%',height:'100%',overflow:'scroll'}}> 
-      <p onClick={handleClose} style={{fontSize:40,textAlign:'right',cursor:'pointer',padding:'0 30px',margin:0}}>x</p>
-
-        <AgentDetail id={row.bybid} handleClose={handleClose}/>
-      </section>
-      </Grow>
-      </Modal>
-   </>
+                    </>
                   );
                 })
               )
@@ -207,7 +185,34 @@ export default function AgentTable(props) {
       </Paper>
       
     </div>
+    <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="Agent-detail"
+        aria-describedby="Agent-detail"
+        closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                    timeout: 400,
+                }}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection:'column',
+          background:'#ffffff',
+        }}
+      >
+                      <Grow in={open} timeout={250} >
 
+      <section style={{background:'#ffffff',width:'100%',height:'100%',overflow:'scroll'}}> 
+      <p onClick={handleClose} style={{fontSize:40,textAlign:'right',cursor:'pointer',padding:'0 30px',margin:0}}>x</p>
+
+        <AgentDetail id={agentid} handleClose={handleClose}/>
+      </section>
+      </Grow>
+      </Modal>
+ 
   </>
   );
 }

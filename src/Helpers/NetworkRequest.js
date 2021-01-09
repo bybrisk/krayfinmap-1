@@ -13,6 +13,7 @@ export async function fetchAgentDetail(props){
 }
 
 export async function fetchAgents(props){
+    console.log(props)
     const response = await axios ({
         url: `${domain}/agents/fetchAgents?bybid=${props.bybId}`,
         method: "GET"
@@ -32,8 +33,9 @@ export async function modifyAgent(param){
 }
 
 export async function deleteAgent(id){
+    console.log(id)
     const response = await axios ({
-        url: `${domain}/agents/delteAgent?id=${id.id}`,
+        url: `${domain}/agents/delteAgent?id=${id}`,
         method: "GET"
     })
     return response;

@@ -169,34 +169,7 @@ console.log(rows);
               <StyledTableCell align="center" style={{color: row.deliveryStatus==='confirm'?'green':(row.deliveryStatus==='pending'?'yellow':'red')}}>{row.deliveryStatus}</StyledTableCell>
 
                     </StyledTableRow>
-                    <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="Deliveries"
-        aria-describedby="Deliveries"
-        closeAfterTransition
-                BackdropComponent={Backdrop}
-                BackdropProps={{
-                    timeout: 400,
-                }}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          flexDirection:'column',
-          background:'#ffffff'
-        }}
-      >
-                      <Grow in={open} timeout={250}>
-
-      <section style={{background:'#ffffff',width:'100%',height:'100%'}}> 
-      <p onClick={handleClose} style={{fontSize:40,textAlign:'right',cursor:'pointer',padding:'0 30px',margin:0}}>x</p>
-
-        {/* <AgentDetail id={row.bybid} handleClose={handleClose}/> */}
-      </section>
-      </Grow>
-      </Modal>
-
+    
    </>
   
                   );
@@ -223,6 +196,33 @@ console.log(rows);
       </Paper>
       
     </div>
+    <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="Deliveries"
+        aria-describedby="Deliveries"
+        closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                    timeout: 400,
+                }}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection:'column',
+          background:'#ffffff'
+        }}
+      >
+                      <Grow in={open} timeout={250}>
+
+      <section style={{background:'#ffffff',width:'100%',height:'100%'}}> 
+      <p onClick={handleClose} style={{fontSize:40,textAlign:'right',cursor:'pointer',padding:'0 30px',margin:0}}>x</p>
+
+        {/* <AgentDetail id={row.bybid} handleClose={handleClose}/> */}
+      </section>
+      </Grow>
+      </Modal>
 
   </>
   );
