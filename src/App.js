@@ -1,10 +1,10 @@
 import { ThemeProvider } from "@material-ui/core/styles";
-import React,{useEffect} from "react";
+import React,{useEffect,Suspense} from "react";
 import { Provider } from "react-redux";
 import { BrowserRouter} from "react-router-dom";
 import { useDispatch } from "react-redux";
 import {PrivateRoute} from './privateRoute'
-import { Route, Switch ,useHistory,Redirect} from "react-router-dom";
+import { Route, Switch ,useHistory} from "react-router-dom";
 
 import theme from './helpers/theme';
 import store from "./redux/store";
