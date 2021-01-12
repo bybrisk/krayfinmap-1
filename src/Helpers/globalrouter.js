@@ -2,7 +2,7 @@ import React,{Suspense, useEffect} from "react";
 
 
 import { useDispatch } from "react-redux";
-import {PrivateRoute} from '../helpers/privateRoute'
+import {PrivateRoute} from './privateRoute'
 import { Route, Switch ,useHistory,Redirect} from "react-router-dom";
 
 const ViewApp = React.lazy(() =>
