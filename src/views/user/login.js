@@ -12,7 +12,7 @@ import * as Yup from "yup";
 import { domain } from "../../App";
 import Logo from '../../Assets/logo.png';
 import Button from "../../components/application/button/button";
-import { FormContainer, FormSetter, StyledText, Wrapper } from "../../helpers/styles";
+import { FormContainer, FormSetter, StyledText, Wrapper } from "../../helpers/Styles";
 
 
 // Styled componenst with material styled

@@ -1,7 +1,7 @@
 import React from "react";
 import Checkbox from "../../../inputs/checkbox";
 import Input from "../../../inputs/input";
-import { FormSetter, StyledText } from "../../../helpers/styles";
+import { FormSetter, StyledText } from "../../../helpers/Styles";
 
 const DeliveryTime = [
   {

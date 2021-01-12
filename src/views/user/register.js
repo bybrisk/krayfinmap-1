@@ -23,7 +23,7 @@ import validationSchema from "../../components/user/signup/validationSchema";
 import {
   FormContainer,
   Wrapper
-} from "../../helpers/styles";
+} from "../../helpers/Styles";
   
   const steps = ["Shipping address", "Payment details", "Review your order"];
   const {

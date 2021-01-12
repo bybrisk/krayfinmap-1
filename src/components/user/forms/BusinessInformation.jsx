@@ -1,5 +1,5 @@
 import React from "react";
-import { FormSetter, StyledText } from "../../../helpers/styles";
+import { FormSetter, StyledText } from "../../../helpers/Styles";
 import Input from "../../../inputs/input";
 import Select from "../../../inputs/select";
 

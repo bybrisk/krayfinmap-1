@@ -1,7 +1,7 @@
 import React from "react";
 import Input from "../../../inputs/input";
 import Select from "../../../inputs/select";
-import { FormSetter, StyledText } from "../../../helpers/styles";
+import { FormSetter, StyledText } from "../../../helpers/Styles";
 
 const agentDeliveryTime = [
   {

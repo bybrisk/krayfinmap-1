@@ -4,9 +4,9 @@ import { Provider } from "react-redux";
 import { BrowserRouter} from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Route, Switch ,useHistory} from "react-router-dom";
-import {PrivateRoute} from './helpers/privateRoute'
+import {PrivateRoute} from './helpers/PrivateRoute'
 
-import theme from './helpers/theme';
+import theme from './helpers/Theme';
 import store from "./redux/store";
 import "./App.css";
 

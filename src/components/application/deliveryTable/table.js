@@ -20,7 +20,7 @@ import Toolbar from './toolbar';
 import TableHead from './tableHead';
 import { getComparator, search, StyledTableCell, StyledTableRow } from '../tableHelpers/helpers';
 // import AgentDetail from '../AgentDetails'
-import {fetchAgents} from '../../../helpers/networkRequest'
+import {fetchAgents} from '../../../helpers/NetworkRequest'
 import {useSelector} from "react-redux";
 
 const useStyles = makeStyles((theme) => ({

@@ -16,7 +16,7 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import React, { useEffect } from 'react';
 import { useSelector } from "react-redux";
-import { fetchAgents } from '../../../helpers/networkRequest';
+import { fetchAgents } from '../../../helpers/NetworkRequest';
 import AgentDetail from '../../../views/app/application/agent/agentDetails';
 import { getComparator, stableSort, StyledTableCell, StyledTableRow } from '../tableHelpers/helpers';
 import EnhancedTableHead from './tableHead';

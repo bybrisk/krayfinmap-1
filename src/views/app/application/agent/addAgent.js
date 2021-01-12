@@ -7,7 +7,7 @@ import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 
 import { domain } from "../../../../App";
-import { Wrapper } from "../../../../helpers/styles";
+import { Wrapper } from "../../../../helpers/Styles";
 import { Formik, Form} from "formik";
 import validationSchema from "../../../../components/application/addAagent/ValidationSchema";
 import AgentModel from "../../../../components/application/addAagent/AgentModel";
