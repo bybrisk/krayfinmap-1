@@ -1,29 +1,23 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import MailIcon from '@material-ui/icons/Mail';
-import MenuIcon from '@material-ui/icons/Menu';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { BrowserRouter} from "react-router-dom";
-
+import Toolbar from '@material-ui/core/Toolbar';
+import MenuIcon from '@material-ui/icons/Menu';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { BrowserRouter } from "react-router-dom";
+import Logo from '../../../Assets/logo.png';
 // import AgentTable from '../AgentTable/AgentTable'
 // import DeliveryTable from '../AgentTable/DeliveryTable/DeliveryTable'
 import Accordion from './accordion';
-import Dropdown from './dropdown'
-import Logo from '../../../Assets/logo.png'
-import {Dashboard} from './router'
+import Dropdown from './dropdown';
+import { Dashboard } from './router';
+
 
 const drawerWidth = 240;
 
@@ -86,7 +80,7 @@ function ResponsiveDrawer(props) {
     <div>
       <div className={classes.toolbar}>
       <div style={{background:'#ffffff',width:'100%',height:64,display:'flex',justifyContent:'center'}}>
-          <img src={Logo} style={{height:'inherit'}}/>
+          <img src={Logo} style={{height:'inherit'}} alt="Krayfin Map" />
 
           </div>
 
@@ -115,7 +109,7 @@ function ResponsiveDrawer(props) {
          <div style={{display:'flex'}}>
           
           <div style={{background:'#ffffff',marginRight:10,marginLeft:10}}>
-          <img src={Logo} style={{maxHeight:40}}/>
+          <img src={Logo} style={{maxHeight:40}} alt="Krayfin Map"/>
 
           </div>
           <IconButton

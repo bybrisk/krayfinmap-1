@@ -1,19 +1,19 @@
 import CircularProgress from "@material-ui/core/CircularProgress";
+import InputLabel from "@material-ui/core/InputLabel";
 // Material ui
 import { styled } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
-import InputLabel from "@material-ui/core/InputLabel";
-
 import { Form as FORM, Formik } from "formik";
 import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 // import "./Professional.css";
 import { domain } from "../../App";
+import Logo from '../../Assets/logo.png';
 import Button from "../../components/application/button/button";
-import { FormSetter, FormContainer, Wrapper, StyledText } from "../../helpers/styles";
-import Logo from '../../Assets/logo.png'
+import { FormContainer, FormSetter, StyledText, Wrapper } from "../../helpers/styles";
+
 
 // Styled componenst with material styled
 const StyledField = styled(TextField)({
@@ -84,7 +84,7 @@ export default function (props) {
       <Wrapper>
         {/* Hidden on small screen size leftLogo */}
         <FormContainer>
-        <img src={Logo} style={{maxWidth:140}}/>
+        <img src={Logo} style={{maxWidth:140}} alt="Krayfin Map"/>
 
           <StyledText variant="h4">Login to Your Account</StyledText>
           
@@ -194,12 +194,12 @@ export default function (props) {
             </Formik>
             <Typography style={{ marginTop: "10px" }} varient="caption">
             Don't have a account?{" "}
-            <a
+            <span
             style={{ textDecoration: "none", color: "#FF6F1F",cursor:'pointer' }}
               onClick={props.clickHandler}
             >
               Signup
-            </a>
+            </span>
           </Typography>
 
           </FormSetter>

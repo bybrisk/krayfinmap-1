@@ -20,7 +20,7 @@ const DeliveryTime = [
 
 const ByBriskDelivery = (props) => {
   const {
-    formField: { autoScaling, deliveryAgentRequired, deliveryTime }
+    formField: { autoScaling, deliveryTime }
   } = props;
   return (
     <>

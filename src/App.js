@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import { BrowserRouter} from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Route, Switch ,useHistory} from "react-router-dom";
-import {PrivateRoute} from './helpers/privateRoute.js'
+import {PrivateRoute} from './helpers/privateRoute'
 
 import theme from './helpers/theme';
 import store from "./redux/store";
@@ -19,9 +19,9 @@ const ViewApp = React.lazy(() =>
 const ViewUser = React.lazy(() =>
   import(/* webpackChunkName: "views-user" */ "./components/user/slider/Slider")
 );
-const ViewError = React.lazy(() =>
-  import(/* webpackChunkName: "views-error" */ './views/error')
-);
+// const ViewError = React.lazy(() =>
+//   import(/* webpackChunkName: "views-error" */ './views/error')
+// );
 const Routing = () => {
     const dispatch = useDispatch();
     const history = useHistory();
@@ -38,7 +38,7 @@ const Routing = () => {
         })
       }
       history.push('/dashboard')
-    }, []);
+    }, [dispatch,history]);
     return (
       <Suspense fallback={<div className="loading" />}>
 <Switch>

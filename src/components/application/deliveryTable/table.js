@@ -15,8 +15,6 @@ import red from '@material-ui/core/colors/indigo';
 import Modal from "@material-ui/core/Modal";
 import Backdrop from '@material-ui/core/Backdrop';
 import Grow from '@material-ui/core/Grow';
-import Avatar from '@material-ui/core/Avatar';
-import Person from '@material-ui/icons/Person';
 //divided component to make them one
 import Toolbar from './toolbar';
 import TableHead from './tableHead';
@@ -54,8 +52,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AgentTable(props) {
-  const {theme} = props;
+export default function AgentTable() {
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('AgentID');
@@ -75,9 +72,6 @@ export default function AgentTable(props) {
 
   ];
   console.log(bybId)
-  const handleOpen = () => {
-    setOpen(true);
-  };
 const handleQuery = (query) =>{
 setQuery(query.toLowerCase())
 }
@@ -87,7 +81,7 @@ setQuery(query.toLowerCase())
   // }
 
 
-  const handleClose = (props) => {
+  const handleClose = () => {
     setOpen(false);
     fetchAgents({bybId,setDelivery});
 
@@ -154,7 +148,7 @@ console.log(rows);
               {rows && (
                 search(rows,query,getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
+                .map((row) => {
                   return (
                     <>
                     <StyledTableRow

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect,useState} from "react";
+import React, { useRef, useEffect} from "react";
 import Avatar from '@material-ui/core/Avatar'
 import './dropdown.css'
 import List from '@material-ui/core/List';
@@ -29,14 +29,14 @@ function useOutsideAlerter(props) {
             // Unbind the event listener on clean up
             document.removeEventListener("mousedown", handleClickOutside);
         };
-    }, [wrapperRef]);
+    }, [wrapperRef,setOpen]);
 }
 
 
 /**
  * Component that alerts if you click outside of it
  */
-export default function AccountDropdown(props) {
+export default function AccountDropdown() {
   const wrapperRef = useRef(null);
 
   const setOpen = (props) =>{
@@ -48,9 +48,9 @@ props===true?wrapperRef.current.classList.toggle("active"):wrapperRef.current.cl
     return (
         <div className="right">
               <div className="dropdowncont" ref={wrapperRef}>
-                <a href="#" className="profile-image">
-<Avatar onClick={()=>setOpen(true)}/>
-                </a>
+                <span className="profile-image">
+<Avatar onClick={()=>setOpen(true)} alt={"profile"}/>
+                </span>
                  
                 <div className="dropdown" >
                 <List component="nav" aria-label="Account Setting">

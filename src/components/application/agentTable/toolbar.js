@@ -1,15 +1,14 @@
+import Backdrop from '@material-ui/core/Backdrop';
+import Grow from '@material-ui/core/Grow';
+import Modal from "@material-ui/core/Modal";
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import React,{useState,useRef,useCallback} from 'react';
-import ReactButton from '../button/button'
 import AddIcon from '@material-ui/icons/Add';
-import Modal from "@material-ui/core/Modal";
-import Backdrop from '@material-ui/core/Backdrop';
-import Grow from '@material-ui/core/Grow';
-import {useSelector} from "react-redux";
+import React, { useRef, useState } from 'react';
+import '../../../App.css';
 import AgentAdd from '../../../views/app/application/agent/addAgent';
-import '../../../App.css'
+import ReactButton from '../button/button';
 
 
 //styles for enhanced table toolbar
@@ -33,7 +32,6 @@ const useToolbarStyles = makeStyles((theme) => ({
   const EnhancedTableToolbar = (props) => {
     const classes = useToolbarStyles();
     const [open, setOpen] = React.useState(false);
-    const bybId = useSelector(state => state.bybId);
 
   const handleOpen = () => {
     setOpen(true);

@@ -1,19 +1,17 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { at } from "lodash";
-import { useField } from "formik";
+import {
+  FormControl,
+  FormHelperText, InputLabel,
+  MenuItem, Select
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import '../App.css'
 import Tooltip from '@material-ui/core/Tooltip';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
+import { useField } from "formik";
+import { at } from "lodash";
+import PropTypes from "prop-types";
+import React from "react";
+import '../App.css';
 
-import {
-  InputLabel,
-  FormControl,
-  Select,
-  MenuItem,
-  FormHelperText
-} from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),

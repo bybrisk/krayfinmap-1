@@ -1,13 +1,12 @@
-import React from "react";
-import { at } from "lodash";
-import { useField } from "formik";
 import { TextField } from "@material-ui/core";
 import InputLabel from "@material-ui/core/InputLabel";
+import { styled } from "@material-ui/core/styles";
 import Tooltip from '@material-ui/core/Tooltip';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
+import { useField } from "formik";
+import { at } from "lodash";
+import React from "react";
 import "../App.css";
-import { styled } from "@material-ui/core/styles";
-import InputAdornment from '@material-ui/core/InputAdornment';
 
 const StyledField = styled(TextField)({
   borderRadius: "1000rem",

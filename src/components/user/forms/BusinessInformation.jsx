@@ -1,7 +1,6 @@
 import React from "react";
-import { Typography } from "@material-ui/core";
+import { FormSetter, StyledText } from "../../../helpers/styles";
 import Input from "../../../inputs/input";
-import { FormSetter,StyledText } from "../../../helpers/styles";
 import Select from "../../../inputs/select";
 
 const deliveryType = [

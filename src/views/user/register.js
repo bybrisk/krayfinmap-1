@@ -1,34 +1,30 @@
+import {
+  CircularProgress, Typography
+} from "@material-ui/core";
+import axios from 'axios';
+import { Form, Formik } from "formik";
 import React, {
-    useState
-  } from "react";
-  import {
-    Stepper,
-    Step,
-    StepLabel,
-    Typography,
-    CircularProgress
-  } from "@material-ui/core";
-  import {
-    FormSetter,
-    FormContainer,
-    Wrapper} from "../../helpers/styles";
-  import {domain} from "../../App";
-  import {Link,useHistory} from "react-router-dom";
-  import {useDispatch} from "react-redux";
-  import {Formik,Form} from "formik";
- import BusinessInformation from "../../components/user/forms/BusinessInformation";
-  import ByBriskDelivery from "../../components/user/forms/ByBriskDelivery";
-  import SelfDelivery from "../../components/user/forms/SelfDelivery";
-  import Signup from "../../components/user/forms/Signup";
-  import Button from "../../components/application/button/button";
+  useState
+} from "react";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { domain } from "../../App";
+// import useStyles from "./styles";
+import '../../App.css';
+import Logo from '../../Assets/logo.png';
+import Button from "../../components/application/button/button";
+import BusinessInformation from "../../components/user/forms/BusinessInformation";
+import ByBriskDelivery from "../../components/user/forms/ByBriskDelivery";
+import SelfDelivery from "../../components/user/forms/SelfDelivery";
+import Signup from "../../components/user/forms/Signup";
+import formInitialValues from "../../components/user/signup/formInitialValues";
+import RegistrationModel from "../../components/user/signup/registrationModel";
+import validationSchema from "../../components/user/signup/validationSchema";
+import {
+  FormContainer,
+  Wrapper
+} from "../../helpers/styles";
   
-  import validationSchema from "../../components/user/signup/validationSchema";
-  import RegistrationModel from "../../components/user/signup/registrationModel";
-  import formInitialValues from "../../components/user/signup/formInitialValues";
-  import Logo from '../../Assets/logo.png'
-  import axios from 'axios'
-  // import useStyles from "./styles";
-  import '../../App.css'
   const steps = ["Shipping address", "Payment details", "Review your order"];
   const {
     formId,
@@ -151,9 +147,6 @@ import React, {
       }
     }
   
-    function _handleBack() {
-      setActiveStep(activeStep - 1);
-    }
   
     return ( 
     <React.Fragment >
@@ -208,12 +201,12 @@ import React, {
   
   
      {activeStep===0&&(<Typography style = {{marginTop: "10px"}} varient = "caption" >Already have a account ? {" "}
-       <a style = {{
+       <span style = {{
           textDecoration: "none",
           color: "#FF6F1F",
           cursor: 'pointer'}}
     onClick = {props.clickHandler} >
-      Login </a> </Typography>  
+      Login </span> </Typography>  
   )}     </React.Fragment>
   
       </FormContainer> </Wrapper>

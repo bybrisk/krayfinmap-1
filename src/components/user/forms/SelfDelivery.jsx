@@ -19,7 +19,7 @@ const agentDeliveryTime = [
 
 const SelfDelivery = (props) => {
   const {
-    formField: { avgWorkingHours, haveDeliveryAgent, deliveryTime }
+    formField: { avgWorkingHours, deliveryTime }
   } = props;
   return (
     <>

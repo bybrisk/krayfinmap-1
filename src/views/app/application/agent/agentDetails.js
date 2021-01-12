@@ -1,13 +1,13 @@
-import React,{useEffect,useState} from 'react';
-import { makeStyles, styled } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
-import Typography from '@material-ui/core/Typography'
-import { Wrapper } from "../../../../helpers/styles";
-import '../../../../App.css'
+import Grid from '@material-ui/core/Grid';
+import { makeStyles, styled } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import React, { useEffect, useState } from 'react';
+import '../../../../App.css';
 import Button from '../../../../components/application/button/button';
-import {fetchAgentDetail,deleteAgent} from '../../../../helpers/networkRequest'
-import EditAgent from './addAgent'
+import { deleteAgent, fetchAgentDetail } from '../../../../helpers/networkRequest';
+import { Wrapper } from "../../../../helpers/styles";
+import EditAgent from './addAgent';
 
 const StyledText = styled(Typography)({
     minWidth:250,
@@ -48,7 +48,7 @@ useEffect(() => {
   return () => {
     
   }
-}, [])
+}, [id])
 
 const handleDeleting = () =>{
   deleteAgent(id);

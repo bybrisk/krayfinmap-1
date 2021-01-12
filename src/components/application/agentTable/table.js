@@ -1,5 +1,10 @@
 //basic dependencies
-import React,{useEffect,useRef} from 'react';
+import Avatar from '@material-ui/core/Avatar';
+import Backdrop from '@material-ui/core/Backdrop';
+import red from '@material-ui/core/colors/indigo';
+import Grow from '@material-ui/core/Grow';
+//dependencies for modal
+import Modal from "@material-ui/core/Modal";
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 //dependecies for table
@@ -9,21 +14,15 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import red from '@material-ui/core/colors/indigo';
-
-//dependencies for modal
-import Modal from "@material-ui/core/Modal";
-import Backdrop from '@material-ui/core/Backdrop';
-import Grow from '@material-ui/core/Grow';
-import Avatar from '@material-ui/core/Avatar';
-import Person from '@material-ui/icons/Person';
+import React, { useEffect } from 'react';
+import { useSelector } from "react-redux";
+import { fetchAgents } from '../../../helpers/networkRequest';
+import AgentDetail from '../../../views/app/application/agent/agentDetails';
+import { getComparator, stableSort, StyledTableCell, StyledTableRow } from '../tableHelpers/helpers';
+import EnhancedTableHead from './tableHead';
 //divided component to make them one
 import EnhancedTableToolbar from './toolbar';
-import EnhancedTableHead from './tableHead';
-import { getComparator, stableSort, StyledTableCell, StyledTableRow } from '../tableHelpers/helpers';
-import AgentDetail from '../../../views/app/application/agent/agentDetails'
-import {fetchAgents} from '../../../helpers/networkRequest'
-import {useSelector} from "react-redux";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,7 +54,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function AgentTable(props) {
-  const {theme} = props;
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('AgentID');
@@ -97,7 +95,7 @@ handleAgent();
     return () => {
       
     }
-  }, [])
+  }, [bybId])
 
   //this function set the state for sorting information
   const handleRequestSort = (event, property) => {
@@ -144,7 +142,7 @@ handleAgent();
               {rows && (
                 stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
+                .map((row) => {
                   return (
                     <>
                     <StyledTableRow
