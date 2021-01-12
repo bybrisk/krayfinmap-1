@@ -3,8 +3,8 @@ import React,{useEffect,Suspense} from "react";
 import { Provider } from "react-redux";
 import { BrowserRouter} from "react-router-dom";
 import { useDispatch } from "react-redux";
-import {PrivateRoute} from './helpers/privateRoute'
 import { Route, Switch ,useHistory} from "react-router-dom";
+import {PrivateRoute} from './helpers/privateRoute.js'
 
 import theme from './helpers/theme';
 import store from "./redux/store";
