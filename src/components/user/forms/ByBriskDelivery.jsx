@@ -1,6 +1,6 @@
 import React from "react";
 import Checkbox from "../../../inputs/checkbox";
-import Input from "../../../inputs/input";
+import Select from "../../../inputs/select";
 import { FormSetter, StyledText } from "../../../helpers/Styles";
 
 const DeliveryTime = [
@@ -27,7 +27,7 @@ const ByBriskDelivery = (props) => {
           <StyledText variant="h4">ByBrisk Delivery</StyledText>
 
 <FormSetter>
-          <Input
+          <Select
             name={deliveryTime.name}
             label={deliveryTime.label}
             data={DeliveryTime}

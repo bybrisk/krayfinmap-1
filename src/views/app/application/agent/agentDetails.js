@@ -34,7 +34,6 @@ const useStyles = makeStyles(() => ({
 
 export default function AgentDetails(prop) {
   const {id,handleClose} = prop;
-  console.log(id)
   const classes = useStyles();
 const [details,setDetails] = useState({})
 const [isEditing,setEditing] = useState(false);
@@ -42,7 +41,7 @@ const handleEditing = (prop) =>{
   fetchAgentDetail({id,setDetails});
   setEditing(prop);
   }
-  console.log(id)
+  
 useEffect(() => {
   fetchAgentDetail({id,setDetails});
   return () => {

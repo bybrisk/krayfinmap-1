@@ -17,7 +17,6 @@ function useOutsideAlerter(props) {
         /**
          * Alert if clicked on outside of element
          */
-        console.log(wrapperRef)
         function handleClickOutside(event) {
             if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
               setOpen(false);            }

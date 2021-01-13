@@ -89,7 +89,6 @@ const useToolbarStyles = makeStyles((theme) => ({
         if (!element) return;
         setContainer(element);
         const { clientWidth, scrollWidth } = element;
-        console.log(clientWidth,scrollWidth)
         setIsScrollable(scrollWidth > clientWidth);
       }}/>
         <div className={"scrollarrow" + (isScrollable ? " scrollable" : "")}>hello</div>

@@ -74,7 +74,6 @@ export default function AgentTable(props) {
 
   ];
 
-  console.log(bybId)
   const handleOpen = (id) => {
     setagentid(id);
     setOpen(true);

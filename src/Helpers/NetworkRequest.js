@@ -1,8 +1,7 @@
 import axios from 'axios'
-const domain = 'https://bybriskbackend.herokuapp.com'
-
+const domain = 'http://localhost:5000'
+// https://bybriskbackend.herokuapp.com
 export async function fetchAgentDetail(props){
-    console.log(props)
 	const response = await axios ({
         url: `${domain}/agents/fetchAgentDetails?id=${props.id}`,
 
@@ -12,13 +11,23 @@ export async function fetchAgentDetail(props){
     
 }
 
+
+export async function fetchDeliveryDetails(props){
+const {bybId,setDelivery} = props;
+    const response = await axios ({
+        url: `${domain}/delivery/deliveryDetail?id=${bybId}`,
+
+        method: "GET"
+    })
+    setDelivery(response.data);
+console.log(response)    
+}
+
 export async function fetchAgents(props){
-    console.log(props)
     const response = await axios ({
         url: `${domain}/agents/fetchAgents?bybid=${props.bybId}`,
         method: "GET"
     })
-    console.log(response);
     if(response.data.result!==null){
         props.setAgents(response.data.result);
     }
@@ -27,13 +36,11 @@ export async function fetchAgents(props){
 export async function modifyAgent(param){
     axios.post(`${domain}/agents/modifyAgent`,{param})
     .then(response=>{
-        console.log(response);
         return response;
     });
 }
 
 export async function deleteAgent(id){
-    console.log(id)
     const response = await axios ({
         url: `${domain}/agents/delteAgent?id=${id}`,
         method: "GET"
@@ -49,14 +56,12 @@ export async function AddAgent(props){
 params:props.article
 
     })
-    console.log(response)
   
 }
 
 export async function CreateAccount(param){
     axios.post(`${domain}/onboarding/createAccount`,{param})
     .then(response=>{
-        console.log(response);
         return response;
     });
 }
@@ -64,7 +69,6 @@ export async function CreateAccount(param){
 export async function UpdateAccount(param){
     axios.post(`${domain}/onboarding/updateAccount`,{param})
     .then(response=>{
-        console.log(response);
         return response;
     });
 }
@@ -72,7 +76,6 @@ export async function UpdateAccount(param){
 export async function UpdatePassword(param){
     axios.post(`${domain}/onboarding/updatePassword`,{param})
     .then(response=>{
-        console.log(response);
         return response;
     });
 }
@@ -88,7 +91,6 @@ export async function UpdatePassword(param){
 export async function AddDelivery(param){
     axios.post(`${domain}/delivery/addDelivery`,{param})
     .then(response=>{
-        console.log(response);
         return response;
     });
 }

@@ -14,13 +14,14 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import SearchIcon from "@material-ui/icons/Search";
 import React from "react";
 import ReactButton from "../../application/button/button";
+import AddDelivery from '../../../views/app/application/delivery/addDeivery'
 const CardComponent = (props) => {
   const { title, stat } = props;
 
   return (
     <Card
       onClick={props.onClick}
-      style={{ width: 220, height: 158, textAlign: "center",cursor:'pointer'}}
+      style={{ width: 180, height: 120, textAlign: "center",cursor:'pointer'}}
     >
       <CardHeader title={title} />
       <CardContent style={{ padding: 0 }}>
@@ -110,9 +111,9 @@ const EnhancedTableToolbar = (props) => {
   const [deliveryFilter, setFilter] = React.useState(false);
 
   const filters = [
-    { title: "Deliveries Confirmed", stat: "54", filter: "confirm" },
-    { title: "Deliveries Cancelled", stat: "23", filter: "cancelled" },
-    { title: "Deliveries Pending", stat: "10", filter: "pending" }
+    { title: "Confirmed", stat: "54", filter: "confirm" },
+    { title: "Cancelled", stat: "23", filter: "cancelled" },
+    { title: "Pending", stat: "10", filter: "pending" }
   ];
 
   const [open, setOpen] = React.useState(false);
@@ -128,7 +129,6 @@ const EnhancedTableToolbar = (props) => {
   };
 
   const addFilter = (item) => {
-    console.log(item, deliveryFilter, "kjgjh");
     setQuery(item);
     setFilter(true);
   };
@@ -137,7 +137,6 @@ const EnhancedTableToolbar = (props) => {
     setFilter(false);
   };
 
-  console.log(deliveryFilter);
 
   return (
     <>
@@ -187,7 +186,7 @@ const EnhancedTableToolbar = (props) => {
                 >
                   x
                 </p>
-                {/* <AgentAdd closeModal={handleClose} /> */}
+                <AddDelivery closeModal={handleClose} />
               </section>
             </Grow>
           </Modal>
@@ -196,7 +195,7 @@ const EnhancedTableToolbar = (props) => {
           <Grow in={deliveryFilter} timeout={250}>
  <section style={{display:'flex',width:'100%',alignItems:'center',marginBottom:10}}>
           <ArrowBackIcon onClick={removeFilter} style={{fontSize:"2rem"}}/>
-<p style={{ background: query==='confirm'?'green':(query==='pending'?'yellow':'red'),fontSize:'1.4rem',marginLeft:20,padding:5,color:'#ffffff',borderRadius:6}}> deliveries {query}</p> </section>
+<p style={{ background: query==='confirm'?'green':(query==='pending'?'#8C6911':'red'),fontSize:'1rem',marginLeft:20,padding:2,color:'#ffffff',borderRadius:6}}> deliveries {query}</p> </section>
      </Grow>   )}
 
         {/* {deliveryFilter ? (
@@ -207,7 +206,6 @@ const EnhancedTableToolbar = (props) => {
                    <Grid
         container
         className={classes.gridcontainer}
-        onClick={() => setFilter(true)}
         spacing={3}
         style={{ margin: "20px 0" }}
       >

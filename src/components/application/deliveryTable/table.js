@@ -1,5 +1,5 @@
 //basic dependencies
-import React,{useEffect} from 'react';
+import React,{useEffect,useRef} from 'react';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 //dependecies for table
@@ -18,10 +18,16 @@ import Grow from '@material-ui/core/Grow';
 //divided component to make them one
 import Toolbar from './toolbar';
 import TableHead from './tableHead';
+import DeliveryDetails from '../../../views/app/application/delivery/deliveryDetails';
+
 import { getComparator, search, StyledTableCell, StyledTableRow } from '../tableHelpers/helpers';
 // import AgentDetail from '../AgentDetails'
-import {fetchAgents} from '../../../helpers/NetworkRequest'
+import {fetchDeliveryDetails} from '../../../helpers/NetworkRequest'
 import {useSelector} from "react-redux";
+
+//fetchDeliveryDetails to be replaced with get all deliveries
+
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -59,9 +65,13 @@ export default function AgentTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [open, setOpen] = React.useState(false);
+
+  const [deliveryID, setdeliveryID] = React.useState('');
+
   const [query, setQuery] = React.useState('');
   const [rows,setDelivery] = React.useState([])
   const bybId = useSelector(state => state.bybId);
+  const lastChild = useRef(null);
   const headCells = [
     { id: 'CustomerName', numeric: false, disablePadding: false, label: 'Name' },
     { id: 'CustomerAddress', numeric: false, disablePadding: false, label: 'Address' },
@@ -71,19 +81,22 @@ export default function AgentTable() {
     { id: 'deliveryStatus', numeric: false, disablePadding: false, label: 'Delivery Status' },
 
   ];
-  console.log(bybId)
-const handleQuery = (query) =>{
+
+  const handleQuery = (query) =>{
 setQuery(query.toLowerCase())
 }
 
-  //   function handleAgent(){
-  //     fetchAgents({bybId,setDelivery});
-  // }
+    function handleAgent(){
+      fetchDeliveryDetails({bybId,setDelivery});
+    }
 
-
+  const handleOpen = (id) => {
+    setdeliveryID(id);
+    setOpen(true);
+  };
   const handleClose = () => {
     setOpen(false);
-    fetchAgents({bybId,setDelivery});
+    // fetchDeliveryDetails({bybId,setDelivery});
 
   };
 
@@ -97,8 +110,7 @@ setDelivery([
   {id:'1',CustomerName:'Sagar',CustomerAddress:'11,2 D Gautam nagar, Mahu 462243',itemWeight:'4.5Kg',paymentMode:'Debit Card',phone:'9669121983',deliveryStatus:'cancelled'},
   {id:'1',CustomerName:'Ritu',CustomerAddress:'11,2 D Laxmi nagar, Bhind 462113',itemWeight:'1.5Kg',paymentMode:'Credit Card',phone:'9669216783',deliveryStatus:'confirm'}
 ])
-
-  return () => {
+return () => {
       
     }
   }, [])
@@ -121,7 +133,6 @@ setDelivery([
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-console.log(rows);
 
 //telling how many rows can come into this page
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
@@ -129,7 +140,7 @@ console.log(rows);
     <>
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <Toolbar setQuery={handleQuery} query={query}/>
+        <Toolbar setQuery={handleQuery} query={query} handleAgent={handleAgent}/>
         <TableContainer>
           <Table
             className={classes.table}
@@ -154,13 +165,14 @@ console.log(rows);
                     <StyledTableRow
                       tabIndex={-1}
                       key={row.CustomerName}
-                    >
-              <StyledTableCell align="center">{row.CustomerName}</StyledTableCell>
-              <StyledTableCell align="center">{row.CustomerAddress}</StyledTableCell>
-              <StyledTableCell align="center">{row.itemWeight}</StyledTableCell>
-              <StyledTableCell align="center">{row.paymentMode}</StyledTableCell>              
-              <StyledTableCell align="center">{row.phone}</StyledTableCell>
-              <StyledTableCell align="center" style={{color: row.deliveryStatus==='confirm'?'green':(row.deliveryStatus==='pending'?'yellow':'red')}}>{row.deliveryStatus}</StyledTableCell>
+                      ref={lastChild}
+                      >
+              <StyledTableCell align="center" onClick={()=>handleOpen(row.id)} >{row.CustomerName}</StyledTableCell>
+              <StyledTableCell align="center" onClick={()=>handleOpen(row.id)}>{row.CustomerAddress}</StyledTableCell>
+              <StyledTableCell align="center" onClick={()=>handleOpen(row.id)}>{row.itemWeight}</StyledTableCell>
+              <StyledTableCell align="center" onClick={()=>handleOpen(row.id)}>{row.paymentMode}</StyledTableCell>              
+              <StyledTableCell align="center" onClick={()=>handleOpen(row.id)}>{row.phone}</StyledTableCell>
+              <StyledTableCell id="deliverystatus" align="center" style={{color: row.deliveryStatus==='confirm'?'green':(row.deliveryStatus==='pending'?'#8C6911':'red')}}>{row.deliveryStatus}</StyledTableCell>
 
                     </StyledTableRow>
     
@@ -213,7 +225,7 @@ console.log(rows);
       <section style={{background:'#ffffff',width:'100%',height:'100%'}}> 
       <p onClick={handleClose} style={{fontSize:40,textAlign:'right',cursor:'pointer',padding:'0 30px',margin:0}}>x</p>
 
-        {/* <AgentDetail id={row.bybid} handleClose={handleClose}/> */}
+        <DeliveryDetails id={deliveryID} handleClose={handleClose}/>
       </section>
       </Grow>
       </Modal>

@@ -40,11 +40,9 @@ const validation = Yup.object({
     .required("Password is required")
 });
 export default function (props) {
-  console.log(props)
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const { from } = { from: { pathname: "/" } };
-  console.log(domain);
 
   const handleSubmit = (values) => {
     setLoading(true);
@@ -53,7 +51,6 @@ export default function (props) {
       Password: values.Password
     });
 
-    console.log(values);
 
     // axios.post('http://localhost:5000/register', article, { headers })
     //     .then(data=>console.log(data))
@@ -65,7 +62,6 @@ export default function (props) {
     xhr.send(article);
 
     xhr.onload = () => {
-      console.log(xhr.response);
       const data = JSON.parse(xhr.response);
       if (data.error) {
         setLoading(false);

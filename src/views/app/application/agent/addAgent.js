@@ -61,7 +61,6 @@ export default function AgentAdd(props) {
   const classes = useStyles();
 const bybId = useSelector(state => state.bybId)
 const intialvalue = props.values || formInitialValues;
-console.log(props.ref)
 const [pic,setFile] = React.useState(intialvalue.PicURL)
 
 
@@ -88,7 +87,6 @@ const handleChange = function loadFile(event) {
       PicURL:pic,
       bybID:values.bybId
     };
-    console.log(article)
     let newDomain 
     if(props.values){
       newDomain = `${domain}/agents/modifyAgent`
@@ -98,7 +96,6 @@ const handleChange = function loadFile(event) {
     }
     axios.post(newDomain,article)
     .then(response=>{
-        console.log(response);
         props.closeModal && props.closeModal({makeRequest:true});
         props.setEditing &&  props.setEditing(false);    });
   }
@@ -138,7 +135,7 @@ style={{height:100,width:100}}
       <Grid item xs={12}>
         <Grid container justify="left" spacing={4}>
             <Grid item style={{marginLeft:20}}>
-<Input name={AgentName.name} label={AgentName.label}  style={{minWidth:300}}/>
+<Input name={AgentName.name} label={AgentName.label} tip={AgentName.tip}  style={{minWidth:300}}/>
             </Grid>
             <Grid item style={{marginLeft:20}}>
             <Select
@@ -146,40 +143,42 @@ style={{height:100,width:100}}
             label={agentType.label}
             data={AgentTypeData}
             style={{minWidth:300}}
+            tip={agentType.tip}
+
           />  </Grid>
             <Grid item style={{marginLeft:20}}>
-            <Input name={PhoneNumber.name} label={PhoneNumber.label}  type="tel" style={{minWidth:300}}/>
+            <Input name={PhoneNumber.name} tip={PhoneNumber.tip} label={PhoneNumber.label}  type="tel" style={{minWidth:300}}/>
             </Grid>
 
         </Grid>
 
         <Grid container justify="left" spacing={4}>
             <Grid item style={{marginLeft:20}}>
-            <Input name={Locality.name} label={Locality.label}  style={{minWidth:300}}/>
+            <Input name={Locality.name} label={Locality.label} tip={Locality.tip}  style={{minWidth:300}}/>
             </Grid>
             <Grid item style={{marginLeft:20}}>
-            <Input name={Landmark.name} label={Landmark.label}  style={{minWidth:300}}/>
+            <Input name={Landmark.name} label={Landmark.label}  tip={Landmark.tip} style={{minWidth:300}}/>
   </Grid>
             
         </Grid>
         <Grid container justify="left" spacing={4}>
             <Grid item style={{marginLeft:20}}>
-            <Input name={City.name} label={City.label}  style={{minWidth:300}}/>
+            <Input name={City.name} label={City.label} tip={City.tip} style={{minWidth:300}}/>
             </Grid>
             <Grid item style={{marginLeft:20}}>
-            <Input name={Pin.name} label={Pin.label}  style={{minWidth:300}}/>
+            <Input name={Pin.name} label={Pin.label} tip={Pin.tip} style={{minWidth:300}}/>
   </Grid>
             
         </Grid>
         <Grid container justify="left" spacing={4}>
             <Grid item style={{marginLeft:20}}>
-<Input name={MaxWeightCapacity.name} label={MaxWeightCapacity.label} type="number" style={{minWidth:300}}/>
+<Input name={MaxWeightCapacity.name} tip={MaxWeightCapacity.tip} label={MaxWeightCapacity.label} type="number" style={{minWidth:300}}/>
             </Grid>
             <Grid item style={{marginLeft:20}}>
-            <Input name={MaxHourCapacity.name} label={MaxHourCapacity.label} type="number"  style={{minWidth:300}}/>
+            <Input name={MaxHourCapacity.name} tip={MaxHourCapacity.tip} label={MaxHourCapacity.label} type="number"  style={{minWidth:300}}/>
   </Grid>
             <Grid item style={{marginLeft:20}}>
-            <Input name={AgentID.name} label={AgentID.label}  style={{minWidth:300}}/>
+            <Input name={AgentID.name} tip={AgentID.tip} label={AgentID.label}  style={{minWidth:300}}/>
             </Grid>
 
         </Grid>

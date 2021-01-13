@@ -29,7 +29,6 @@ const Routing = () => {
     useEffect(() => {
       const user = JSON.parse(localStorage.getItem("user"));
       const bybId = JSON.parse(localStorage.getItem("bybId"));
-  console.log(bybId,user)
       if (bybId) {
         dispatch({ type: "LOG_IN", payload: true });
         dispatch({
@@ -73,4 +72,5 @@ export default function App() {
 }
 
 export const domain =
-  "https://bybriskbackend.herokuapp.com";
+  "http://localhost:5000";
+  // https://bybriskbackend.herokuapp.com

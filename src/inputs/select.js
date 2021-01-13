@@ -58,7 +58,7 @@ function SelectField(props) {
           <MenuItem
             key={index}
             value={item.value}
-            style={{ borderRadius: "12px !important" }}
+            style={{ borderRadius: "12px !important",color:item.color }}
           >
             {item.label}
           </MenuItem>

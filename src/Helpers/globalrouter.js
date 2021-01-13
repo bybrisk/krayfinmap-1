@@ -21,7 +21,6 @@ export const Routing = () => {
     useEffect(() => {
       const user = JSON.parse(localStorage.getItem("user"));
       const bybId = JSON.parse(localStorage.getItem("bybId"));
-  console.log(bybId,user)
       if (bybId) {
         dispatch({ type: "LOG_IN", payload: true });
         dispatch({

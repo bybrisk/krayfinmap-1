@@ -4,10 +4,8 @@ import { makeStyles, styled } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import React, { useEffect, useState } from 'react';
 import '../../../../App.css';
-import Button from '../../../../components/application/button/button';
-import { deleteAgent, fetchAgentDetail } from '../../../../helpers/NetworkRequest';
 import { Wrapper } from "../../../../helpers/Styles";
-import EditAgent from './addAgent';
+import {fetchDeliveryDetails} from '../../../../helpers/NetworkRequest'
 
 const StyledText = styled(Typography)({
     minWidth:250,
@@ -33,39 +31,23 @@ const useStyles = makeStyles(() => ({
 
 
 export default function AgentDetails(prop) {
-  const {id,handleClose} = prop;
-  console.log(id)
+  const {id} = prop;
   const classes = useStyles();
 const [details,setDetails] = useState({})
-const [isEditing,setEditing] = useState(false);
-const handleEditing = (prop) =>{
-  fetchAgentDetail({id,setDetails});
-  setEditing(prop);
-  }
-  console.log(id)
 useEffect(() => {
-  fetchAgentDetail({id,setDetails});
+  fetchDeliveryDetails({id,setDetails});
   return () => {
     
   }
 }, [id])
 
-const handleDeleting = () =>{
-  deleteAgent(id);
-handleClose({makeRequest:true})
-  }
   return (
     <>
-   {isEditing? (<EditAgent values={details} setEditing={handleEditing} />):(
+   
    <Wrapper className="wrapper" style={{padding:'30px 30px',justifyContent:'flex-start'}}>
     <div className={["flex","align-start"]}>
             <Grid container className={classes.root} spacing={2} style={{justifyContent:'space-between',marginBottom:30}}>
 <Avatar className={classes.avatar} src={details.PicURL} />
-<div>
-<Button width={"150px"} style={{marginBottom:20}}onClick={handleEditing}>Edit Agent</Button><br></br>
-<Button width={"150px"} onClick={handleDeleting}>Delete Agent</Button>
-
-</div>
 </Grid>
 
     <Grid container className={classes.root} spacing={2}>
@@ -73,55 +55,42 @@ handleClose({makeRequest:true})
         <Grid container justify="left" spacing={4}>
             <Grid item style={{marginLeft:20}}>
             <StyledText variant="subtitle1" style={{color:'grey',marginBottom:10}}>Name</StyledText>
-<StyledText variant="body2">{details.AgentName}</StyledText>
+<StyledText variant="body2">{details.CustomerName}</StyledText>
             </Grid>
             <Grid item style={{marginLeft:20}}>
-            <StyledText variant="subtitle1" style={{color:'grey',marginBottom:10}}>Agent Type</StyledText>
-            <StyledText variant="body2">{details.agentType}</StyledText>
+            <StyledText variant="subtitle1" style={{color:'grey',marginBottom:10}}>Phone</StyledText>
+            <StyledText variant="body2">{details.phone}</StyledText>
   </Grid>
-            <Grid item style={{marginLeft:20}}>
-            <StyledText variant="subtitle1" style={{color:'grey',marginBottom:10}}>Phone Number</StyledText>
-            <StyledText variant="body2">{details.PhoneNumber}</StyledText>
-            </Grid>
-
+          
         </Grid>
 
         <Grid container justify="left" spacing={4}>
             <Grid item style={{marginLeft:20}}>
-            <StyledText variant="subtitle1" style={{color:'grey',marginBottom:10}}>Locality</StyledText>
-            <StyledText variant="body2">{details.Locality}</StyledText>
+            <StyledText variant="subtitle1" style={{color:'grey',marginBottom:10}}>Address</StyledText>
+            <StyledText variant="body2">{details.CustomerAddress}</StyledText>
             </Grid>
+        </Grid>
+        <Grid container justify="left" spacing={4}>
             <Grid item style={{marginLeft:20}}>
-            <StyledText variant="subtitle1" style={{color:'grey',marginBottom:10}}>Landmark</StyledText>
-            <StyledText variant="body2">{details.Landmark}</StyledText>  </Grid>
+            <StyledText variant="subtitle1" style={{color:'grey',marginBottom:10}}>item Weight</StyledText>
+            <StyledText variant="body2">{details.itemWeight}</StyledText>            </Grid>
+            <Grid item style={{marginLeft:20}}>
+            <StyledText variant="subtitle1" style={{color:'grey',marginBottom:10}}>Delivery Status</StyledText>
+            <StyledText variant="body2">{details.deliveryStatus}</StyledText>  </Grid>
             
         </Grid>
         <Grid container justify="left" spacing={4}>
             <Grid item style={{marginLeft:20}}>
-            <StyledText variant="subtitle1" style={{color:'grey',marginBottom:10}}>City</StyledText>
-            <StyledText variant="body2">{details.City}</StyledText>            </Grid>
-            <Grid item style={{marginLeft:20}}>
-            <StyledText variant="subtitle1" style={{color:'grey',marginBottom:10}}>Pin</StyledText>
-            <StyledText variant="body2">{details.Pin}</StyledText>  </Grid>
-            
-        </Grid>
-        <Grid container justify="left" spacing={4}>
-            <Grid item style={{marginLeft:20}}>
-            <StyledText variant="subtitle1" style={{color:'grey',marginBottom:10}}>Max Weight Capacity</StyledText>
+            <StyledText variant="subtitle1" style={{color:'grey',marginBottom:10}}>pincode</StyledText>
 
-            <StyledText variant="body2">{details.MaxWeightCapacity}</StyledText>
+            <StyledText variant="body2">{details.pincode}</StyledText>
             </Grid>
             <Grid item style={{marginLeft:20}}>
-            <StyledText variant="subtitle1" style={{color:'grey',marginBottom:10}}>Max Hour Capacity</StyledText>
+            <StyledText variant="subtitle1" style={{color:'grey',marginBottom:10}}>paymentStatus</StyledText>
 
-            <StyledText variant="body2">{details.MaxHourCapacity}</StyledText>
+            <StyledText variant="body2">{details.paymentStatus}</StyledText>
   </Grid>
-            <Grid item style={{marginLeft:20}}>
-            <StyledText variant="subtitle1" style={{color:'grey',marginBottom:10}}>BusinessID</StyledText>
-
-            <StyledText variant="body2">{details.BusinessID}</StyledText>
-            </Grid>
-
+          
         </Grid>
 
       </Grid>
@@ -132,7 +101,7 @@ handleClose({makeRequest:true})
     </div>
     </Wrapper>
 
-  )}
+ 
   </>
   );
 }

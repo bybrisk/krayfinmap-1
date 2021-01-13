@@ -32,7 +32,6 @@ import {
   } = RegistrationModel;
   
   function _renderStepContent(activeStep, values) {
-    console.log(activeStep, values)
     switch (activeStep) {
       case 0:
         return <Signup formField = {
@@ -61,7 +60,6 @@ import {
   
   export default function Registration(props) {
     // const classes = useStyles();
-    console.log(props)
     const history = useHistory();
     const dispatch = useDispatch();
   
@@ -88,7 +86,6 @@ import {
   
       axios.post(`${domain}/onboarding/createAccount`,{article})
       .then(response=>{
-          console.log(response,"-------------------------");
           // article.bybID = response.bybID;
     localStorage.setItem("user", JSON.stringify(article));
     localStorage.setItem("bybId", JSON.stringify(response.data.bybID));
@@ -141,7 +138,6 @@ import {
         _submitForm(values, actions);
       } else {
         setActiveStep(activeStep + 1);
-        console.log(activeStep);
         actions.setTouched({});
         actions.setSubmitting(false);
       }

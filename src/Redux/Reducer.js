@@ -9,7 +9,6 @@ const AuthReducer = (
   ) => {
     switch (action.type) {
       case "LOG_IN":
-        console.log(action.payload);
         return {
           ...state,
           login: action.payload
@@ -28,7 +27,6 @@ const AuthReducer = (
           };
   
         case "USER":
-        console.log("called", action.payload);
         return {
           ...state,
           user: action.payload
