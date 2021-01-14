@@ -19,15 +19,55 @@ import Grow from '@material-ui/core/Grow';
 import Toolbar from './toolbar';
 import TableHead from './tableHead';
 import DeliveryDetails from '../../../views/app/application/delivery/deliveryDetails';
-
 import { getComparator, search, StyledTableCell, StyledTableRow } from '../tableHelpers/helpers';
+import Select from './StatusDropdown'
 // import AgentDetail from '../AgentDetails'
 import {fetchDeliveryDetails} from '../../../helpers/NetworkRequest'
 import {useSelector} from "react-redux";
+import { Refresh } from '@material-ui/icons';
 
 //fetchDeliveryDetails to be replaced with get all deliveries
 
+const pending = [
+  {
+    value: "pending",
+    label: "Pending",
+    color:'#8C6911'
+  },
+  {
+    value: "transit",
+    label: "Transit",
+    color:'blue'
+  }
+]
+const transit = [
+  {
+    value: "transit",
+    label: "Transit",
+    color:'blue'
+  },
+  {
+    value: "delivered",
+    label: "Delivered",
+    color:'green'
+  },
+  {
+    value: "cancelled",
+    label: "Cancelled",
+    color:'red'
+  },
+]
 
+const delivered = [
+  {    value: "delivered",
+  label: "Delivered",
+  color:'green'}
+]
+const cancelled = [
+  {    value: "cancelled",
+  label: "Cancelled",
+  color:'red'}
+]
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -58,7 +98,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AgentTable() {
+export default function DeliveryTable() {
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('AgentID');
@@ -86,8 +126,10 @@ export default function AgentTable() {
 setQuery(query.toLowerCase())
 }
 
-    function handleAgent(){
-      fetchDeliveryDetails({bybId,setDelivery});
+    function handleDelivery(refreshRef){
+      // fetchDeliveryDetails({bybId,setDelivery});
+      console.log(refreshRef.current)
+      setTimeout(()=>{refreshRef.current.classList.remove('refresh')},3000)
     }
 
   const handleOpen = (id) => {
@@ -100,15 +142,23 @@ setQuery(query.toLowerCase())
 
   };
 
+  const handleStatusChange = (e,id) =>{
+console.log(e.target.value,rows[id],id,"=-------------------")
+const newDetails = rows;
+newDetails[id-1].deliveryStatus = e.target.value;
+setDelivery(newDetails)
+  }
   useEffect(() => {
   // fetchAgents({bybId,setDelivery});
 setDelivery([
-  {id:'1',CustomerName:'Pankaj',CustomerAddress:'11,2 D saket nagar, Indore 462003',itemWeight:'2.5Kg',paymentMode:'COD',phone:'9669212383',deliveryStatus:'confirm'},
-  {id:'1',CustomerName:'Praveen',CustomerAddress:'11 D Nayan nagar, Bhopal 472003',itemWeight:'2Kg',paymentMode:'Online',phone:'9669212383',deliveryStatus:'cancelled'},
-  {id:'1',CustomerName:'Rohit',CustomerAddress:'11 Kalyani nagar, Sagar 461331',itemWeight:'8Kg',paymentMode:'Credit Card',phone:'9669212383',deliveryStatus:'pending'},
-  {id:'1',CustomerName:'Riyaz',CustomerAddress:'Mr 10, near Brillian School, Indore 462003',itemWeight:'5Kg',paymentMode:'Online',phone:'9669212383',deliveryStatus:'pending'},
-  {id:'1',CustomerName:'Sagar',CustomerAddress:'11,2 D Gautam nagar, Mahu 462243',itemWeight:'4.5Kg',paymentMode:'Debit Card',phone:'9669121983',deliveryStatus:'cancelled'},
-  {id:'1',CustomerName:'Ritu',CustomerAddress:'11,2 D Laxmi nagar, Bhind 462113',itemWeight:'1.5Kg',paymentMode:'Credit Card',phone:'9669216783',deliveryStatus:'confirm'}
+  {id:'1',CustomerName:'Pankaj',CustomerAddress:'11,2 D saket nagar, Indore 462003',itemWeight:'2.5Kg',paymentMode:'COD',phone:'9669212383',deliveryStatus:'delivered'},
+  {id:'2',CustomerName:'Praveen',CustomerAddress:'11 D Nayan nagar, Bhopal 472003',itemWeight:'2Kg',paymentMode:'Online',phone:'9669212383',deliveryStatus:'cancelled'},
+  {id:'3',CustomerName:'Rohit',CustomerAddress:'11 Kalyani nagar, Sagar 461331',itemWeight:'8Kg',paymentMode:'Credit Card',phone:'9669212383',deliveryStatus:'pending'},
+  {id:'4',CustomerName:'Riyaz',CustomerAddress:'Mr 10, near Brillian School, Indore 462003',itemWeight:'5Kg',paymentMode:'Online',phone:'9669212383',deliveryStatus:'pending'},
+  {id:'5',CustomerName:'Sagar',CustomerAddress:'11,2 D Gautam nagar, Mahu 462243',itemWeight:'4.5Kg',paymentMode:'Debit Card',phone:'9669121983',deliveryStatus:'cancelled'},
+  {id:'6',CustomerName:'Ritu',CustomerAddress:'11,2 D Laxmi nagar, Bhind 462113',itemWeight:'1.5Kg',paymentMode:'Credit Card',phone:'9669216783',deliveryStatus:'delivered'},
+  {id:'7',CustomerName:'Harsha',CustomerAddress:'11,2 D Laxmi nagar, Bhind 462113',itemWeight:'1.5Kg',paymentMode:'Credit Card',phone:'9669216783',deliveryStatus:'transit'}
+
 ])
 return () => {
       
@@ -140,7 +190,7 @@ return () => {
     <>
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <Toolbar setQuery={handleQuery} query={query} handleAgent={handleAgent}/>
+        <Toolbar setQuery={handleQuery} query={query} handleDelivery={handleDelivery}/>
         <TableContainer>
           <Table
             className={classes.table}
@@ -172,7 +222,11 @@ return () => {
               <StyledTableCell align="center" onClick={()=>handleOpen(row.id)}>{row.itemWeight}</StyledTableCell>
               <StyledTableCell align="center" onClick={()=>handleOpen(row.id)}>{row.paymentMode}</StyledTableCell>              
               <StyledTableCell align="center" onClick={()=>handleOpen(row.id)}>{row.phone}</StyledTableCell>
-              <StyledTableCell id="deliverystatus" align="center" style={{color: row.deliveryStatus==='confirm'?'green':(row.deliveryStatus==='pending'?'#8C6911':'red')}}>{row.deliveryStatus}</StyledTableCell>
+              <StyledTableCell id="deliverystatus" align="center" >
+              <Select
+               data={row.deliveryStatus==='delivered'?delivered:(row.deliveryStatus==='pending'?pending:(row.deliveryStatus==='cancelled'?cancelled:transit))} value={row.deliveryStatus} 
+               handleChange={(e)=>handleStatusChange(e,row.id)} />
+              </StyledTableCell>
 
                     </StyledTableRow>
     

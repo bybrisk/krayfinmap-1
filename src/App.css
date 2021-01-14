@@ -87,3 +87,24 @@ div[aria-labelledby="Add-Agent"]>section{
 a{
   text-decoration: none;
 }
+
+.refresh{
+  animation: spinPulse 1s infinite ease-in-out;
+  -moz-animation: spinPulse 1s infinite ease-in-out;
+  transition: spinPulse 1s infinite linear;
+  cursor: pointer;
+}
+
+@keyframes spinPulse {
+  0% {
+      transform: rotate(0deg);
+  }
+  50% {
+      transform: rotate(180deg);
+  }
+  
+100% {
+  transform: rotate(360deg);
+}
+  ;
+}

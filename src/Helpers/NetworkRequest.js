@@ -13,13 +13,13 @@ export async function fetchAgentDetail(props){
 
 
 export async function fetchDeliveryDetails(props){
-const {bybId,setDelivery} = props;
+const {bybId,setDetails} = props;
     const response = await axios ({
         url: `${domain}/delivery/deliveryDetail?id=${bybId}`,
 
         method: "GET"
     })
-    setDelivery(response.data);
+    setDetails(response.data);
 console.log(response)    
 }
 

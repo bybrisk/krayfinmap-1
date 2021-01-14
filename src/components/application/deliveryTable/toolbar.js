@@ -10,11 +10,13 @@ import { fade, makeStyles } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import AddIcon from "@material-ui/icons/Add";
+import AutorenewIcon from '@material-ui/icons/Autorenew';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import SearchIcon from "@material-ui/icons/Search";
-import React from "react";
+import React,{useRef} from "react";
 import ReactButton from "../../application/button/button";
 import AddDelivery from '../../../views/app/application/delivery/addDeivery'
+import '../../../App.css'
 const CardComponent = (props) => {
   const { title, stat } = props;
 
@@ -106,10 +108,10 @@ const useToolbarStyles = makeStyles((theme) => ({
 //thiis is to show "Agent" at top Helps in fixing
 //them just above table
 const EnhancedTableToolbar = (props) => {
-    const {setQuery,query} = props;
+    const {setQuery,query,handleDelivery} = props;
   const classes = useToolbarStyles();
   const [deliveryFilter, setFilter] = React.useState(false);
-
+const refresh = useRef(null)
   const filters = [
     { title: "Confirmed", stat: "54", filter: "confirm" },
     { title: "Cancelled", stat: "23", filter: "cancelled" },
@@ -124,8 +126,8 @@ const EnhancedTableToolbar = (props) => {
   const handleClose = (newprops) => {
     setOpen(false);
     if (newprops.makeRequest) {
-      props.handleAgent();
-    }
+      handleDelivery()
+        }
   };
 
   const addFilter = (item) => {
@@ -137,6 +139,10 @@ const EnhancedTableToolbar = (props) => {
     setFilter(false);
   };
 
+  const handleRefresh = () =>{
+    refresh.current.classList.add('refresh')
+    handleDelivery(refresh)
+  }
 
   return (
     <>
@@ -233,7 +239,8 @@ const EnhancedTableToolbar = (props) => {
             marginLeft:-10
           }}
         >
-          <div className={classes.search}>
+         <div className={classes.root}>
+         <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
@@ -247,7 +254,9 @@ const EnhancedTableToolbar = (props) => {
               inputProps={{ "aria-label": "search" }}
             />
           </div>
-        </section>
+      <AutorenewIcon onClick={handleRefresh} ref={refresh} />
+         </div>
+         </section>
       </Toolbar>
     </>
   );

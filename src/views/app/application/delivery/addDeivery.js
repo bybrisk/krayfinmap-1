@@ -86,7 +86,7 @@ const user = useSelector(state => state.user)
       paymentStatus: values.paymentStatus,
       pincode:values.pincode,
       BybID:bybId,
-      deliveryStatus:values.deliveryStatus
+      deliveryStatus:'pending'
     });
     // let newDomain 
     // if(props.values){
@@ -161,7 +161,6 @@ style={{height:100,width:100}}
             </Grid>
             
             <Grid item style={{marginLeft:20,alignItems:"center",justifyContent:"center",display:"flex"}}>
-            <Select name={deliveryStatus.name} data={DeliveryStatus} tip={deliveryStatus.tip} label={deliveryStatus.label}  style={{minWidth:300}}/>
   </Grid>
             
         </Grid>
