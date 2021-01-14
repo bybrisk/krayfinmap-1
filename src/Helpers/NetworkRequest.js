@@ -1,5 +1,5 @@
 import axios from 'axios'
-const domain = 'http://localhost:5000'
+const domain = 'https://bybriskbackend.herokuapp.com'
 // https://bybriskbackend.herokuapp.com
 export async function fetchAgentDetail(props){
 	const response = await axios ({

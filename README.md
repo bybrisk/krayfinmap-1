@@ -3,8 +3,7 @@
 <h3>Pending</h3>
 1) including maps place api in inputs<br />
 2) Making Update Account and modify Password <br />
-3)add Delivery<br />
-4) Edit Delivery<br />
+
 5)See Delivery Details<br />
 6) Login is not made<br />
 7) Sidebar configuration are not clear yet
