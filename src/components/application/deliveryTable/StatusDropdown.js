@@ -29,7 +29,7 @@ console.log(props)
           className={classes.selectEmpty}
           value={value}
           onChange={handleChange}
-          style={{color: value==='delivered'?'green':(value==='pending'?'#8C6911':(value==='cancelled'?'red':'blue'))}}
+          style={{color:value==='Delivered'?'green':(value==='Pending'?'rgb(140, 105, 17)':(value==='Cancelled'?'red':'blue'))}}
 
           inputProps={{ 'aria-label': 'age' }}
         >

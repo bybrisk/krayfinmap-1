@@ -2,10 +2,12 @@ import { ThemeProvider } from "@material-ui/core/styles";
 import React,{useEffect,Suspense} from "react";
 import { Provider } from "react-redux";
 import { BrowserRouter} from "react-router-dom";
+import { SnackbarProvider } from 'notistack';
 import { useDispatch } from "react-redux";
 import { Route, Switch ,useHistory} from "react-router-dom";
 import {PrivateRoute} from './helpers/PrivateRoute'
-
+import {fetchAccountDetails} from './helpers/NetworkRequest'
+import Loader from './components/application/Loader/Loader'
 import theme from './helpers/Theme';
 import store from "./redux/store";
 import "./App.css";
@@ -27,9 +29,9 @@ const Routing = () => {
     const history = useHistory();
   
     useEffect(() => {
-      const user = JSON.parse(localStorage.getItem("user"));
       const bybId = JSON.parse(localStorage.getItem("bybId"));
       if (bybId) {
+fetchAccountDetails({bybId,dispatch})
         dispatch({ type: "LOG_IN", payload: true });
         dispatch({
           type: "ID",
@@ -39,7 +41,7 @@ const Routing = () => {
       history.push('/dashboard')
     }, [dispatch,history]);
     return (
-      <Suspense fallback={<div className="loading" />}>
+      <Suspense fallback={<Loader/>}>
 <Switch>
         <Route exact path="/"
                       render={(props) => <ViewUser {...props} />}
@@ -61,16 +63,23 @@ export default function App() {
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
+      <SnackbarProvider maxSnack={3} anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+    }}
+    hideIconVariant={false}
+    >
         <div className="App">
           <BrowserRouter>
 <Routing/>
           </BrowserRouter>
         </div>
+        </SnackbarProvider>
       </ThemeProvider>
     </Provider>
   );
 }
 
 export const domain =
-  "https://bybriskbackend.herokuapp.com";
+  "http://localhost:5000";
   // https://bybriskbackend.herokuapp.com

@@ -1,3 +1,4 @@
+import { Typography } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
@@ -11,6 +12,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { BrowserRouter } from "react-router-dom";
+import {useSelector} from 'react-redux'
 import Logo from '../../../Assets/logo.png';
 // import AgentTable from '../AgentTable/AgentTable'
 // import DeliveryTable from '../AgentTable/DeliveryTable/DeliveryTable'
@@ -71,13 +73,14 @@ function ResponsiveDrawer(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
-
+const user = useSelector(state => state.user)
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
   const drawer = (
     <div>
+
       <div className={classes.toolbar}>
       <div style={{background:'#ffffff',width:'100%',height:64,display:'flex',justifyContent:'center'}}>
           <img src={Logo} style={{height:'inherit'}} alt="Krayfin Map" />
@@ -87,6 +90,8 @@ function ResponsiveDrawer(props) {
       </div>
       <List>
       <Divider style={{background:'white'}}/>
+      <div style={{textAlign:'left',padding:10,color:"yellow"}}><Typography variant="h6">hey {user.UserName} </Typography></div>
+
       <Accordion/>
       <Divider style={{background:'white'}}/>
 
@@ -105,11 +110,10 @@ function ResponsiveDrawer(props) {
       <AppBar position="fixed" className={classes.appBar}>
 
         <Toolbar style={{background:'#061336',justifyContent:'space-between'}}>
-        
          <div style={{display:'flex'}}>
           
-          <div style={{background:'#ffffff',marginRight:10,marginLeft:10}}>
-          <img src={Logo} style={{maxHeight:40}} alt="Krayfin Map"/>
+          <div style={{marginRight:10,marginLeft:10}}>
+          <img src={"https://bybrisk.com/assets/images/logo.png"} style={{maxHeight:60}} alt="Krayfin Map"/>
 
           </div>
           <IconButton

@@ -22,8 +22,6 @@ import { getComparator, stableSort, StyledTableCell, StyledTableRow } from '../t
 import EnhancedTableHead from './tableHead';
 //divided component to make them one
 import EnhancedTableToolbar from './toolbar';
-
-
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -84,13 +82,13 @@ export default function AgentTable(props) {
 
 
   const handleClose = () => {
-   
     setOpen(false);
 handleAgent();
   };
 
   useEffect(() => {
   fetchAgents({bybId,setAgents});
+
     return () => {
       
     }
@@ -120,6 +118,7 @@ handleAgent();
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
   return (
     <>
+  
     <div className={classes.root}>
       <Paper className={classes.paper}>
         <EnhancedTableToolbar  handleAgent={handleAgent}/>
@@ -203,13 +202,13 @@ handleAgent();
                       <Grow in={open} timeout={250} >
 
       <section style={{background:'#ffffff',width:'100%',height:'100%',overflow:'scroll'}}> 
-      <p onClick={handleClose} style={{fontSize:40,textAlign:'right',cursor:'pointer',padding:'0 30px',margin:0}}>x</p>
-
+  <div style={{fontSize:40,textAlign:'right',padding:'0 30px',margin:0}}>    <span style={{cursor:'pointer'}} onClick={handleClose} >x</span>
+</div>
         <AgentDetail id={agentid} handleClose={handleClose}/>
       </section>
       </Grow>
       </Modal>
- 
+  
   </>
   );
 }

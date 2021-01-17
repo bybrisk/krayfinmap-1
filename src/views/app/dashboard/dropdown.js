@@ -1,4 +1,4 @@
-import React, { useRef, useEffect} from "react";
+import React, { useRef, useEffect,useState} from "react";
 import Avatar from '@material-ui/core/Avatar'
 import './dropdown.css'
 import List from '@material-ui/core/List';
@@ -8,6 +8,14 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import Modal from "@material-ui/core/Modal";
+import Backdrop from '@material-ui/core/Backdrop';
+import Grow from '@material-ui/core/Grow';
+
+import ForgotPassword from '../../user/forgot-password'
+import UpdateAccount from '../../user/modify-account'
+
 /**
  * Hook that alerts clicks outside of the passed ref
  */
@@ -37,14 +45,33 @@ function useOutsideAlerter(props) {
  */
 export default function AccountDropdown() {
   const wrapperRef = useRef(null);
+  const [open, OpenModal] = useState(false);
+  const [link,setLink] = useState('');
+
+  const handleOpen = (query) => {
+    setLink(query);
+    OpenModal(true);
+  };
+  const handleClose = () => {
+    OpenModal(false);
+  };
 
   const setOpen = (props) =>{
 props===true?wrapperRef.current.classList.toggle("active"):wrapperRef.current.classList.remove("active")
     
   }
+
+  const logOut = () =>{
+        localStorage.removeItem('user')
+        localStorage.removeItem('bybid')
+        
+  }
+
+
     useOutsideAlerter({wrapperRef,setOpen});
 
     return (
+      <>
         <div className="right">
               <div className="dropdowncont" ref={wrapperRef}>
                 <span className="profile-image">
@@ -53,7 +80,7 @@ props===true?wrapperRef.current.classList.toggle("active"):wrapperRef.current.cl
                  
                 <div className="dropdown" >
                 <List component="nav" aria-label="Account Setting">
-                <ListItem button style={{color:'rgb(6, 19, 54)'}}>
+                <ListItem onClick={()=>handleOpen('Change Password')} button style={{color:'rgb(6, 19, 54)'}}>
           <ListItemIcon style={{color:'rgb(6, 19, 54)'}}>
             <LockOpenIcon style={{fontSize:"2rem"}}/>
           </ListItemIcon>
@@ -61,18 +88,57 @@ props===true?wrapperRef.current.classList.toggle("active"):wrapperRef.current.cl
         </ListItem>
         <Divider />
 
-        <ListItem button style={{color:'rgb(6, 19, 54)'}}>
+        <ListItem onClick={()=>handleOpen('Update Account')} button style={{color:'rgb(6, 19, 54)'}}>
           <ListItemIcon style={{color:'rgb(6, 19, 54)'}} >
             <AccountCircleIcon style={{fontSize:"2rem"}}/>
           </ListItemIcon>
           <ListItemText primary="Update Account" />
+        </ListItem>
+        <Divider />
+
+        <ListItem onClick={logOut} button style={{color:'rgb(6, 19, 54)'}}>
+          <ListItemIcon style={{color:'rgb(6, 19, 54)'}} >
+            <ExitToAppIcon style={{fontSize:"2rem"}}/>
+          </ListItemIcon>
+          <ListItemText primary="Log Out" />
         </ListItem>
 
                 </List>
                 </div>
                 
               </div>
-        </div>)
+        </div>
+        <Modal
+         open={open}
+        onClose={handleClose}
+        aria-labelledby={link}
+        aria-describedby={link}
+        closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                    timeout: 400,
+                }}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection:'column',
+          background:'#ffffff'
+        }}
+
+        >
+                             <Grow in={open} timeout={250}>
+
+<section style={{background:'#ffffff',width:'100%',height:'100%'}}> 
+<div style={{fontSize:40,textAlign:'right',padding:'0 30px',margin:0}}>    <span style={{cursor:'pointer'}} onClick={handleClose} >x</span>
+</div>
+{link==='Change Password'?<ForgotPassword close={handleClose} />:<UpdateAccount close={handleClose}/>}
+</section>
+</Grow>
+
+        </Modal>
+        </>
+        )
 
     ;
 }

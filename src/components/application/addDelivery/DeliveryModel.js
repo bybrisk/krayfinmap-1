@@ -46,7 +46,7 @@ export default {
       },
       paymentStatus: {
         name: "paymentStatus",
-        label: "Payment Status",
+        label: "Payment Done",
         requiredErrorMsg: "Payment Status is required",
         tip:'Is Payment Recieved'
       },

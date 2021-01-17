@@ -6,6 +6,7 @@ import { Form, Formik } from "formik";
 import React, {
   useState
 } from "react";
+import { useSnackbar } from 'notistack';
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { domain } from "../../App";
@@ -20,6 +21,7 @@ import Signup from "../../components/user/forms/Signup";
 import formInitialValues from "../../components/user/signup/formInitialValues";
 import RegistrationModel from "../../components/user/signup/registrationModel";
 import validationSchema from "../../components/user/signup/validationSchema";
+import {CreateAccount} from '../../helpers/NetworkRequest'
 import {
   FormContainer,
   Wrapper
@@ -62,7 +64,8 @@ import {
     // const classes = useStyles();
     const history = useHistory();
     const dispatch = useDispatch();
-  
+    const { enqueueSnackbar } = useSnackbar();
+
     const [activeStep, setActiveStep] = useState(0);
     const currentValidationSchema = validationSchema[activeStep];
     const isLastStep = activeStep === steps.length - 1;
@@ -84,53 +87,8 @@ import {
         BusinessPlan: "1"
       });
   
-      axios.post(`${domain}/onboarding/createAccount`,{article})
-      .then(response=>{
-          // article.bybID = response.bybID;
-    localStorage.setItem("user", JSON.stringify(article));
-    localStorage.setItem("bybId", JSON.stringify(response.data.bybID));
-  
-    dispatch({
-      type: "LOG_IN",
-      payload: true
-    });
-    dispatch({
-      type: "ID",
-      payload: response.data.bybID
-    });
-    dispatch({
-      type: "USER",
-      payload: article
-    });
-    actions.setSubmitting(false);
-    history.push("/dashboard");
-  
-      });
-  // if(response.bybID){
-  //   article.bybID = response.bybID;
-  //   localStorage.setItem("user", JSON.stringify(response.user));
-  
-  //   dispatch({
-  //     type: "LOG_IN",
-  //     payload: true
-  //   });
-  //   dispatch({
-  //     type: "ID",
-  //     payload: response.bybID
-  //   });
-  //   dispatch({
-  //     type: "USER",
-  //     payload: article
-  //   });
-  //   actions.setSubmitting(false);
-  //   history.push("/home");
-  
-  // }
-  // else{
-  //   actions.setSubmitting(false);
-  
-  // }
-     
+      CreateAccount({article,dispatch,history,actions,enqueueSnackbar})
+   
     }
   
     function _handleSubmit(values, actions) {

@@ -55,40 +55,43 @@ useEffect(() => {
         <Grid container justify="left" spacing={4}>
             <Grid item style={{marginLeft:20}}>
             <StyledText variant="subtitle1" style={{color:'grey',marginBottom:10}}>Name</StyledText>
-<StyledText variant="body2">{details.CustomerName}</StyledText>
+<StyledText variant="h6">{details.CustomerName}</StyledText>
             </Grid>
             <Grid item style={{marginLeft:20}}>
             <StyledText variant="subtitle1" style={{color:'grey',marginBottom:10}}>Phone</StyledText>
-            <StyledText variant="body2">{details.phone}</StyledText>
+            <StyledText variant="h6">{details.phone}</StyledText>
   </Grid>
-          
+  <Grid item style={{marginLeft:20}}>
+            <StyledText variant="subtitle1" style={{color:'grey',marginBottom:10}}>Delivery id</StyledText>
+            <StyledText variant="h6">{id}</StyledText>
+  </Grid>
         </Grid>
 
         <Grid container justify="left" spacing={4}>
             <Grid item style={{marginLeft:20}}>
             <StyledText variant="subtitle1" style={{color:'grey',marginBottom:10}}>Address</StyledText>
-            <StyledText variant="body2">{details.CustomerAddress}</StyledText>
+            <StyledText variant="h6">{details.CustomerAddress}</StyledText>
             </Grid>
         </Grid>
         <Grid container justify="left" spacing={4}>
             <Grid item style={{marginLeft:20}}>
             <StyledText variant="subtitle1" style={{color:'grey',marginBottom:10}}>item Weight</StyledText>
-            <StyledText variant="body2">{details.itemWeight}</StyledText>            </Grid>
+            <StyledText variant="h6">{details.itemWeight}</StyledText>            </Grid>
             <Grid item style={{marginLeft:20}}>
             <StyledText variant="subtitle1" style={{color:'grey',marginBottom:10}}>Delivery Status</StyledText>
-            <StyledText variant="body2">{details.deliveryStatus}</StyledText>  </Grid>
+            <StyledText variant="h6">{details.deliveryStatus}</StyledText>  </Grid>
             
         </Grid>
         <Grid container justify="left" spacing={4}>
             <Grid item style={{marginLeft:20}}>
             <StyledText variant="subtitle1" style={{color:'grey',marginBottom:10}}>pincode</StyledText>
 
-            <StyledText variant="body2">{details.pincode}</StyledText>
+            <StyledText variant="h6">{details.pincode}</StyledText>
             </Grid>
             <Grid item style={{marginLeft:20}}>
-            <StyledText variant="subtitle1" style={{color:'grey',marginBottom:10}}>paymentStatus</StyledText>
+            <StyledText variant="subtitle1" style={{color:'grey',marginBottom:10}}>Payment Done</StyledText>
 
-            <StyledText variant="body2">{details.paymentStatus}</StyledText>
+            <StyledText variant="h6">{details.paymentStatus?'done':'pending'}</StyledText>
   </Grid>
           
         </Grid>

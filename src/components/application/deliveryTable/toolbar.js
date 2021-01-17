@@ -14,20 +14,22 @@ import AutorenewIcon from '@material-ui/icons/Autorenew';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import SearchIcon from "@material-ui/icons/Search";
 import React,{useRef} from "react";
+import {useSelector} from 'react-redux';
 import ReactButton from "../../application/button/button";
 import AddDelivery from '../../../views/app/application/delivery/addDeivery'
 import '../../../App.css'
 const CardComponent = (props) => {
-  const { title, stat } = props;
+  const { title, stat,backgroundColor } = props;
+  const classes = useToolbarStyles();
 
   return (
     <Card
       onClick={props.onClick}
-      style={{ width: 180, height: 120, textAlign: "center",cursor:'pointer'}}
+      style={{ width: 180, height: 120, textAlign: "center",cursor:'pointer',backgroundColor:`${backgroundColor}`}}
     >
-      <CardHeader title={title} />
+      <CardHeader title={title} className={classes.cardColor}/>
       <CardContent style={{ padding: 0 }}>
-        <Typography variant="h4" color="textSecondary">
+        <Typography variant="h4" color="textSecondary" className={classes.cardColor}>
           {stat}
         </Typography>
       </CardContent>
@@ -58,6 +60,9 @@ const useToolbarStyles = makeStyles((theme) => ({
       marginBottom:10  
       }
   
+  },
+  cardColor:{
+color:'#ffffff'
   },
   reactbutton:{
     display: "flex",
@@ -111,11 +116,14 @@ const EnhancedTableToolbar = (props) => {
     const {setQuery,query,handleDelivery} = props;
   const classes = useToolbarStyles();
   const [deliveryFilter, setFilter] = React.useState(false);
+  const user = useSelector(state => state.user)
 const refresh = useRef(null)
   const filters = [
-    { title: "Confirmed", stat: "54", filter: "confirm" },
-    { title: "Cancelled", stat: "23", filter: "cancelled" },
-    { title: "Pending", stat: "10", filter: "pending" }
+    { title: "Delivered", stat: user.DeliveryDelivered, filter: "delivered",color:'darkolivegreen' },
+    { title: "Cancelled", stat: user.DeliveryCancelled, filter: "cancelled",color:'indianred' },
+    { title: "Pending", stat: user.DeliveryPending, filter: "pending",color:'darkgoldenrod' },
+    { title: "Transit", stat: user.DeliveryTransit, filter: "transit",color:'cornflowerblue' }
+
   ];
 
   const [open, setOpen] = React.useState(false);
@@ -161,8 +169,8 @@ const refresh = useRef(null)
           <Modal
             open={open}
             onClose={handleClose}
-            aria-labelledby="Add-Agent"
-            aria-describedby="Add-Agent"
+            aria-labelledby="Add-Delivery"
+            aria-describedby="Add-Delivery"
             closeAfterTransition
             BackdropComponent={Backdrop}
             BackdropProps={{
@@ -180,19 +188,8 @@ const refresh = useRef(null)
               <section
                 style={{ background: "#ffffff", width: "100%", height: "100%" }}
               >
-                <p
-                  onClick={handleClose}
-                  style={{
-                    fontSize: 40,
-                    textAlign: "right",
-                    cursor: "pointer",
-                    padding: "0 30px",
-                    margin: 0
-                  }}
-                >
-                  x
-                </p>
-                <AddDelivery closeModal={handleClose} />
+                 <div style={{fontSize:40,textAlign:'right',padding:'0 30px',margin:0}}>    <span style={{cursor:'pointer'}} onClick={handleClose} >x</span>
+</div> <AddDelivery closeModal={handleClose} />
               </section>
             </Grow>
           </Modal>
@@ -201,7 +198,7 @@ const refresh = useRef(null)
           <Grow in={deliveryFilter} timeout={250}>
  <section style={{display:'flex',width:'100%',alignItems:'center',marginBottom:10}}>
           <ArrowBackIcon onClick={removeFilter} style={{fontSize:"2rem"}}/>
-<p style={{ background: query==='confirm'?'green':(query==='pending'?'#8C6911':'red'),fontSize:'1rem',marginLeft:20,padding:2,color:'#ffffff',borderRadius:6}}> deliveries {query}</p> </section>
+<p style={{ background: query==='delivered'?'darkolivegreen':(query==='pending'?'darkgoldenrod':(query==='cancelled'?'indianred':'cornflowerblue')),fontSize:'1rem',marginLeft:20,padding:2,color:'#ffffff',borderRadius:6}}> deliveries {query}</p> </section>
      </Grow>   )}
 
         {/* {deliveryFilter ? (
@@ -217,10 +214,11 @@ const refresh = useRef(null)
       >
         {filters.map((item) => {
           return (
-            <Grid item style={{ marginLeft: 10 }}>
+            <Grid item style={{ marginLeft: 10,borderRadius:24}}>
               <CardComponent
                 title={item.title}
                 stat={item.stat}
+                backgroundColor={item.color}
                 onClick={() => addFilter(item.filter)}
               />
             </Grid>

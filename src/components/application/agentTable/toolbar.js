@@ -84,8 +84,8 @@ const useToolbarStyles = makeStyles((theme) => ({
     >
 
 
-      <p onClick={handleClose} style={{fontSize:40,textAlign:'right',cursor:'pointer',padding:'0 30px',margin:0}}>x</p>
-        <AgentAdd closeModal={handleClose} ref={(element) => {
+<div style={{fontSize:40,textAlign:'right',padding:'0 30px',margin:0}}>    <span style={{cursor:'pointer'}} onClick={handleClose} >x</span>
+</div>        <AgentAdd closeModal={handleClose} ref={(element) => {
         if (!element) return;
         setContainer(element);
         const { clientWidth, scrollWidth } = element;

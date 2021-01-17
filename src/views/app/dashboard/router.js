@@ -1,5 +1,6 @@
 import React,{Suspense} from "react";
 import { Route, Switch,Redirect} from "react-router-dom";
+import Loader from '../../../components/application/Loader/Loader'
 const ViewAgents = React.lazy(() =>
   import(/* webpackChunkName: "views-app" */ '../../../components/application/agentTable/table')
 );
@@ -12,7 +13,7 @@ const ViewClusters = React.lazy(() =>
 
 export const Dashboard = ({ match }) => {
       return (
-        <Suspense fallback={<div className="loading" />}>
+        <Suspense fallback={<Loader/>}>
 
       <Switch>
             <Redirect exact from={`${match.url}/`} to={`${match.url}/agents`} />

@@ -2,6 +2,8 @@
 import React,{useEffect,useRef} from 'react';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
+import { useSnackbar } from 'notistack';
+
 //dependecies for table
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -22,7 +24,7 @@ import DeliveryDetails from '../../../views/app/application/delivery/deliveryDet
 import { getComparator, search, StyledTableCell, StyledTableRow } from '../tableHelpers/helpers';
 import Select from './StatusDropdown'
 // import AgentDetail from '../AgentDetails'
-import {fetchDeliveryDetails} from '../../../helpers/NetworkRequest'
+import {fetchDeliveries,modifyStatus} from '../../../helpers/NetworkRequest'
 import {useSelector} from "react-redux";
 import { Refresh } from '@material-ui/icons';
 
@@ -30,41 +32,41 @@ import { Refresh } from '@material-ui/icons';
 
 const pending = [
   {
-    value: "pending",
+    value: "Pending",
     label: "Pending",
     color:'#8C6911'
   },
   {
-    value: "transit",
+    value: "Transit",
     label: "Transit",
     color:'blue'
   }
 ]
 const transit = [
   {
-    value: "transit",
+    value: "Transit",
     label: "Transit",
     color:'blue'
   },
   {
-    value: "delivered",
+    value: "Delivered",
     label: "Delivered",
     color:'green'
   },
   {
-    value: "cancelled",
+    value: "Cancelled",
     label: "Cancelled",
     color:'red'
   },
 ]
 
 const delivered = [
-  {    value: "delivered",
+  {    value: "Delivered",
   label: "Delivered",
   color:'green'}
 ]
 const cancelled = [
-  {    value: "cancelled",
+  {    value: "Cancelled",
   label: "Cancelled",
   color:'red'}
 ]
@@ -100,6 +102,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function DeliveryTable() {
   const classes = useStyles();
+  const { enqueueSnackbar } = useSnackbar();
+
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('AgentID');
   const [page, setPage] = React.useState(0);
@@ -127,9 +131,8 @@ setQuery(query.toLowerCase())
 }
 
     function handleDelivery(refreshRef){
-      // fetchDeliveryDetails({bybId,setDelivery});
-      console.log(refreshRef.current)
-      setTimeout(()=>{refreshRef.current.classList.remove('refresh')},3000)
+      fetchDeliveries({bybId,setDelivery});
+     refreshRef && setTimeout(()=>{refreshRef.current.classList.remove('refresh')},2000)
     }
 
   const handleOpen = (id) => {
@@ -143,23 +146,23 @@ setQuery(query.toLowerCase())
   };
 
   const handleStatusChange = (e,id) =>{
-console.log(e.target.value,rows[id],id,"=-------------------")
-const newDetails = rows;
-newDetails[id-1].deliveryStatus = e.target.value;
-setDelivery(newDetails)
+    enqueueSnackbar('Status Change Can Take Upto 3s',{
+      variant: 'success',
+      autoHideDuration: 2500,
+  });
+
+   const param =  {
+      BybID: bybId,
+      DeliveryID: id,
+      deliveryStatus: e.target.value
+      }
+    
+    modifyStatus({param,setDelivery})
+
   }
   useEffect(() => {
-  // fetchAgents({bybId,setDelivery});
-setDelivery([
-  {id:'1',CustomerName:'Pankaj',CustomerAddress:'11,2 D saket nagar, Indore 462003',itemWeight:'2.5Kg',paymentMode:'COD',phone:'9669212383',deliveryStatus:'delivered'},
-  {id:'2',CustomerName:'Praveen',CustomerAddress:'11 D Nayan nagar, Bhopal 472003',itemWeight:'2Kg',paymentMode:'Online',phone:'9669212383',deliveryStatus:'cancelled'},
-  {id:'3',CustomerName:'Rohit',CustomerAddress:'11 Kalyani nagar, Sagar 461331',itemWeight:'8Kg',paymentMode:'Credit Card',phone:'9669212383',deliveryStatus:'pending'},
-  {id:'4',CustomerName:'Riyaz',CustomerAddress:'Mr 10, near Brillian School, Indore 462003',itemWeight:'5Kg',paymentMode:'Online',phone:'9669212383',deliveryStatus:'pending'},
-  {id:'5',CustomerName:'Sagar',CustomerAddress:'11,2 D Gautam nagar, Mahu 462243',itemWeight:'4.5Kg',paymentMode:'Debit Card',phone:'9669121983',deliveryStatus:'cancelled'},
-  {id:'6',CustomerName:'Ritu',CustomerAddress:'11,2 D Laxmi nagar, Bhind 462113',itemWeight:'1.5Kg',paymentMode:'Credit Card',phone:'9669216783',deliveryStatus:'delivered'},
-  {id:'7',CustomerName:'Harsha',CustomerAddress:'11,2 D Laxmi nagar, Bhind 462113',itemWeight:'1.5Kg',paymentMode:'Credit Card',phone:'9669216783',deliveryStatus:'transit'}
+    fetchDeliveries({bybId,setDelivery});
 
-])
 return () => {
       
     }
@@ -214,18 +217,19 @@ return () => {
                     <>
                     <StyledTableRow
                       tabIndex={-1}
-                      key={row.CustomerName}
+                      key={row._source.CustomerName}
                       ref={lastChild}
+                      style={{cursor:'pointer'}}
                       >
-              <StyledTableCell align="center" onClick={()=>handleOpen(row.id)} >{row.CustomerName}</StyledTableCell>
-              <StyledTableCell align="center" onClick={()=>handleOpen(row.id)}>{row.CustomerAddress}</StyledTableCell>
-              <StyledTableCell align="center" onClick={()=>handleOpen(row.id)}>{row.itemWeight}</StyledTableCell>
-              <StyledTableCell align="center" onClick={()=>handleOpen(row.id)}>{row.paymentMode}</StyledTableCell>              
-              <StyledTableCell align="center" onClick={()=>handleOpen(row.id)}>{row.phone}</StyledTableCell>
+              <StyledTableCell align="center" onClick={()=>handleOpen(row._id)} >{row._source.CustomerName}</StyledTableCell>
+              <StyledTableCell align="center" onClick={()=>handleOpen(row._id)}>{row._source.CustomerAddress}</StyledTableCell>
+              <StyledTableCell align="center" onClick={()=>handleOpen(row._id)}>{row._source.itemWeight}</StyledTableCell>
+              <StyledTableCell align="center" onClick={()=>handleOpen(row._id)}>{row._source.paymentStatus?'done':'pending'}</StyledTableCell>              
+              <StyledTableCell align="center" onClick={()=>handleOpen(row._id)}>{row._source.phone}</StyledTableCell>
               <StyledTableCell id="deliverystatus" align="center" >
               <Select
-               data={row.deliveryStatus==='delivered'?delivered:(row.deliveryStatus==='pending'?pending:(row.deliveryStatus==='cancelled'?cancelled:transit))} value={row.deliveryStatus} 
-               handleChange={(e)=>handleStatusChange(e,row.id)} />
+               data={row._source.deliveryStatus==='Delivered'?delivered:(row._source.deliveryStatus==='Pending'?pending:(row._source.deliveryStatus==='Cancelled'?cancelled:transit))} value={row._source.deliveryStatus} 
+               handleChange={(e)=>handleStatusChange(e,row._id)} />
               </StyledTableCell>
 
                     </StyledTableRow>
@@ -277,8 +281,8 @@ return () => {
                       <Grow in={open} timeout={250}>
 
       <section style={{background:'#ffffff',width:'100%',height:'100%'}}> 
-      <p onClick={handleClose} style={{fontSize:40,textAlign:'right',cursor:'pointer',padding:'0 30px',margin:0}}>x</p>
-
+      <div style={{fontSize:40,textAlign:'right',padding:'0 30px',margin:0}}>    <span style={{cursor:'pointer'}} onClick={handleClose} >x</span>
+</div>
         <DeliveryDetails id={deliveryID} handleClose={handleClose}/>
       </section>
       </Grow>

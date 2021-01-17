@@ -65,6 +65,18 @@ div[aria-labelledby="Add-Agent"]>section{
   overflow: scroll;
 }
 
+div[aria-labelledby="Agent-detail"]>section{
+  overflow: scroll;
+}
+
+div[aria-labelledby="Deliveries"]>section{
+  overflow: scroll;
+}
+div[aria-labelledby="Add-Delivery"]>section{
+  overflow: scroll;
+}
+
+
 /* .scrollable{
   display: block !important;
   overflow: scroll;

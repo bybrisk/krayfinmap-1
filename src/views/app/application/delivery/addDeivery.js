@@ -1,5 +1,8 @@
-import React,{} from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { useSnackbar } from 'notistack';
+import CircularProgress from '@material-ui/core/CircularProgress'
+
 import Grid from '@material-ui/core/Grid';
 import Input from '../../../../inputs/input';
 import CheckBox from '../../../../inputs/checkbox';
@@ -10,6 +13,7 @@ import IconButton from '@material-ui/core/IconButton';
 
 import { domain } from "../../../../App";
 import { Wrapper } from "../../../../helpers/Styles";
+import {AddDelivery} from '../../../../helpers/NetworkRequest'
 import { Formik, Form} from "formik";
 import validationSchema from "../../../../components/application/addDelivery/ValidationSchema";
 import DeliveryModel from "../../../../components/application/addDelivery/DeliveryModel";
@@ -72,12 +76,15 @@ const useStyles = makeStyles((theme) => ({
 
 export default function DeliveryAdd(props) {
   const classes = useStyles();
-const intialvalue = props.values || formInitialValues;
+  const { enqueueSnackbar } = useSnackbar();
+const {values,closeModal} = props;
+
+const intialvalue = values || formInitialValues;
 const bybId = useSelector(state => state.bybId)
 const user = useSelector(state => state.user)
 
 
-  function _handleSubmit(values) {
+  function _handleSubmit(values,actions) {
     const article = JSON.stringify({
       CustomerAddress: values.CustomerAddress,
       itemWeight: values.itemWeight,
@@ -88,18 +95,8 @@ const user = useSelector(state => state.user)
       BybID:bybId,
       deliveryStatus:'pending'
     });
-    // let newDomain 
-    // if(props.values){
-    //   newDomain = `${domain}/agents/modifyAgent`
-    // }
-    // else{
-    //   newDomain = `${domain}/agents/addAgent`
-    // }
-    axios.post(`${domain}/delivery/addDelivery`,{article})
-    .then(response=>{
-        props.closeModal && props.closeModal({makeRequest:true});
-        
-      });
+
+    AddDelivery({article,actions,closeModal,enqueueSnackbar})
   }
 
 
@@ -126,7 +123,10 @@ style={{height:100,width:100}}
 </div>
 <Button width={"100px"} type="submit" disabled = {props.isSubmitting}
    disableFocusRipple = {true}
-   disableElevation = {true}>Save</Button>
+   disableElevation = {true}>
+          {props.isSubmitting ?  <CircularProgress size = {16}/>: 'Save'}
+
+   </Button>
 </Grid>
 
     <Grid container className={classes.root} spacing={2}>

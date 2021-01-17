@@ -3,6 +3,10 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles, styled } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import React, { useEffect, useState } from 'react';
+import Grow from '@material-ui/core/Grow';
+import { useSnackbar } from 'notistack';
+import CircularProgress from "@material-ui/core/CircularProgress";
+
 import '../../../../App.css';
 import Button from '../../../../components/application/button/button';
 import { deleteAgent, fetchAgentDetail } from '../../../../helpers/NetworkRequest';
@@ -37,6 +41,9 @@ export default function AgentDetails(prop) {
   const classes = useStyles();
 const [details,setDetails] = useState({})
 const [isEditing,setEditing] = useState(false);
+const [isDeleting,setDeleting] = useState(false);
+const { enqueueSnackbar } = useSnackbar();
+
 const handleEditing = (prop) =>{
   fetchAgentDetail({id,setDetails});
   setEditing(prop);
@@ -50,8 +57,8 @@ useEffect(() => {
 }, [id])
 
 const handleDeleting = () =>{
-  deleteAgent(id);
-handleClose({makeRequest:true})
+  setDeleting(true)
+  deleteAgent({id,enqueueSnackbar,handleClose});
   }
   return (
     <>
@@ -61,9 +68,21 @@ handleClose({makeRequest:true})
             <Grid container className={classes.root} spacing={2} style={{justifyContent:'space-between',marginBottom:30}}>
 <Avatar className={classes.avatar} src={details.PicURL} />
 <div>
-<Button width={"150px"} style={{marginBottom:20}}onClick={handleEditing}>Edit Agent</Button><br></br>
-<Button width={"150px"} onClick={handleDeleting}>Delete Agent</Button>
+{Object.keys(details).length!==0 && (
+  <Grow in={Object.keys(details).length!==0} timeout={1050}>
+<>
+<Button width={"150px"} style={{marginBottom:20}} disabled = {isEditing}    disableFocusRipple = {true}
+   disableElevation = {true} onClick={handleEditing}>              {isEditing ?  <CircularProgress size = {16}/>: 'Edit Agent'}
+ </Button><br></br>
+<Button width={"150px"} onClick={handleDeleting}    disableFocusRipple = {true}
+   disableElevation = {true} disabled = {isDeleting}>
+             {isDeleting ?  <CircularProgress size = {16}/>: 'Delete Agent'}
 
+   </Button>
+</>
+
+</Grow>
+)}
 </div>
 </Grid>
 
@@ -115,12 +134,6 @@ handleClose({makeRequest:true})
 
             <StyledText variant="body2">{details.MaxHourCapacity}</StyledText>
   </Grid>
-            <Grid item style={{marginLeft:20}}>
-            <StyledText variant="subtitle1" style={{color:'grey',marginBottom:10}}>BusinessID</StyledText>
-
-            <StyledText variant="body2">{details.BusinessID}</StyledText>
-            </Grid>
-
         </Grid>
 
       </Grid>
