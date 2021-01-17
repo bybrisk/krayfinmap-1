@@ -81,5 +81,5 @@ export default function App() {
 }
 
 export const domain =
-  "http://localhost:5000";
+  "https://bybriskbackend.herokuapp.com";
   // https://bybriskbackend.herokuapp.com
