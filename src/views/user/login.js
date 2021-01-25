@@ -8,10 +8,14 @@ import { Form as FORM, Formik } from "formik";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
+import { useDispatch } from "react-redux";
+import { useSnackbar } from 'notistack';
+
 // import "./Professional.css";
 import { domain } from "../../App";
 import Logo from '../../Assets/logo.png';
 import Button from "../../components/application/button/button";
+import { loginAccount } from "../../helpers/NetworkRequest";
 import { FormContainer, FormSetter, StyledText, Wrapper } from "../../helpers/Styles";
 
 
@@ -26,54 +30,28 @@ const StyledField = styled(TextField)({
 
 const initialvalue = {
   Password: "",
-  Email: ""
+  UserName: ""
 };
 
 const validation = Yup.object({
-  Email: Yup.number()
-    .typeError("Must specify a number")
-    .positive("Please enter correct Email")
-    .required("Required")
-    .nullable(),
-  Password: Yup.string()
+  UserName: Yup.string(),
+    Password: Yup.string()
     .min(7, "Password should be min 7 characters")
     .required("Password is required")
 });
 export default function (props) {
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
   const history = useHistory();
-  const { from } = { from: { pathname: "/" } };
+const { from } = { from: { pathname: "/" } };
+const {enqueueSnackbar} = useSnackbar();
 
-  const handleSubmit = (values) => {
-    setLoading(true);
+  const handleSubmit = (values,actions) => {
+actions.setSubmitting(true)
     const article = JSON.stringify({
-      Email: values.Email,
+      UserName: values.UserName,
       Password: values.Password
     });
-
-
-    // axios.post('http://localhost:5000/register', article, { headers })
-    //     .then(data=>console.log(data))
-    //     .catch(err=>console.log(err))
-    let xhr = new XMLHttpRequest();
-    xhr.open("POST", `${domain}/signin`);
-    xhr.setRequestHeader("Content-type", "application/json; charset=utf-8");
-
-    xhr.send(article);
-
-    xhr.onload = () => {
-      const data = JSON.parse(xhr.response);
-      if (data.error) {
-        setLoading(false);
-        // notifyerror(data.error);
-      } else {
-        // notifysuccess("successfully signed in");
-        localStorage.setItem("user", JSON.stringify(data.user));
-        localStorage.setItem("token", JSON.stringify(data.token));
-        setLoading(false);
-        history.push(from);
-      }
-    };
+loginAccount({article,dispatch,history,actions,enqueueSnackbar})
   };
   return (
     <>
@@ -96,7 +74,8 @@ export default function (props) {
                   touched,
                   errors,
                   handleChange,
-                  handleBlur
+                  handleBlur,
+                  isSubmitting
                 } = props;
                 return (
                   <FORM autoComplete="true" style={{ width: "100%" }}>
@@ -109,16 +88,14 @@ export default function (props) {
                       <StyledField
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.Email}
+                        value={values.UserName}
                         variant="outlined"
                         fullWidth
                         margin="dense"
-                        type="tel"
-                        pattern="[0-9]{10}"
-                        name="Email"
-                        error={errors.Email && touched.Email ? true : false}
+                        name="UserName"
+                        error={errors.UserName && touched.UserName ? true : false}
                         helperText={
-                          errors.Email && touched.Email ? errors.Email : null
+                          errors.UserName && touched.UserName ? errors.UserName : null
                         }
                         InputLabelProps={{
             shrink: true,
@@ -169,9 +146,9 @@ export default function (props) {
                         disableElevation={true}
                         type="submit"
                         variant="outlined"
-                        disabled={loading ? true : false}
+                        disabled={isSubmitting ? true : false}
                       >
-                        {loading ? (
+                        {isSubmitting ? (
                           <CircularProgress
                             style={{
                               height: "20px",

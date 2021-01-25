@@ -1,3 +1,5 @@
+
+
 export default {
     formId: "onboardingForm",
     formField: {
@@ -10,7 +12,7 @@ export default {
       password: {
         name: "password",
         label: "Password*",
-        tip:'Set Strong Password For Your Account',
+        tip:"It contains at least 8 characters and at most 20 characters \n \v \n It contains at least one digit.  \v  \n It contains at least one upper and one lower case alphabet.\n It contains at least one special character which includes !@#$%&*()-+=^.\n It doesn’t contain any white space.",
         requiredErrorMsg: "Password is required"
       },
       email: {
@@ -31,8 +33,8 @@ export default {
         tip:'Sector in Which You Are Doing Business',
         requiredErrorMsg: "BusinessCategory is required"
       },
-      businessAddress: {
-        name: "businessAddress",
+      Address: {
+        name: "Address",
         label: "Business Address*",
         tip:'Address of Business Office',
         requiredErrorMsg: "Business Address is required"
@@ -75,6 +77,12 @@ export default {
         name: "haveDeliveryAgent",
         tip:'if delivery Agent are available',
         label: "Have Delivery Agent"
+      },
+      longitude:{
+        name: "haveDeliveryAgent",
+      },
+      latitude:{
+        name: "haveDeliveryAgent",
       }
     }
   };

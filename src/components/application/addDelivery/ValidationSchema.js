@@ -2,7 +2,7 @@ import * as Yup from "yup";
 import DeliveryModel from "./DeliveryModel";
 const {
   formField: {
-    CustomerAddress,
+    Address,
     CustomerName,
     itemWeight,
     paymentStatus,
@@ -14,7 +14,7 @@ const {
 
 export default 
   Yup.object().shape({
-    [CustomerAddress.name]: Yup.string().required(`${CustomerAddress.requiredErrorMsg}`),
+    [Address.name]: Yup.string().required(`${Address.requiredErrorMsg}`),
     [CustomerName.name]: Yup.string().required(`${CustomerName.requiredErrorMsg}`),
     [itemWeight.name]: Yup.number().required(`${itemWeight.requiredErrorMsg}`),
     [phone.name]: Yup.string().required(`${phone.requiredErrorMsg}`),

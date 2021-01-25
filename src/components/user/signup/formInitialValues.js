@@ -6,14 +6,16 @@ const {
     email,
     businessName,
     businessCategory,
-    businessAddress,
+    Address,
     delivery,
     avgWorkingHours,
     avgDeliveryTime,
     deliveryAgentRequired,
     deliveryTime,
     autoScaling,
-    haveDeliveryAgent
+    haveDeliveryAgent,
+    longitude,
+    latitude
   }
 } = RegistrationModel;
 
@@ -22,7 +24,7 @@ export default {
   [password.name]: "",
   [email.name]: "",
   [businessName.name]: "",
-  [businessAddress.name]: "",
+  [Address.name]: "",
   [businessCategory.name]: "",
   [delivery.name]: '',
   [avgWorkingHours.name]:12,
@@ -30,5 +32,7 @@ export default {
   [autoScaling.name]: false,
   [deliveryAgentRequired.name]: false,
   [deliveryTime.name]: "",
-  [haveDeliveryAgent.name]: false
+  [haveDeliveryAgent.name]: false,
+  [longitude.name]:'',
+  [latitude.name]:''
 };

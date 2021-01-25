@@ -11,9 +11,10 @@ import Loader from './components/application/Loader/Loader'
 import theme from './helpers/Theme';
 import store from "./redux/store";
 import "./App.css";
+import ReactPlace from "./helpers/reactPlace";
 
 
-
+// import 'react-google-places-autocomplete/dist/assets/index.css'
 
 const ViewApp = React.lazy(() =>
   import(/* webpackChunkName: "views-app" */ './views/app/dashboard/drawer')
@@ -29,16 +30,7 @@ const Routing = () => {
     const history = useHistory();
   
     useEffect(() => {
-      const bybId = JSON.parse(localStorage.getItem("bybId"));
-      if (bybId) {
-fetchAccountDetails({bybId,dispatch})
-        dispatch({ type: "LOG_IN", payload: true });
-        dispatch({
-          type: "ID",
-          payload:bybId
-        })
-      }
-      history.push('/dashboard')
+    fetchAccountDetails({dispatch,history})
     }, [dispatch,history]);
     return (
       <Suspense fallback={<Loader/>}>

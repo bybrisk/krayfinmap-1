@@ -22,7 +22,6 @@ export  function getComparator(order, orderBy) {
   
 export function stableSort(array, comparator) {
     const stabilizedThis = array.map((el, index) => [el, index]);
-    console.log(stabilizedThis)
     stabilizedThis.sort((a, b) => {
       const order = comparator(a[0], b[0]);
       if (order !== 0) return order;
@@ -35,7 +34,6 @@ export function search(rows,query,comparator){
 let filteredrow=rows;
   if(query){
     filteredrow  = rows.filter(item=>{
-      console.log(item._source)
   return(
     item._source.CustomerName.toLowerCase().includes(query) || item._source.CustomerAddress.toLowerCase().includes(query) || String(item._source.itemWeight).toLowerCase().includes(query) || String(item._source.paymentStatus).toLowerCase().includes(query) || item._source.phone.toLowerCase().includes(query) || item._source.deliveryStatus.toLowerCase().includes(query)
   )

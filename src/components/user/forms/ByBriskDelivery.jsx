@@ -2,6 +2,7 @@ import React from "react";
 import Checkbox from "../../../inputs/checkbox";
 import Select from "../../../inputs/select";
 import { FormSetter, StyledText } from "../../../helpers/Styles";
+import { Helmet } from "react-helmet";
 
 const DeliveryTime = [
   {
@@ -24,6 +25,11 @@ const ByBriskDelivery = (props) => {
   } = props;
   return (
     <>
+      <Helmet>
+        <title>Bybrisk Delivery</title>
+        <meta name="description" content="Details of deliveries we are going to deliver"  />
+      </Helmet>
+   
           <StyledText variant="h4">ByBrisk Delivery</StyledText>
 
 <FormSetter>

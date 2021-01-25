@@ -1,3 +1,5 @@
+@import url('react-google-places-autocomplete/dist/assets/index.css')
+
 .App {
   font-family: sans-serif;
   text-align: center;
@@ -72,7 +74,7 @@ div[aria-labelledby="Agent-detail"]>section{
 div[aria-labelledby="Deliveries"]>section{
   overflow: scroll;
 }
-div[aria-labelledby="Add-Delivery"]>section{
+div[aria-labelledby='Add Single']>section{
   overflow: scroll;
 }
 
@@ -119,4 +121,10 @@ a{
   transform: rotate(360deg);
 }
   ;
+}
+
+
+.css-yk16xz-control, .css-g1d714-ValueContainer{
+  border-radius: 60px !important;
+  height:56px;
 }

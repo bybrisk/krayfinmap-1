@@ -2,6 +2,7 @@ import React from "react";
 import Input from "../../../inputs/input";
 import Select from "../../../inputs/select";
 import { FormSetter, StyledText } from "../../../helpers/Styles";
+import { Helmet } from "react-helmet";
 
 const agentDeliveryTime = [
   {
@@ -23,6 +24,11 @@ const SelfDelivery = (props) => {
   } = props;
   return (
     <>
+      <Helmet>
+        <title>Self Delivery Details</title>
+        <meta name="description" content="Details for delivering yourself"  />
+      </Helmet>
+   
           <StyledText variant="h4">Self Delivery</StyledText>
         <FormSetter>
           <Input

@@ -19,7 +19,6 @@ export default function NativeSelects(props) {
   const classes = useStyles();
 
   const { data,value,handleChange } = props;
-console.log(props)
 
   return (
     <div>

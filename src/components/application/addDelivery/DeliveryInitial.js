@@ -2,7 +2,7 @@ import DeliveryModel from "./DeliveryModel";
 const {
   formField: {
     CustomerName,
-    CustomerAddress,
+    Address,
     paymentStatus,
     latitude,
     pincode,
@@ -14,7 +14,7 @@ const {
 
 export default {
   [CustomerName.name]: "",
-  [CustomerAddress.name]: "",
+  [Address.name]: "",
   [paymentStatus.name]: "",
   [latitude.name]: "",
   [pincode.name]: "",

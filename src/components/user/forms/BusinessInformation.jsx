@@ -2,6 +2,8 @@ import React from "react";
 import { FormSetter, StyledText } from "../../../helpers/Styles";
 import Input from "../../../inputs/input";
 import Select from "../../../inputs/select";
+import ReactPlaceInput from "../../../helpers/reactPlace"
+import { Helmet } from "react-helmet";
 
 const deliveryType = [
   {
@@ -20,11 +22,15 @@ const deliveryType = [
 
 const BusinessInformation = (props) => {
   const {
-    formField: { businessAddress, businessName, businessCategory, delivery }
+    formField: { Address, businessName, businessCategory, delivery }
   } = props;
   return (
     <>
-
+  <Helmet>
+        <title>Business Information</title>
+        <meta name="description" content="Information of your Business"  />
+      </Helmet>
+   
 <StyledText variant="h4">Business Information</StyledText>
 
         <FormSetter>
@@ -43,11 +49,12 @@ const BusinessInformation = (props) => {
 
           />
 
-          <Input
-            name={businessAddress.name}
-            label={businessAddress.label}
+          <ReactPlaceInput
+            name={Address.name}
+            label={Address.label}
             type={"text"}
-            tip={businessAddress.tip}
+            tip={Address.tip}
+            autocomplete={true}
 
           />
           <Select

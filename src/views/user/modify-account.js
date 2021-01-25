@@ -16,6 +16,7 @@ import {UpdateAccount} from '../../helpers/NetworkRequest'
 import Button from '../../components/application/button/button';
 import '../../App.css'
 import {useSelector} from 'react-redux'
+import { Helmet } from "react-helmet";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -95,7 +96,7 @@ export default function ModifyAccount(prop){
     const classes = useStyles();
     const user = useSelector(state => state.user)
     const { enqueueSnackbar } = useSnackbar();
-    const initialvalue = {
+    const initialvalue = user && user.DeliveryConfig ? {
         Address:user.Address,
         BusinessName:user.BusinessName,
         BybID:user.bybID,
@@ -107,7 +108,7 @@ export default function ModifyAccount(prop){
         Email:user.Email,
         PicURL:user.PicURL,
         UserName:user.UserName
-    }
+    }: {}
 
 
     const [pic,setFile] = React.useState(initialvalue.PicURL)
@@ -137,10 +138,16 @@ UpdateAccount({newDetails,enqueueSnackbar,close})
       }
       
     return (
+      <>
+        <Helmet>
+        <title>Modify Account</title>
+        <meta name="description" content="Modify Account details"  />
+      </Helmet>
+   
         <Wrapper className="wrapper" style={{padding:'30px 30px',justifyContent:'flex-start'}}>
         {/* Hidden on small screen size leftLogo */}
-        <div className={["flex","align-start"]}>
-          <StyledText variant="h4">Reset Your Password</StyledText>
+      {user && user.DeliveryConfig ?( <div className={["flex","align-start"]}>
+          <StyledText variant="h4">Update Account</StyledText>
 
             <Formik
               initialValues={initialvalue}
@@ -219,6 +226,12 @@ style={{height:100,width:100}}
               )}
             </Formik>
         </div>
-      </Wrapper>
+   ):(
+     <>
+       sorry their might be connection issue
+     </>
+   ) }
+          </Wrapper>
+          </>
          )
 }

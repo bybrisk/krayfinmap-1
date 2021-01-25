@@ -8,6 +8,7 @@ import Button from '../../components/application/button/button';
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {UpdatePassword} from '../../helpers/NetworkRequest'
 import {useSelector} from 'react-redux'
+import { Helmet } from "react-helmet";
 
 const initialvalue = {
     newPassword: "",
@@ -36,10 +37,16 @@ const {close} = prop;
       newPassword:values.newPassword,
       bybID:ID
     })
-  console.log(newDetails,ID)
+  // console.log(newDetails,ID)
     UpdatePassword({newDetails,enqueueSnackbar,close})
   }
     return (
+      <>
+        <Helmet>
+        <title>Reset Password</title>
+        <meta name="description" content="Reset Your Password"  />
+      </Helmet>
+   
         <Wrapper>
         {/* Hidden on small screen size leftLogo */}
         <FormContainer>
@@ -92,6 +99,7 @@ const {close} = prop;
           </FormSetter>
         </FormContainer>
       </Wrapper>
+      </>
        )
 }
 

@@ -7,6 +7,7 @@ import Input from '../../../../inputs/input';
 import Select from '../../../../inputs/select';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
+import { Helmet } from "react-helmet";
 
 import { domain } from "../../../../App";
 import { Wrapper } from "../../../../helpers/Styles";
@@ -19,7 +20,7 @@ import '../../../../App.css'
 import Button from '../../../../components/application/button/button';
 import {useSelector} from "react-redux";
 import axios from 'axios';
-const { formId, formField:{AgentName,Locality,Landmark,City,Pin,AgentID,PhoneNumber,MaxHourCapacity,MaxWeightCapacity,agentType} } = AgentModel;
+const { formId, formField:{AgentName,Locality,Landmark,City,Pin,AgentID,PhoneNumber,MaxHourCapacity,MaxWeightCapacity,agentType,PANCardNumber,TypeOfVehicle,DrivingLicenceNumber,AadharNumber} } = AgentModel;
 
 
 const useStyles = makeStyles((theme) => ({
@@ -44,20 +45,6 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const AgentTypeData = [
-  {
-    value: undefined,
-    label: "None"
-  },
-  {
-    value: "CONTRACT",
-    label: "Contract"
-  },
-  {
-    value: "DELIVERY",
-    label: "Delivery"
-  }
-];
 
 
 export default function AgentAdd(props) {
@@ -104,6 +91,12 @@ const handleChange = function loadFile(event) {
 
 
   return (
+    <>
+      <Helmet>
+        <title>Add Agent</title>
+        <meta name="description" content="Add Your Agent"  />
+      </Helmet>
+   
     <Wrapper className="wrapper" style={{padding:'30px 30px',justifyContent:'flex-start'}}
 ref={props.ref}
      >
@@ -146,7 +139,7 @@ style={{height:100,width:100}}
             <Select
             name={agentType.name}
             label={agentType.label}
-            data={AgentTypeData}
+            data={agentType.data}
             style={{minWidth:300}}
             tip={agentType.tip}
 
@@ -188,6 +181,31 @@ style={{height:100,width:100}}
 
         </Grid>
 
+        <Grid container justify="left" spacing={4}>
+            <Grid item style={{marginLeft:20}}>
+<Input name={AadharNumber.name} tip={AadharNumber.tip} label={AadharNumber.label} type="number" style={{minWidth:300}}/>
+            </Grid>
+            <Grid item style={{marginLeft:20}}>
+            <Input name={DrivingLicenceNumber.name} tip={DrivingLicenceNumber.tip} label={DrivingLicenceNumber.label} type="number"  style={{minWidth:300}}/>
+  </Grid>
+          
+        </Grid>
+        <Grid container justify="left" spacing={4}>
+        <Grid item style={{marginLeft:20}}>
+            <Input name={PANCardNumber.name} tip={PANCardNumber.tip} label={PANCardNumber.label}  style={{minWidth:300}}/>
+            </Grid>
+   <Grid item style={{marginLeft:20}}>
+   <Select
+            name={TypeOfVehicle.name}
+            label={TypeOfVehicle.label}
+            data={TypeOfVehicle.data}
+            style={{minWidth:300}}
+            tip={TypeOfVehicle.tip}
+
+          />            </Grid>
+
+        </Grid>
+
       </Grid>
     </Grid>
 
@@ -200,5 +218,6 @@ style={{height:100,width:100}}
     </Formik>
     </div>
     </Wrapper>
+    </>
   );
 }

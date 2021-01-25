@@ -15,6 +15,7 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import SearchIcon from "@material-ui/icons/Search";
 import React,{useRef} from "react";
 import {useSelector} from 'react-redux';
+import ButtonDropdown from './buttonDropdown'
 import ReactButton from "../../application/button/button";
 import AddDelivery from '../../../views/app/application/delivery/addDeivery'
 import '../../../App.css'
@@ -57,7 +58,7 @@ const useToolbarStyles = makeStyles((theme) => ({
     flex: "1 1 100%",
     textAlign:'left',
     [theme.breakpoints.down("xs")]: {
-      marginBottom:10  
+      marginBottom:30
       }
   
   },
@@ -157,43 +158,8 @@ const refresh = useRef(null)
       <Toolbar style={{ flexDirection: "column" }}>
         <div className={classes.root}>
           <Typography variant="h5" className={classes.title}>Deliveries</Typography>
-          <ReactButton
-            width={"140px"}
-            style={{
-            }}
-            onClick={handleOpen}
-            className={classes.reactbutton}
-          >
-            Add Delivery <AddIcon style={{ fontSize: "25px", marginTop: "4px" }} />
-          </ReactButton>
-          <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="Add-Delivery"
-            aria-describedby="Add-Delivery"
-            closeAfterTransition
-            BackdropComponent={Backdrop}
-            BackdropProps={{
-              timeout: 400
-            }}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              flexDirection: "column",
-              background: "#ffffff"
-            }}
-          >
-            <Grow in={open} timeout={250}>
-              <section
-                style={{ background: "#ffffff", width: "100%", height: "100%" }}
-              >
-                 <div style={{fontSize:40,textAlign:'right',padding:'0 30px',margin:0}}>    <span style={{cursor:'pointer'}} onClick={handleClose} >x</span>
-</div> <AddDelivery closeModal={handleClose} />
-              </section>
-            </Grow>
-          </Modal>
-        </div>
+      <ButtonDropdown />
+         </div>
         {deliveryFilter && (
           <Grow in={deliveryFilter} timeout={250}>
  <section style={{display:'flex',width:'100%',alignItems:'center',marginBottom:10}}>

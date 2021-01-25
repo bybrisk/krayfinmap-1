@@ -1,8 +1,8 @@
 export default {
     formId: "DeliveryForm",
     formField: {
-        CustomerAddress: {
-        name: "CustomerAddress",
+      Address: {
+        name: "Address",
         label: "Address*",
         requiredErrorMsg: "Address is required",
         tip:'Address where This Delivery Should GO'

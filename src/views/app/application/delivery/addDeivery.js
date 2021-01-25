@@ -2,6 +2,8 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSnackbar } from 'notistack';
 import CircularProgress from '@material-ui/core/CircularProgress'
+import ReactPlaceInput from "../../../../helpers/reactPlace"
+import { Helmet } from "react-helmet";
 
 import Grid from '@material-ui/core/Grid';
 import Input from '../../../../inputs/input';
@@ -22,7 +24,7 @@ import '../../../../App.css'
 import Button from '../../../../components/application/button/button';
 import {useSelector} from "react-redux";
 import axios from 'axios';
-const { formId, formField:{CustomerName,CustomerAddress,pincode,phone,itemWeight,paymentStatus,deliveryStatus} } = DeliveryModel;
+const { formId, formField:{CustomerName,Address,pincode,phone,itemWeight,paymentStatus,deliveryStatus} } = DeliveryModel;
 
 
 
@@ -86,7 +88,7 @@ const user = useSelector(state => state.user)
 
   function _handleSubmit(values,actions) {
     const article = JSON.stringify({
-      CustomerAddress: values.CustomerAddress,
+      CustomerAddress: values.Address,
       itemWeight: values.itemWeight,
       phone: values.phone,
       CustomerName: values.CustomerName,
@@ -101,6 +103,13 @@ const user = useSelector(state => state.user)
 
 
   return (
+   <>
+          <Helmet>
+        <title>Add Delivery</title>
+        <meta name="description" content="Add New Delivery" />
+        <meta name="keywords" cpntent="Adding Delivery, Delivery, bybrisk, krayfinmap" />
+      </Helmet>
+
     <Wrapper className="wrapper" style={{padding:'30px 30px',justifyContent:'flex-start'}}
 ref={props.ref}
      >
@@ -152,7 +161,14 @@ style={{height:100,width:100}}
         <Grid container justify="left" spacing={4}>
         <Grid item style={{marginLeft:20,width:'100%'}}>
 
-            <Input name={CustomerAddress.name} tip={CustomerAddress.tip} label={CustomerAddress.label}  style={{minWidth:300}}/>
+        <ReactPlaceInput
+            name={Address.name}
+            label={Address.label}
+            type={"text"}
+            tip={Address.tip}
+            autocomplete={true}
+
+          />
 </Grid>
     </Grid>
         <Grid container justify="left" spacing={4}>
@@ -186,5 +202,5 @@ style={{height:100,width:100}}
     </Formik>
     </div>
     </Wrapper>
-  );
+    </> );
 }

@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import '../../../../App.css';
 import { Wrapper } from "../../../../helpers/Styles";
 import {fetchDeliveryDetails} from '../../../../helpers/NetworkRequest'
+import { Helmet } from "react-helmet";
 
 const StyledText = styled(Typography)({
     minWidth:250,
@@ -43,7 +44,10 @@ useEffect(() => {
 
   return (
     <>
-   
+     <Helmet>
+        <title>Delivery Details</title>
+        <meta name="description" content="Delivery Details"  />
+      </Helmet>
    <Wrapper className="wrapper" style={{padding:'30px 30px',justifyContent:'flex-start'}}>
     <div className={["flex","align-start"]}>
             <Grid container className={classes.root} spacing={2} style={{justifyContent:'space-between',marginBottom:30}}>

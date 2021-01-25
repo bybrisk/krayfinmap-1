@@ -1,13 +1,19 @@
 import axios from 'axios'
-import { setLoading } from '../constants/Redux'
-const domain = 'https://bybriskbackend.herokuapp.com'
-// https://bybriskbackend.herokuapp.com
+const API = axios.create({
+    baseURL:"http://localhost:5000",
+    withCredentials:true,
+    credentials:"include"
+})
 
-//Agent Start
+//add agent
 export async function AddAgent(props){
     const {article,actions,closeModal,enqueueSnackbar} = props;
-axios.post (`${domain}/agents/addAgent`,{article}).then(response=>{
-    actions.setSubmitting(false);
+    try{
+        const config = {headers:{"Content-Type": "application/json"}}
+const body = article
+
+        await API.post("/agents/addAgent",body,config);
+        actions.setSubmitting(false);
 
         closeModal({makeRequest:true})
         enqueueSnackbar('Agent Added Succesfully',{
@@ -15,190 +21,306 @@ axios.post (`${domain}/agents/addAgent`,{article}).then(response=>{
             autoHideDuration: 2000,
         });
 
-    })
+    }
+    catch(e){
+        
+    }
   
 }
 
+//fetch agents
 export async function fetchAgents(props){
-    const response = await axios ({
-        url: `${domain}/agents/fetchAgents?bybid=${props.bybId}`,
-        method: "GET"
-    })
-    if(response.data.result!==null){
-        props.setAgents(response.data.result);
+const {bybId, setAgents} = props;
+    try{
+        const res = await API.get(`/agents/fetchAgents?bybid=${bybId}`);
+console.log(res)
+      res.data.result!==null && setAgents(res.data.result)
+    }
+    catch(err){
+        
     }
     
-
 }
 
+
+//fetch agent details
 export async function fetchAgentDetail(props){
-	const response = await axios ({
-        url: `${domain}/agents/fetchAgentDetails?id=${props.id}`,
+const {id,setDetails} = props;
+    try{
+        const res = await API.get(`/agents/fetchAgentDetails?id=${id}`);
+console.log(res)
+      res.data.result!==null && setDetails(res.data)
+  
+    }
+    catch(e){
 
-        method: "GET"
-    })
-        props.setDetails(response.data);
-    
+    }
 }
 
+
+//modify agent
 export async function modifyAgent(props){
     const {article,actions,setEditing,enqueueSnackbar} = props;
-    console.log("called")
+try{
+    const config = {headers:{"Content-Type": "application/json"}}
+    const body = article
+    
+         const res = await API.post("/agents/modifyAgent",body,config);
+            actions.setSubmitting(false);
+            enqueueSnackbar(res.data.message,{
+                variant: 'success',
+                autoHideDuration: 2000,
+            });
+            setEditing(false)
 
-    axios.post(`${domain}/agents/modifyAgent`,{article})
-    .then(response=>{
-        actions.setSubmitting(false);
-        setEditing(false)
-        enqueueSnackbar(response.data.message,{
-            variant: 'success',
-            autoHideDuration: 2000,
-        });
-    });
+}
+catch(e){
+
+}
 }
 
+//delete agent
 export async function deleteAgent(props){
     const {enqueueSnackbar,id,handleClose} = props;
-    await axios ({
-        url: `${domain}/agents/delteAgent?id=${id}`,
-        method: "GET"
-    }).then(response=>{
-        handleClose({makeRequest:true})
-        enqueueSnackbar('Agent Deleted Succesfully',{
-            variant: 'success',
-            autoHideDuration: 2000,
-        });
-    
-    })
-    
+    try{
+        const res = await API.get(`/agents/delteAgent?id=${id}`);
+console.log(res)
+handleClose({makeRequest:true})
+enqueueSnackbar('Agent Deleted Succesfully',{
+    variant: 'success',
+    autoHideDuration: 2000,
+});
 
+    }
+    catch(e){
+
+    }
 }
 //Agent Ends
 
 //Delivery Starts
+
+//add delivery
 export async function AddDelivery(props){
     const {article,actions,closeModal,enqueueSnackbar} = props;
+    try{
+        const config = {headers:{"Content-Type": "application/json"}}
+        const body = article
+        
+             await API.post("/delivery/addDelivery",body,config);
+           actions && actions.setSubmitting(false);
 
-    axios.post(`${domain}/delivery/addDelivery`,{article})
-    .then(response=>{
-        actions.setSubmitting(false);
+           closeModal && closeModal({makeRequest:true})
+           enqueueSnackbar && enqueueSnackbar('Delivery Added Succesfully',{
+                 variant: 'success',
+                 autoHideDuration: 2000,
+             });
+             return;
+         }
+    catch(e){
+    
+    }
+    }
 
-        closeModal({makeRequest:true})
-        enqueueSnackbar('Delivery Added Succesfully',{
-            variant: 'success',
-            autoHideDuration: 2000,
-        });
-    });
-}
-
+    //fetch deliveryDetails
 export async function fetchDeliveryDetails(props){
 const {id,setDetails} = props;
-    const response = await axios ({
-        url: `${domain}/delivery/deliveryDetail?id=${id}`,
-
-        method: "GET"
-    })
-    setDetails(response.data);
-console.log(response)    
+try{
+    const res = await API.get(`/delivery/deliveryDetail?id=${id}`);
+console.log(res)
+  res.data!==null &&     setDetails(res.data);
+}
+catch(err){
+    
 }
 
+  
+}
+
+//fetch deliveries
 export async function fetchDeliveries(props){
-    const response = await axios ({
-        url: `${domain}/delivery/fetchDeliveries?bybid=${props.bybId}`,
-        method: "GET"
-    })
-    if(response.data.result!==null){
-        console.log(response.data.hits.hits)
-        props.setDelivery(response.data.hits.hits);
+    const {bybId,setDelivery} = props;
+    try{
+        const res = await API.get(`/delivery/fetchDeliveries?bybid=${bybId}`);
+    console.log(res)
+      res.data.hits.hits!==null &&     setDelivery(res.data.hits.hits);
     }
-}
+    catch(err){
+        
+    }
+    }
 
+
+//modify status
 export async function modifyStatus(props){
     const {param,setDelivery} = props
-    console.log(props,"-----------------props")
-    axios.post(`${domain}/delivery/modifyStatus`,{param:JSON.stringify(param)})
-    .then(response=>{
-
-fetchDeliveries({bybId:param.BybID,setDelivery})
-    });
+    try{
+        const config = {headers:{"Content-Type": "application/json"}}
+        const body = JSON.stringify(param)
+        
+            await API.post("/delivery/modifyStatus",body,config);
+             fetchDeliveries({bybId:param.BybID,setDelivery})
+    
+    }
+    catch(e){
+    
+    }
     
 }
 
 //Delivery ends
 
 //OnBoarding Starts
+
+//create account
 export async function CreateAccount(prop){
     const {article,dispatch,history,actions,enqueueSnackbar} = prop;
-    axios.post(`${domain}/onboarding/createAccount`,{article})
-    .then(response=>{
-        localStorage.setItem("user", JSON.stringify(article));
-        localStorage.setItem("bybId", JSON.stringify(response.data.bybID));
+    console.log(article,"----------------article")
+  
+    try{
+const config = {headers:{"Content-Type": "application/json"}}
+const body = article
+await API.post("/onboarding/createAccount",body,config);
+
+  fetchAccountDetails({dispatch,history,actions,enqueueSnackbar})
+
+    }
+    catch(err){
+console.log(err.response.data.message)
+    }
+  
+}
+
+//fetch account details
+export async function fetchAccountDetails(props){
+    const {dispatch,history,actions,enqueueSnackbar} = props;
+    try{
+        const res = await API.get("/onboarding/fetchAccountDetails");
+        console.log(res)
         dispatch({
-            type: "LOG_IN",
-            payload: true
-          });
-          dispatch({
             type: "ID",
-            payload: response.data.bybID
+            payload: res.data.bybid
           });
-          dispatch({
-            type: "USER",
-            payload: article
-          });
-          actions.setSubmitting(false);
-          history.push("/dashboard");
-            
-        enqueueSnackbar('Account Created Succesfully',{
+        dispatch({type:'USER',payload:res.data.user});
+        dispatch({ type: "LOG_IN", payload: true });
+        enqueueSnackbar && (        enqueueSnackbar('Logined Succesfully',{
             variant: 'success',
             autoHideDuration: 2000,
-        });
-
-        return response;
-    });
-}
-export async function fetchAccountDetails(props){
-    const {bybId,dispatch} = props;
-        const response = await axios ({
-            url: `${domain}/onboarding/fetchAccountDetails/?id=${bybId}`,
+        }))
+        actions && actions.setSubmitting(false);
+        history && history.push('/dashboard')
     
-            method: "GET"
-        })
-        dispatch({type:'USER',payload:response.data});
-    console.log(response)    
-    return;
+    }
+    catch(err){
+        history && history.push('/')
+        
+console.log(err.response)
+    }
+       
     }
 
+
+//login account
+export async function loginAccount(props){
+    const {article,dispatch,history,actions,enqueueSnackbar} = props;
+    try{
+        const config = {headers:{"Content-Type": "application/json"}}
+        const body = article
+        
+             const res = await API.post("/onboarding/loginAccount",body,config);
+           if(res.data.bybid==="Denied"){
+            enqueueSnackbar('Invalid Details',{
+                variant: 'error',
+                autoHideDuration: 2000,
+            })
+           }
+           else{  console.log(res);
+             dispatch({type:'ID',payload:res.data.bybid});
+             dispatch({type:'USER',payload:res.data.user});
+             dispatch({type:'LOG_IN',payload:true});
+             actions.setSubmitting(false);
+
+             enqueueSnackbar('Logined Succesfully',{
+                 variant: 'success',
+                 autoHideDuration: 2000,
+             })
+     
+             history.push('/dashboard')
+     } 
+     actions.setSubmitting(false);
+
+    }
+    catch(e){
+    
+    }
+    
+    }
+
+
+//update account
 export async function UpdateAccount(prop){
+    
     const {newDetails,enqueueSnackbar,close} = prop;
-    axios.post(`${domain}/onboarding/updateAccount`,{newDetails})
-    .then(response=>{
-        close();
-        enqueueSnackbar('Account Password Changed',{
-            variant: 'success',
-            autoHideDuration: 2000,
-        });
-return;
-    });
+    try{
+        const config = {headers:{"Content-Type": "application/json"}}
+        const body = newDetails
+            await API.post("/onboarding/updateAccount",body,config);
+                enqueueSnackbar('Account Password Changed',{
+                    variant: 'success',
+                    autoHideDuration: 2000,
+                });
+                close();
+    
+    }
+    catch(e){
+    
+    }
+    
 }
 
+//is user name available
+export async function IsUsernameAvailable(props){
+    try{
+        const res = await API.get(`/onboarding/usernameAvailable?username=${props.username}`);
+console.log(res)
+return res.data.IsPresent
+}
+    catch(err){
+        
+    }
+}
+
+//logout
+export async function logout(props){
+
+    try{
+const res = await API.get(`/onboarding/logout`);
+console.log(res)
+props.history.push('/')
+    }
+    catch(err){
+        
+    }
+}
+
+//update password
 export async function UpdatePassword(props){
     const {newDetails,enqueueSnackbar,close} = props;
-    axios.post(`${domain}/onboarding/updatePassword`,{newDetails})
-    .then(response=>{
-        close();
-        enqueueSnackbar('Account Updated Succesfully',{
-            variant: 'success',
-            autoHideDuration: 2000,
-        });
-return;
-    });
+    try{
+        const config = {headers:{"Content-Type": "application/json"}}
+        const body = newDetails
+        
+             await API.post("/onboarding/updatePassword",body,config);
+             close();
+             enqueueSnackbar('Account Updated Succesfully',{
+                    variant: 'success',
+                    autoHideDuration: 2000,
+                });
+    
+    }
+    catch(e){
+    
+    }
+    
 }
-//OnBoarding Ends
-
-// export async function UpdatePassword(param){
-//     axios.post(`${domain}/onboarding/updatePassword`,{param})
-//     .then(response=>{
-//         console.log(response);
-//         return response;
-//     });
-// }
 

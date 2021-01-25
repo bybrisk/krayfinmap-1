@@ -2,7 +2,7 @@ import {
   CircularProgress, Typography
 } from "@material-ui/core";
 import axios from 'axios';
-import { Form, Formik } from "formik";
+import { Form, Formik} from "formik";
 import React, {
   useState
 } from "react";
@@ -21,7 +21,7 @@ import Signup from "../../components/user/forms/Signup";
 import formInitialValues from "../../components/user/signup/formInitialValues";
 import RegistrationModel from "../../components/user/signup/registrationModel";
 import validationSchema from "../../components/user/signup/validationSchema";
-import {CreateAccount} from '../../helpers/NetworkRequest'
+import {CreateAccount, IsUsernameAvailable} from '../../helpers/NetworkRequest'
 import {
   FormContainer,
   Wrapper
@@ -84,20 +84,35 @@ import {
         AutoScaling: values.autoScaling,
         BybriskDelivery: (values.delivery === 'bybrisk' ? true : false),
         InstantDelivery: values.deliveryTime === '24' ? false : true,
-        BusinessPlan: "1"
+        BusinessPlan: "1",
+        longitude:values.longitude,
+        latitude:values.latitude
       });
   
       CreateAccount({article,dispatch,history,actions,enqueueSnackbar})
    
     }
   
-    function _handleSubmit(values, actions) {
-      if (isLastStep) {
+  async function _handleSubmit(values, actions) {
+    actions.setSubmitting(true);
+    if (isLastStep) {
         _submitForm(values, actions);
-      } else {
-        setActiveStep(activeStep + 1);
-        actions.setTouched({});
+        return;
+      } 
+      else if(activeStep===0 && await IsUsernameAvailable({username:values.username})){
+        actions.setErrors({username:"Username already Exist"})
         actions.setSubmitting(false);
+
+      }
+      else
+      {
+  setActiveStep(activeStep + 1);
+  console.log(activeStep)
+
+  actions.setTouched({});
+        actions.setSubmitting(false);
+
+        
       }
     }
   
@@ -114,9 +129,8 @@ import {
         <Formik initialValues = {formInitialValues}
   validationSchema = {currentValidationSchema}
   onSubmit = {_handleSubmit} >
-  
-  {(props) => (
-    
+
+  {(props) => (    
     <Form id={formId} style = {{
          width: '100%',
          display: 'flex',
@@ -125,7 +139,6 @@ import {
          flexDirection: 'column'
        }} > 
        {_renderStepContent(activeStep, props.values)} 
-     
        <div style = {{
          width: "100%",
          display: "flex",
@@ -139,6 +152,7 @@ import {
      type = "submit"
      variant = "outlined"
      fullwidth > 
+     {}
      {props.isSubmitting ?  <CircularProgress size = {24}/> :(isLastStep ? 'Complete Signup' : 'Continue')}
       </Button> 
       

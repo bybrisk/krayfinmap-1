@@ -35,7 +35,21 @@ export default {
         name: "agentType",
         label: "Agent Type*",
         requiredErrorMsg: "Agent Type is required",
-        tip:'Agent work basis'
+        tip:'Agent work basis',
+        data:[
+          {
+            value: undefined,
+            label: "None"
+          },
+          {
+            value: "CONTRACT",
+            label: "Contract"
+          },
+          {
+            value: "DELIVERY",
+            label: "Delivery"
+          }
+        ]
       },
       PhoneNumber: {
         name: "PhoneNumber",
@@ -65,6 +79,51 @@ export default {
         requiredErrorMsg: "Agent ID is required",
         tip:'unique Id you want to give to Agent'
       },
+      AadharNumber:{
+        name: "AadharNumber",
+        label: "Aadhar Number*",
+        requiredErrorMsg: "Aadhar Number is required",
+        tip:'Aadhar Number of Agent'
+
+      },
+      DrivingLicenceNumber:{
+        name: "DrivingLicenceNumber",
+        label: "Driving Licence Number*",
+        requiredErrorMsg: "Driving Licence Number is required",
+        tip:'Driving Licence Number of Agent'
+      },
+      TypeOfVehicle:{
+        name: "TypeOfVehicle",
+        label: "Vehicle Type*",
+        requiredErrorMsg: "Vehicle Type is required",
+        tip:'Type Of Vehicle Given to Agent',
+        data:[
+          {
+            value: undefined,
+            label: "None"
+          },
+          {
+            value: "TWO WHEELER",
+            label: "Bike"
+          },
+          {
+            value: "VAN",
+            label: "Van"
+          },
+          {
+            value: "TRUCK",
+            label: "Truck"
+          },
+          {
+            value: "MINI TRUCK",
+            label: "Mini Truck"
+          }        ]
+      },
+      PANCardNumber:{
+        name: "PANCardNumber",
+        label: "PAN Card Number*",
+        tip:'PAN Number of Agent'
+      }
   }
   };
   

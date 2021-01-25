@@ -12,6 +12,7 @@ import Button from '../../../../components/application/button/button';
 import { deleteAgent, fetchAgentDetail } from '../../../../helpers/NetworkRequest';
 import { Wrapper } from "../../../../helpers/Styles";
 import EditAgent from './addAgent';
+import { Helmet } from "react-helmet";
 
 const StyledText = styled(Typography)({
     minWidth:250,
@@ -62,6 +63,11 @@ const handleDeleting = () =>{
   }
   return (
     <>
+      <Helmet>
+        <title>Agent Details</title>
+        <meta name="description" content="Agent Details"  />
+      </Helmet>
+   
    {isEditing? (<EditAgent values={details} setEditing={handleEditing} />):(
    <Wrapper className="wrapper" style={{padding:'30px 30px',justifyContent:'flex-start'}}>
     <div className={["flex","align-start"]}>

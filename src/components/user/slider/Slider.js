@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import Logo from '../../../Assets/logo.png';
 import Login from '../../../views/user/login';
 import Signup from '../../../views/user/register';
+import { Helmet } from "react-helmet";
 import "./Slider.css";
 
 
@@ -18,6 +19,13 @@ const Slider = () => {
     // console.log()
   };
   return (
+    <>
+          <Helmet>
+        <title>Login or Register</title>
+        <meta name="description" content="Login to your account or create a new account" />
+        <meta name="keywords" cpntent="login,register,signin,signup,bybrisk,krayfinmap" />
+      </Helmet>
+
     <div class="sliderContainer">
     <div class="logincontainer" id="container" ref={signupcontainer}>
       <div class="form-container sign-up-container">
@@ -45,7 +53,7 @@ const Slider = () => {
       </div>
     </div>
     </div>
-  );
+    </> );
 };
 
 export default Slider;

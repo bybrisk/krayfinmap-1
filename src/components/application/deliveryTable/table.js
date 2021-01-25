@@ -3,6 +3,7 @@ import React,{useEffect,useRef} from 'react';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSnackbar } from 'notistack';
+import { Helmet } from "react-helmet";
 
 //dependecies for table
 import Table from '@material-ui/core/Table';
@@ -40,7 +41,10 @@ const pending = [
     value: "Transit",
     label: "Transit",
     color:'blue'
-  }
+  },
+    {    value: "Cancelled",
+  label: "Cancelled",
+  color:'red'}
 ]
 const transit = [
   {
@@ -191,6 +195,11 @@ return () => {
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
   return (
     <>
+     <Helmet>
+        <title>Deliveries</title>
+        <meta name="description" content="List of Deliveries of your account"  />
+      </Helmet>
+ 
     <div className={classes.root}>
       <Paper className={classes.paper}>
         <Toolbar setQuery={handleQuery} query={query} handleDelivery={handleDelivery}/>

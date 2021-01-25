@@ -1,5 +1,7 @@
 import * as Yup from "yup";
+import axios from 'axios'
 import RegistrationModel from "./registrationModel";
+import { IsUsernameAvailable } from "../../../helpers/NetworkRequest";
 const {
   formField: {
     username,
@@ -7,7 +9,7 @@ const {
     email,
     businessName,
     businessCategory,
-    businessAddress,
+    Address,
     avgWorkingHours    // deliveryAgentRequired,
     // deliveryTime,
     // autoScaling
@@ -15,25 +17,26 @@ const {
 } = RegistrationModel;
 
 
+
 export default [
   Yup.object().shape({
-    [username.name]: Yup.string().required(`${username.requiredErrorMsg}`),
-    [password.name]: Yup.string().required(`${password.requiredErrorMsg}`),
-    [email.name]: Yup.string().required(`${email.requiredErrorMsg}`)
+    [username.name]: Yup.string().min(3,"min 3 characters").max(15,"max 11 characters")
+    .required(`${username.requiredErrorMsg}`),
+    [password.name]: Yup.string().min(8,"Min 8 characters required").required(`${password.requiredErrorMsg}`),
+    [email.name]: Yup.string().email("Must be a valid email").required(`${email.requiredErrorMsg}`)
   }),
   Yup.object().shape({
     [businessName.name]: Yup.string()
-      .nullable()
+      .min(3,"min 3 characters required")
       .required(`${businessName.requiredErrorMsg}`),
     [businessCategory.name]: Yup.string().required(
       `${businessCategory.requiredErrorMsg}`
     ),
-    [businessAddress.name]: Yup.string()
-      .nullable()
-      .required(`${businessAddress.requiredErrorMsg}`)
+    [Address.name]: Yup.string()
+      .required(`${Address.requiredErrorMsg}`)
   }),
   Yup.object().shape({
-[avgWorkingHours.name]:Yup.number().required(`${avgWorkingHours.requiredErrorMsg}`)
+[avgWorkingHours.name]:Yup.number().max(24,"should be in hours/day").required(`${avgWorkingHours.requiredErrorMsg}`)
   })
 ];
 

@@ -3,6 +3,8 @@ import Avatar from '@material-ui/core/Avatar';
 import Backdrop from '@material-ui/core/Backdrop';
 import red from '@material-ui/core/colors/indigo';
 import Grow from '@material-ui/core/Grow';
+import { Helmet } from "react-helmet";
+
 //dependencies for modal
 import Modal from "@material-ui/core/Modal";
 import Paper from '@material-ui/core/Paper';
@@ -118,7 +120,11 @@ handleAgent();
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
   return (
     <>
-  
+   <Helmet>
+        <title>Agents</title>
+        <meta name="description" content="List of Agents Delivering your deliveries"  />
+      </Helmet>
+ 
     <div className={classes.root}>
       <Paper className={classes.paper}>
         <EnhancedTableToolbar  handleAgent={handleAgent}/>
