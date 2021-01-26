@@ -1,5 +1,9 @@
 import React,{useState} from 'react';
-import CircularProgress from '@material-ui/core/CircularProgress'
+import PropTypes from 'prop-types';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+
 import Grid from '@material-ui/core/Grid';
 import { Wrapper } from "../../../helpers/Styles";
 import { useSnackbar } from 'notistack';
@@ -12,17 +16,47 @@ import {useSelector} from "react-redux";
 import {AddDelivery} from '../../../helpers/NetworkRequest'
 import '../../../App.css'
 
+function CircularProgressWithLabel(props) {
+  return (
+    <Box position="relative" display="inline-flex">
+      <CircularProgress variant="determinate" {...props} />
+      <Box
+        top={0}
+        left={0}
+        bottom={0}
+        right={0}
+        position="absolute"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+      >
+        <Typography variant="caption" component="div" style={{color:'#ffffff'}}>{`${Math.round(
+          props.value,
+        )}%`}</Typography>
+      </Box>
+    </Box>
+  );
+}
+
+CircularProgressWithLabel.propTypes = {
+  /**
+   * The value of the progress indicator for the determinate variant.
+   * Value between 0 and 100.
+   */
+  value: PropTypes.number.isRequired,
+};
+
 
 
 
 const AddMultiple = (props) =>{
+  const [progress, setProgress] = React.useState(0);
   const { enqueueSnackbar } = useSnackbar();
 const [loader,setLoader] = useState(false)
   const bybId = useSelector(state => state.bybId)
   const {closeModal} = props;
 
   const FinalStep = async (data) =>{
-    setLoader(true);
 for(let i=0;i<data.length;i++){
   const article = JSON.stringify({
     CustomerAddress: data[i]["Customer Address"],
@@ -34,7 +68,7 @@ for(let i=0;i<data.length;i++){
   });
 await AddDelivery({article})
 
-
+setProgress((i/data.length)*100);
 }
 setLoader(false);
 enqueueSnackbar('Delivery Added Succesfully',{
@@ -47,6 +81,8 @@ closeModal({makeRequest:true});
 
 
     const readExcel = (file) =>{
+      setLoader(true);
+
         const promise = new Promise((resolve,reject)=>
         {
     const fileReader = new FileReader()
@@ -89,11 +125,11 @@ closeModal({makeRequest:true});
     margin:'0',
     padding:'1rem',
     width:'300px',
-    height:'3.3rem',
+    height:'3.5rem',
     textAlign:'center',
     cursor:'pointer'
 }}>
-          {!loader?"Upload Excel File":(<CircularProgress size = {16}/>)}
+          {!loader?"Upload Excel File":(<CircularProgressWithLabel value={progress}/>)}
 </div>
             </label>
 

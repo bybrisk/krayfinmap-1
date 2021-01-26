@@ -2,23 +2,29 @@ import DeliveryModel from "./DeliveryModel";
 const {
   formField: {
     CustomerName,
-    Address,
+    Locality,
+    Landmark,
+    City,
     paymentStatus,
     latitude,
     pincode,
     longitude,
     phone,
     itemWeight,
+    PendingAmount
   }
 } = DeliveryModel;
 
 export default {
   [CustomerName.name]: "",
-  [Address.name]: "",
-  [paymentStatus.name]: "",
+  [Locality.name]: "",
+  [Landmark.name]: "",
+  [City.name]: "",
+  [paymentStatus.name]:false,
   [latitude.name]: "",
   [pincode.name]: "",
   [longitude.name]: "",
   [phone.name]: "",
   [itemWeight.name]: "",
+[PendingAmount.name]: ""
 };

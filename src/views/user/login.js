@@ -80,7 +80,7 @@ loginAccount({article,dispatch,history,actions,enqueueSnackbar})
                 return (
                   <FORM autoComplete="true" style={{ width: "100%" }}>
                     <div className="container">
-                    <InputLabel htmlFor="input-with-icon-adornment">Email ID
+                    <InputLabel htmlFor="input-with-icon-adornment">User Name
             {/* <Tooltip title={tip} placement="right">
 <HelpOutlineIcon style={{fontSize:'.9rem',marginLeft:5}}/>
             </Tooltip> */}

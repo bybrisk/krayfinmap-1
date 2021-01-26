@@ -24,7 +24,7 @@ import '../../../../App.css'
 import Button from '../../../../components/application/button/button';
 import {useSelector} from "react-redux";
 import axios from 'axios';
-const { formId, formField:{CustomerName,Address,pincode,phone,itemWeight,paymentStatus,deliveryStatus} } = DeliveryModel;
+const { formId, formField:{CustomerName,pincode,phone,itemWeight,paymentStatus,Locality,Landmark,City,PendingAmount} } = DeliveryModel;
 
 
 
@@ -88,7 +88,7 @@ const user = useSelector(state => state.user)
 
   function _handleSubmit(values,actions) {
     const article = JSON.stringify({
-      CustomerAddress: values.Address,
+      CustomerAddress: values.Locality + " " + values.Landmark + " " + values.City,
       itemWeight: values.itemWeight,
       phone: values.phone,
       CustomerName: values.CustomerName,
@@ -159,16 +159,14 @@ style={{height:100,width:100}}
         </Grid>
 
         <Grid container justify="left" spacing={4}>
-        <Grid item style={{marginLeft:20,width:'100%'}}>
-
-        <ReactPlaceInput
-            name={Address.name}
-            label={Address.label}
-            type={"text"}
-            tip={Address.tip}
-            autocomplete={true}
-
-          />
+        <Grid item style={{marginLeft:20}}>
+        <Input name={Locality.name} tip={Locality.tip} label={Locality.label} type="text"  style={{minWidth:300}}/>
+</Grid>
+        <Grid item style={{marginLeft:20}}>
+        <Input name={Landmark.name} tip={Landmark.tip} label={Landmark.label} type="text"  style={{minWidth:300}}/>
+</Grid>
+        <Grid item style={{marginLeft:20}}>
+        <Input name={City.name} tip={City.tip} label={City.label} type="text"  style={{minWidth:300}}/>
 </Grid>
     </Grid>
         <Grid container justify="left" spacing={4}>
@@ -186,6 +184,11 @@ style={{height:100,width:100}}
   </Grid>
   <Grid item style={{marginLeft:20,alignItems:"center",justifyContent:"center",display:"flex"}}>
             <CheckBox name={paymentStatus.name} tip={paymentStatus.tip} label={paymentStatus.label}  style={{minWidth:300}}/>
+  </Grid>
+  <Grid item style={{marginLeft:20,alignItems:"center",justifyContent:"center",display:"flex"}}>
+  {console.log(props.values.paymentStatus)}
+  <Input name={PendingAmount.name} variant={!props.values.paymentStatus?"outlined":"filled"} disabled={props.values.paymentStatus} tip={PendingAmount.tip}label={PendingAmount.label} type="text"  style={{minWidth:300}}/>
+
   </Grid>
 
         </Grid>

@@ -90,7 +90,7 @@ const user = useSelector(state => state.user)
       </div>
       <List>
       <Divider style={{background:'white'}}/>
-      <div style={{textAlign:'left',padding:10,color:"yellow"}}><Typography variant="h6">hey {user.UserName} </Typography></div>
+      <div style={{textAlign:'left',padding:10,color:"yellow"}}><Typography variant="h6">Hi, {user.UserName} </Typography></div>
 
       <Accordion/>
       <Divider style={{background:'white'}}/>

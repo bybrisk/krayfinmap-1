@@ -1,4 +1,4 @@
-import React, { useRef, useEffect,useState} from "react";
+import React, { useRef, useEffect,useState, Suspense} from "react";
 import Avatar from '@material-ui/core/Avatar'
 import '../../../views/app/dashboard/dropdown.css'
 import { fade, makeStyles } from "@material-ui/core/styles";
@@ -11,8 +11,13 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Grow from '@material-ui/core/Grow';
 import AddIcon from "@material-ui/icons/Add";
 import ReactButton from "../button/button";
-import AddDelivery from '../../../views/app/application/delivery/addDeivery'
-import AddMultiple from "./AddMultiple";
+import Loader from '../Loader/Loader'
+const AddDelivery = React.lazy(() =>
+  import(/* webpackChunkName: "Add-delivery" */ '../../../views/app/application/delivery/addDeivery')
+);
+const AddMultiple = React.lazy(() =>
+  import(/* webpackChunkName: "Add - Multiple" */ './AddMultiple')
+);
 
 const useToolbarStyles = makeStyles((theme) => ({
     reactbutton:{
@@ -89,6 +94,7 @@ props===true?wrapperRef.current.classList.add("active"):wrapperRef.current.class
 
     return (
       <div className={classes.divSettler}>
+     <Suspense fallback={<Loader/>}>
         <div className="right">
               <div className="dropdowncont" ref={wrapperRef}>
                 <span className="profile-image">
@@ -149,6 +155,7 @@ props===true?wrapperRef.current.classList.add("active"):wrapperRef.current.class
 </Grow>
 
         </Modal>
+     </Suspense>
         </div>
         )
 

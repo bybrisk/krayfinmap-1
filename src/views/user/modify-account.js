@@ -37,6 +37,9 @@ const useStyles = makeStyles((theme) => ({
     avatar:{
       width:"7em",
       height:"7em"
+    },
+    title:{
+      marginBottom:'2rem'
     }
   }));
 
@@ -147,7 +150,7 @@ UpdateAccount({newDetails,enqueueSnackbar,close})
         <Wrapper className="wrapper" style={{padding:'30px 30px',justifyContent:'flex-start'}}>
         {/* Hidden on small screen size leftLogo */}
       {user && user.DeliveryConfig ?( <div className={["flex","align-start"]}>
-          <StyledText variant="h4">Update Account</StyledText>
+          <StyledText variant="h4" className={classes.title}>Update Account</StyledText>
 
             <Formik
               initialValues={initialvalue}
@@ -200,16 +203,15 @@ style={{height:100,width:100}}
             <Grid item style={{marginLeft:20}}>
             <Select name={"DeliveryTime"} label={"DeliveryTime"} data={agentDeliveryTime} tip={'Speed of Deliveries'}/>
   </Grid>
-            
-        </Grid>
-        <Grid container justify="left" spacing={4}>
-            <Grid item style={{marginLeft:20}}>
-            <Input name={'Address'} label={'Address'} tip={'Address'}  style={{minWidth:300}}/>
-            </Grid>
-            <Grid item style={{marginLeft:20}}>
+  <Grid item style={{marginLeft:20}}>
             <Checkbox name={"AutoScaling"} label={"AutoScaling"} tip={'Required When Have Overload'}/>
   </Grid>
-            
+   
+        </Grid>
+        <Grid container justify="left" spacing={4}>
+            <Grid item style={{marginLeft:20,width:'100%'}}>
+            <Input name={'Address'} label={'Address'} tip={'Address'}  style={{minWidth:300}}/>
+            </Grid>
         </Grid>
         <Grid container justify="left" spacing={4}>
             <Grid item style={{marginLeft:20}}>

@@ -141,6 +141,32 @@ const handleDeleting = () =>{
             <StyledText variant="body2">{details.MaxHourCapacity}</StyledText>
   </Grid>
         </Grid>
+        <Grid container justify="left" spacing={4}>
+            <Grid item style={{marginLeft:20}}>
+            <StyledText variant="subtitle1" style={{color:'grey',marginBottom:10}}>Aadhar Number</StyledText>
+
+<StyledText variant="body2">{details.AadharNumber}</StyledText>
+            </Grid>
+            <Grid item style={{marginLeft:20}}>
+            <StyledText variant="subtitle1" style={{color:'grey',marginBottom:10}}>Driving Licence Number</StyledText>
+
+<StyledText variant="body2">{details.DrivingLicenceNumber}</StyledText>
+  </Grid>
+          
+        </Grid>
+        <Grid container justify="left" spacing={4}>
+        <Grid item style={{marginLeft:20}}>
+        <StyledText variant="subtitle1" style={{color:'grey',marginBottom:10}}>PAN Card Number</StyledText>
+
+<StyledText variant="body2">{details.PANCardNumber}</StyledText>
+            </Grid>
+   <Grid item style={{marginLeft:20}}>
+   <StyledText variant="subtitle1" style={{color:'grey',marginBottom:10}}>Type Of Vehicle</StyledText>
+
+<StyledText variant="body2">{details.TypeOfVehicle}</StyledText>
+         </Grid>
+
+        </Grid>
 
       </Grid>
     </Grid>

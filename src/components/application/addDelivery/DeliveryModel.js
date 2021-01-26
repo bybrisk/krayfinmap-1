@@ -1,11 +1,23 @@
 export default {
     formId: "DeliveryForm",
     formField: {
-      Address: {
-        name: "Address",
-        label: "Address*",
-        requiredErrorMsg: "Address is required",
-        tip:'Address where This Delivery Should GO'
+      Locality: {
+        name: "Locality",
+        label: "Locality*",
+        requiredErrorMsg: "Locality is required",
+        tip:'Locality where This Delivery Should GO'
+      },
+      Landmark: {
+        name: "Landmark",
+        label: "Landmark*",
+        requiredErrorMsg: "Landmark is required",
+        tip:'Landmark where This Delivery Should GO'
+      },
+      City: {
+        name: "City",
+        label: "City*",
+        requiredErrorMsg: "City is required",
+        tip:'City where This Delivery Should GO'
       },
       CustomerName: {
         name: "CustomerName",
@@ -49,6 +61,12 @@ export default {
         label: "Payment Done",
         requiredErrorMsg: "Payment Status is required",
         tip:'Is Payment Recieved'
+      },
+      PendingAmount: {
+        name: "PendingAmount",
+        label: "PendingAmount*",
+        requiredErrorMsg: "Pending Amount is required",
+        tip:'Amount to take from Customer'
       },
       deliveryStatus: {
         name: "deliveryStatus",

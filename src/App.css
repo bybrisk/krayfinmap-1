@@ -62,19 +62,7 @@ input:-internal-autofill-selected{
 .align-start{
   align-items: flex-start;
 }
-
-div[aria-labelledby="Add-Agent"]>section{
-  overflow: scroll;
-}
-
-div[aria-labelledby="Agent-detail"]>section{
-  overflow: scroll;
-}
-
-div[aria-labelledby="Deliveries"]>section{
-  overflow: scroll;
-}
-div[aria-labelledby='Add Single']>section{
+div[aria-labelledby='Update Account']>section,div[aria-labelledby='Add Single']>section,div[aria-labelledby="Deliveries"]>section,div[aria-labelledby="Agent-detail"]>section,div[aria-labelledby="Add-Agent"]>section{
   overflow: scroll;
 }
 

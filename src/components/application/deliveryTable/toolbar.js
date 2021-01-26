@@ -54,11 +54,26 @@ const useToolbarStyles = makeStyles((theme) => ({
       }
 
   },
+  rootsearch: {
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(1),
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "0 30px",
+    width: "100%",
+    [theme.breakpoints.down("xs")]: {
+      justifyContent: "center",
+      flexDirection:'column',
+      alignItems: "flex-end",
+      }
+
+  },
   title: {
     flex: "1 1 100%",
     textAlign:'left',
     [theme.breakpoints.down("xs")]: {
-      marginBottom:30
+      marginBottom:"3rem"
       }
   
   },
@@ -87,7 +102,11 @@ color:'#ffffff'
     },
     marginLeft: 0,
     minWidth: "250px",
-    width: "50%"
+    width: "50%",
+    [theme.breakpoints.down("xs")]: {
+      width:"100%"
+      }
+
   },
   searchIcon: {
     padding: theme.spacing(0, 2),
@@ -108,6 +127,22 @@ color:'#ffffff'
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
     transition: theme.transitions.create("width"),
     width: "100%"
+  },
+  refresh: {
+    [theme.breakpoints.down("xs")]: {
+      marginTop:"1rem"
+      }
+
+  },
+  filtersActive:{
+    display:'flex',
+    width:'100%',
+    alignItems:'center',
+    marginBottom:10,
+    [theme.breakpoints.down("xs")]: {
+      marginTop:"2.5rem"
+      }
+
   }
 }));
 
@@ -162,7 +197,7 @@ const refresh = useRef(null)
          </div>
         {deliveryFilter && (
           <Grow in={deliveryFilter} timeout={250}>
- <section style={{display:'flex',width:'100%',alignItems:'center',marginBottom:10}}>
+ <section className={classes.filtersActive}>
           <ArrowBackIcon onClick={removeFilter} style={{fontSize:"2rem"}}/>
 <p style={{ background: query==='delivered'?'darkolivegreen':(query==='pending'?'darkgoldenrod':(query==='cancelled'?'indianred':'cornflowerblue')),fontSize:'1rem',marginLeft:20,padding:2,color:'#ffffff',borderRadius:6}}> deliveries {query}</p> </section>
      </Grow>   )}
@@ -203,7 +238,7 @@ const refresh = useRef(null)
             marginLeft:-10
           }}
         >
-         <div className={classes.root}>
+         <div className={classes.rootsearch}>
          <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
@@ -218,7 +253,7 @@ const refresh = useRef(null)
               inputProps={{ "aria-label": "search" }}
             />
           </div>
-      <AutorenewIcon onClick={handleRefresh} ref={refresh} />
+      <AutorenewIcon onClick={handleRefresh} className={classes.refresh} ref={refresh} />
          </div>
          </section>
       </Toolbar>

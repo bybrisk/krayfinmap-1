@@ -1,15 +1,17 @@
 import Backdrop from '@material-ui/core/Backdrop';
 import Grow from '@material-ui/core/Grow';
 import Modal from "@material-ui/core/Modal";
+import Loader from '../../../components/application/Loader/Loader'
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import AddIcon from '@material-ui/icons/Add';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, Suspense } from 'react';
 import '../../../App.css';
-import AgentAdd from '../../../views/app/application/agent/addAgent';
 import ReactButton from '../button/button';
-
+const AgentAdd = React.lazy(() =>
+  import(/* webpackChunkName: "Agent-add" */ '../../../views/app/application/agent/addAgent')
+);
 
 //styles for enhanced table toolbar
 const useToolbarStyles = makeStyles((theme) => ({
@@ -58,6 +60,7 @@ const useToolbarStyles = makeStyles((theme) => ({
        <Typography variant="h5">Agents</Typography>
 <ReactButton width={"140px"} className="flex" onClick={handleOpen}>Add Agent <AddIcon style={{fontSize:'25px',marginTop:'4px'}}/></ReactButton>
       </Toolbar>
+   <Suspense fallback={<Loader/>}>
       <Modal
         open={open}
         onClose={handleClose}
@@ -77,7 +80,6 @@ const useToolbarStyles = makeStyles((theme) => ({
         }}
       >
                             <Grow in={open} timeout={250}>
-
       <section style={{background:'#ffffff',width:'100%',height:'100%'}}    
       
       className={isScrollable ? " scrollable" : ""}
@@ -94,10 +96,9 @@ const useToolbarStyles = makeStyles((theme) => ({
         <div className={"scrollarrow" + (isScrollable ? " scrollable" : "")}>hello</div>
 
       </section>
-
       </Grow>
       </Modal>
-      </>
+      </Suspense> </>
     );
   };
 

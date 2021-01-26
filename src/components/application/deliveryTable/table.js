@@ -1,10 +1,11 @@
 //basic dependencies
-import React,{useEffect,useRef} from 'react';
+import Backdrop from '@material-ui/core/Backdrop';
+import red from '@material-ui/core/colors/indigo';
+import Grow from '@material-ui/core/Grow';
+//dependencies for modal
+import Modal from "@material-ui/core/Modal";
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import { useSnackbar } from 'notistack';
-import { Helmet } from "react-helmet";
-
 //dependecies for table
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -12,22 +13,23 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import red from '@material-ui/core/colors/indigo';
-
-//dependencies for modal
-import Modal from "@material-ui/core/Modal";
-import Backdrop from '@material-ui/core/Backdrop';
-import Grow from '@material-ui/core/Grow';
+import { useSnackbar } from 'notistack';
+import React, { useEffect, useRef, Suspense} from 'react';
+import Loader from '../Loader/Loader'
+import { Helmet } from "react-helmet";
+import { useSelector,useDispatch} from "react-redux";
+// import AgentDetail from '../AgentDetails'
+import { fetchAccountDetails, fetchDeliveries, modifyStatus } from '../../../helpers/NetworkRequest';
+import { getComparator, search, StyledTableCell, StyledTableRow } from '../tableHelpers/helpers';
+import Select from './StatusDropdown';
+import TableHead from './tableHead';
 //divided component to make them one
 import Toolbar from './toolbar';
-import TableHead from './tableHead';
-import DeliveryDetails from '../../../views/app/application/delivery/deliveryDetails';
-import { getComparator, search, StyledTableCell, StyledTableRow } from '../tableHelpers/helpers';
-import Select from './StatusDropdown'
-// import AgentDetail from '../AgentDetails'
-import {fetchDeliveries,modifyStatus} from '../../../helpers/NetworkRequest'
-import {useSelector} from "react-redux";
-import { Refresh } from '@material-ui/icons';
+
+
+const DeliveryDetails = React.lazy(() =>
+  import(/* webpackChunkName: "Delivery-Details" */ '../../../views/app/application/delivery/deliveryDetails')
+);
 
 //fetchDeliveryDetails to be replaced with get all deliveries
 
@@ -42,7 +44,7 @@ const pending = [
     label: "Transit",
     color:'blue'
   },
-    {    value: "Cancelled",
+    {    value: "Pending-Cancelled",
   label: "Cancelled",
   color:'red'}
 ]
@@ -107,7 +109,7 @@ const useStyles = makeStyles((theme) => ({
 export default function DeliveryTable() {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
-
+const dispatch = useDispatch();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('AgentID');
   const [page, setPage] = React.useState(0);
@@ -145,11 +147,13 @@ setQuery(query.toLowerCase())
   };
   const handleClose = () => {
     setOpen(false);
-    // fetchDeliveryDetails({bybId,setDelivery});
+    setTimeout(() => {
+      fetchAccountDetails({dispatch})  
+    }, 1000);
 
   };
 
-  const handleStatusChange = (e,id) =>{
+  const handleStatusChange = async (e,id) =>{
     enqueueSnackbar('Status Change Can Take Upto 3s',{
       variant: 'success',
       autoHideDuration: 2500,
@@ -161,8 +165,10 @@ setQuery(query.toLowerCase())
       deliveryStatus: e.target.value
       }
     
-    modifyStatus({param,setDelivery})
-
+  await modifyStatus({param,setDelivery})
+setTimeout(() => {
+  fetchAccountDetails({dispatch})  
+}, 1000);
   }
   useEffect(() => {
     fetchDeliveries({bybId,setDelivery});
@@ -199,7 +205,7 @@ return () => {
         <title>Deliveries</title>
         <meta name="description" content="List of Deliveries of your account"  />
       </Helmet>
- 
+ <Suspense fallback={<Loader />}>
     <div className={classes.root}>
       <Paper className={classes.paper}>
         <Toolbar setQuery={handleQuery} query={query} handleDelivery={handleDelivery}/>
@@ -296,7 +302,7 @@ return () => {
       </section>
       </Grow>
       </Modal>
-
+</Suspense>
   </>
   );
 }

@@ -1,31 +1,37 @@
 import {
   CircularProgress, Typography
 } from "@material-ui/core";
-import axios from 'axios';
-import { Form, Formik} from "formik";
-import React, {
-  useState
-} from "react";
+import { Form, Formik } from "formik";
 import { useSnackbar } from 'notistack';
+import React, {
+  useState,Suspense
+} from "react";
+import Loader from "../../components/application/Loader/Loader"
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { domain } from "../../App";
 // import useStyles from "./styles";
 import '../../App.css';
 import Logo from '../../Assets/logo.png';
 import Button from "../../components/application/button/button";
-import BusinessInformation from "../../components/user/forms/BusinessInformation";
-import ByBriskDelivery from "../../components/user/forms/ByBriskDelivery";
-import SelfDelivery from "../../components/user/forms/SelfDelivery";
 import Signup from "../../components/user/forms/Signup";
 import formInitialValues from "../../components/user/signup/formInitialValues";
 import RegistrationModel from "../../components/user/signup/registrationModel";
 import validationSchema from "../../components/user/signup/validationSchema";
-import {CreateAccount, IsUsernameAvailable} from '../../helpers/NetworkRequest'
+import { CreateAccount, IsUsernameAvailable } from '../../helpers/NetworkRequest';
 import {
   FormContainer,
   Wrapper
 } from "../../helpers/Styles";
+const SelfDelivery = React.lazy(() =>
+  import(/* webpackChunkName: "self-delivery" */ '../../components/user/forms/SelfDelivery')
+);
+const ByBriskDelivery = React.lazy(() =>
+  import(/* webpackChunkName: "bybrisk-delivery" */ '../../components/user/forms/ByBriskDelivery')
+);
+const BusinessInformation = React.lazy(() =>
+  import(/* webpackChunkName: "business-Information" */ '../../components/user/forms/BusinessInformation')
+);
+
   
   const steps = ["Shipping address", "Payment details", "Review your order"];
   const {
@@ -66,19 +72,20 @@ import {
     const dispatch = useDispatch();
     const { enqueueSnackbar } = useSnackbar();
 
-    const [activeStep, setActiveStep] = useState(0);
+    let [activeStep, setActiveStep] = useState(0);
     const currentValidationSchema = validationSchema[activeStep];
     const isLastStep = activeStep === steps.length - 1;
   
   
     async function _submitForm(values, actions) {
+      actions.setSubmitting(true)
       const article = JSON.stringify({
         Email: values.email,
         Password: values.password,
         BusinessCategory: values.businessCategory,
         BusinessName: values.businessName,
         UserName: values.username,
-        Address: values.businessAddress,
+        Address: values.Address,
         AvgWorkingHours: values.avgWorkingHours || 12,
         DeliveryAgent: 2,
         AutoScaling: values.autoScaling,
@@ -88,16 +95,19 @@ import {
         longitude:values.longitude,
         latitude:values.latitude
       });
-  
       CreateAccount({article,dispatch,history,actions,enqueueSnackbar})
    
     }
   
-  async function _handleSubmit(values, actions) {
+  async function _handleSubmit(values,actions) {
+    
     actions.setSubmitting(true);
     if (isLastStep) {
+      enqueueSnackbar('Wait Sometime',{
+        variant: 'warnng',
+        autoHideDuration: 2000,
+    })
         _submitForm(values, actions);
-        return;
       } 
       else if(activeStep===0 && await IsUsernameAvailable({username:values.username})){
         actions.setErrors({username:"Username already Exist"})
@@ -106,11 +116,9 @@ import {
       }
       else
       {
-  setActiveStep(activeStep + 1);
-  console.log(activeStep)
-
+          setActiveStep(activeStep + 1);
   actions.setTouched({});
-        actions.setSubmitting(false);
+  actions.setSubmitting(false);
 
         
       }
@@ -138,7 +146,9 @@ import {
          alignItems: 'center',
          flexDirection: 'column'
        }} > 
+             <Suspense fallback={<Loader/>}>
        {_renderStepContent(activeStep, props.values)} 
+</Suspense>
        <div style = {{
          width: "100%",
          display: "flex",
@@ -152,7 +162,6 @@ import {
      type = "submit"
      variant = "outlined"
      fullwidth > 
-     {}
      {props.isSubmitting ?  <CircularProgress size = {24}/> :(isLastStep ? 'Complete Signup' : 'Continue')}
       </Button> 
       
