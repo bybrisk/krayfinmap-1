@@ -1,10 +1,11 @@
 import axios from 'axios'
 const API = axios.create({
-    baseURL:"http://localhost:5000",
+    baseURL:"https://bybriskbackend.herokuapp.com",
     withCredentials:true,
     credentials:"include"
 })
 
+// https://bybriskbackend.herokuapp.com
 //add agent
 export async function AddAgent(props){
     const {article,actions,closeModal,enqueueSnackbar} = props;
@@ -139,9 +140,10 @@ catch(err){
 
 //fetch deliveries
 export async function fetchDeliveries(props){
-    const {bybId,setDelivery} = props;
+    console.log(props)
+    const {bybID,setDelivery} = props;
     try{
-        const res = await API.get(`/delivery/fetchDeliveries?bybid=${bybId}`);
+        const res = await API.get(`/delivery/fetchDeliveries?bybid=${bybID}`);
     console.log(res)
       res.data.hits.hits!==null &&     setDelivery(res.data.hits.hits);
     }
@@ -159,7 +161,7 @@ export async function modifyStatus(props){
         const body = JSON.stringify(param)
         
             await API.post("/delivery/modifyStatus",body,config);
-             fetchDeliveries({bybId:param.BybID,setDelivery})
+             fetchDeliveries({bybID:param.BybID,setDelivery})
     
     }
     catch(e){
@@ -180,9 +182,15 @@ export async function CreateAccount(prop){
     try{
 const config = {headers:{"Content-Type": "application/json"}}
 const body = article
-await API.post("/onboarding/createAccount",body,config);
+const res = await API.post("/onboarding/createAccount",body,config);
+const bybID = res.data.bybID
+console.log(res.data)
+dispatch({
+    type: "ID",
+    payload: res.data.bybID
+  });
 
-  fetchAccountDetails({dispatch,history,actions,enqueueSnackbar})
+  fetchAccountDetails({dispatch,history,actions,enqueueSnackbar,bybID})
 
     }
     catch(err){
@@ -193,14 +201,12 @@ console.log(err.response.data.message)
 
 //fetch account details
 export async function fetchAccountDetails(props){
-    const {dispatch,history,actions,enqueueSnackbar} = props;
+    const {dispatch,history,actions,enqueueSnackbar,bybID} = props;
+    console.log(props)
+
     try{
-        const res = await API.get("/onboarding/fetchAccountDetails");
+        const res = await API.get(`/onboarding/fetchAccountDetails?bybId=${bybID}`);
         console.log(res)
-        dispatch({
-            type: "ID",
-            payload: res.data.bybid
-          });
         dispatch({type:'USER',payload:res.data.user});
         dispatch({ type: "LOG_IN", payload: true });
         enqueueSnackbar && (        enqueueSnackbar('Logined Succesfully',{
@@ -235,7 +241,7 @@ export async function loginAccount(props){
             })
            }
            else{  console.log(res);
-             dispatch({type:'ID',payload:res.data.bybid});
+             dispatch({type:'ID',payload:res.data.bybID});
              dispatch({type:'USER',payload:res.data.user});
              dispatch({type:'LOG_IN',payload:true});
              actions.setSubmitting(false);
@@ -251,7 +257,12 @@ export async function loginAccount(props){
 
     }
     catch(e){
-    
+        enqueueSnackbar("Password or Email is Invalid",{
+            variant: 'error',
+            autoHideDuration: 2000,
+        })
+        actions.setSubmitting(false);
+
     }
     
     }

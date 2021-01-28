@@ -28,15 +28,17 @@ export default [
   Yup.object().shape({
     [businessName.name]: Yup.string()
       .min(3,"min 3 characters required")
+      .max(20)
       .required(`${businessName.requiredErrorMsg}`),
     [businessCategory.name]: Yup.string().required(
       `${businessCategory.requiredErrorMsg}`
     ),
     [Address.name]: Yup.string()
+    .min(5)
       .required(`${Address.requiredErrorMsg}`)
   }),
   Yup.object().shape({
-[avgWorkingHours.name]:Yup.number().max(24,"should be in hours/day").required(`${avgWorkingHours.requiredErrorMsg}`)
+[avgWorkingHours.name]:Yup.number().min(0).max(24,"should be in hours/day").required(`${avgWorkingHours.requiredErrorMsg}`)
   })
 ];
 

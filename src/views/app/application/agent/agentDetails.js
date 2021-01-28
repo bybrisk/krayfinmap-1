@@ -13,6 +13,7 @@ import { deleteAgent, fetchAgentDetail } from '../../../../helpers/NetworkReques
 import { Wrapper } from "../../../../helpers/Styles";
 import EditAgent from './addAgent';
 import { Helmet } from "react-helmet";
+import Loading from '../../../../components/application/Loader/Loader';
 
 const StyledText = styled(Typography)({
     minWidth:250,
@@ -69,14 +70,16 @@ const handleDeleting = () =>{
       </Helmet>
    
    {isEditing? (<EditAgent values={details} setEditing={handleEditing} />):(
-   <Wrapper className="wrapper" style={{padding:'30px 30px',justifyContent:'flex-start'}}>
+    <div>
+{Object.keys(details).length!==0 ? (
+  <Grow in={Object.keys(details).length!==0} timeout={1050}> 
+<>
+<Wrapper className="wrapper" style={{padding:'30px 30px',justifyContent:'flex-start'}}>
     <div className={["flex","align-start"]}>
             <Grid container className={classes.root} spacing={2} style={{justifyContent:'space-between',marginBottom:30}}>
 <Avatar className={classes.avatar} src={details.PicURL} />
+
 <div>
-{Object.keys(details).length!==0 && (
-  <Grow in={Object.keys(details).length!==0} timeout={1050}>
-<>
 <Button width={"150px"} style={{marginBottom:20}} disabled = {isEditing}    disableFocusRipple = {true}
    disableElevation = {true} onClick={handleEditing}>              {isEditing ?  <CircularProgress size = {16}/>: 'Edit Agent'}
  </Button><br></br>
@@ -85,11 +88,8 @@ const handleDeleting = () =>{
              {isDeleting ?  <CircularProgress size = {16}/>: 'Delete Agent'}
 
    </Button>
-</>
-
-</Grow>
-)}
 </div>
+
 </Grid>
 
     <Grid container className={classes.root} spacing={2}>
@@ -175,6 +175,10 @@ const handleDeleting = () =>{
 
     </div>
     </Wrapper>
+</>
+</Grow>
+):<Loading/>}
+</div>
 
   )}
   </>

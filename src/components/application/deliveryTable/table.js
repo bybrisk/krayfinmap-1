@@ -43,10 +43,7 @@ const pending = [
     value: "Transit",
     label: "Transit",
     color:'blue'
-  },
-    {    value: "Pending-Cancelled",
-  label: "Cancelled",
-  color:'red'}
+  }
 ]
 const transit = [
   {
@@ -120,7 +117,7 @@ const dispatch = useDispatch();
 
   const [query, setQuery] = React.useState('');
   const [rows,setDelivery] = React.useState([])
-  const bybId = useSelector(state => state.bybId);
+  const bybID = useSelector(state => state.bybId);
   const lastChild = useRef(null);
   const headCells = [
     { id: 'CustomerName', numeric: false, disablePadding: false, label: 'Name' },
@@ -135,10 +132,11 @@ const dispatch = useDispatch();
   const handleQuery = (query) =>{
 setQuery(query.toLowerCase())
 }
-
+console.log(bybID)
     function handleDelivery(refreshRef){
-      fetchDeliveries({bybId,setDelivery});
+      fetchDeliveries({bybID,setDelivery});
      refreshRef && setTimeout(()=>{refreshRef.current.classList.remove('refresh')},2000)
+     setTimeout(()=>{fetchAccountDetails({dispatch,bybID})},3000)
     }
 
   const handleOpen = (id) => {
@@ -160,18 +158,15 @@ setQuery(query.toLowerCase())
   });
 
    const param =  {
-      BybID: bybId,
+      BybID: bybID,
       DeliveryID: id,
       deliveryStatus: e.target.value
       }
     
   await modifyStatus({param,setDelivery})
-setTimeout(() => {
-  fetchAccountDetails({dispatch})  
-}, 1000);
   }
   useEffect(() => {
-    fetchDeliveries({bybId,setDelivery});
+    fetchDeliveries({bybID,setDelivery});
 
 return () => {
       
@@ -239,7 +234,7 @@ return () => {
               <StyledTableCell align="center" onClick={()=>handleOpen(row._id)} >{row._source.CustomerName}</StyledTableCell>
               <StyledTableCell align="center" onClick={()=>handleOpen(row._id)}>{row._source.CustomerAddress}</StyledTableCell>
               <StyledTableCell align="center" onClick={()=>handleOpen(row._id)}>{row._source.itemWeight}</StyledTableCell>
-              <StyledTableCell align="center" onClick={()=>handleOpen(row._id)}>{row._source.paymentStatus?'done':'pending'}</StyledTableCell>              
+              <StyledTableCell align="center" onClick={()=>handleOpen(row._id)}>{row._source.paymentStatus?'done':'not done'}</StyledTableCell>              
               <StyledTableCell align="center" onClick={()=>handleOpen(row._id)}>{row._source.phone}</StyledTableCell>
               <StyledTableCell id="deliverystatus" align="center" >
               <Select

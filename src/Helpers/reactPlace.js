@@ -10,7 +10,7 @@ const loadGoogleMapScript = (callback) => {
     callback();
   } else {
     const googleMapScript = document.createElement("script");
-    googleMapScript.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAP_API_KEY}&libraries=places`;
+    googleMapScript.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAP_API_KEY}&libraries=places&sessiontoken=${Math.floor(Math.random()*10000)}`;
     window.document.body.appendChild(googleMapScript);
     googleMapScript.addEventListener("load", callback);
   }

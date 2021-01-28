@@ -78,7 +78,11 @@ const handleChange = function loadFile(event) {
       BusinessID:bybId,
       AgentID:values.AgentID,
       picurl:pic,
-      bybID:values.bybId
+      bybID:values.bybId,
+      AadharNumber:values.AadharNumber,
+      DrivingLicenceNumber:values.DrivingLicenceNumber,
+      PANCardNumber:values.PANCardNumber,
+      TypeOfVehicle: values.TypeOfVehicle
     });
     if(props.values){
       modifyAgent({article,actions,setEditing,enqueueSnackbar})
@@ -183,16 +187,16 @@ style={{height:100,width:100}}
 
         <Grid container justify="left" spacing={4}>
             <Grid item style={{marginLeft:20}}>
-<Input name={AadharNumber.name} tip={AadharNumber.tip} label={AadharNumber.label} type="number" style={{minWidth:300}}/>
+<Input name={AadharNumber.name} tip={AadharNumber.tip} label={AadharNumber.label} type="text" style={{minWidth:300}}/>
             </Grid>
             <Grid item style={{marginLeft:20}}>
-            <Input name={DrivingLicenceNumber.name} tip={DrivingLicenceNumber.tip} label={DrivingLicenceNumber.label} type="number"  style={{minWidth:300}}/>
+            <Input name={DrivingLicenceNumber.name} tip={DrivingLicenceNumber.tip} label={DrivingLicenceNumber.label} type="text"  style={{minWidth:300}}/>
   </Grid>
           
         </Grid>
         <Grid container justify="left" spacing={4}>
         <Grid item style={{marginLeft:20}}>
-            <Input name={PANCardNumber.name} tip={PANCardNumber.tip} label={PANCardNumber.label}  style={{minWidth:300}}/>
+            <Input name={PANCardNumber.name} tip={PANCardNumber.tip} type={"text"} label={PANCardNumber.label}  style={{minWidth:300}}/>
             </Grid>
    <Grid item style={{marginLeft:20}}>
    <Select

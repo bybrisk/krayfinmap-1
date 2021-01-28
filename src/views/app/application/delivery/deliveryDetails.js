@@ -72,10 +72,11 @@ useEffect(() => {
         </Grid>
 
         <Grid container justify="left" spacing={4}>
-            <Grid item style={{marginLeft:20}}>
+            <Grid item style={{marginLeft:20,width:"100%"}}>
             <StyledText variant="subtitle1" style={{color:'grey',marginBottom:10}}>Address</StyledText>
             <StyledText variant="h6">{details.CustomerAddress}</StyledText>
             </Grid>
+
         </Grid>
         <Grid container justify="left" spacing={4}>
             <Grid item style={{marginLeft:20}}>
@@ -96,6 +97,23 @@ useEffect(() => {
             <StyledText variant="subtitle1" style={{color:'grey',marginBottom:10}}>Payment Done</StyledText>
 
             <StyledText variant="h6">{details.paymentStatus?'done':'pending'}</StyledText>
+  </Grid>
+         {details.amount!==0 &&    <Grid item style={{marginLeft:20}}>
+            <StyledText variant="subtitle1" style={{color:'grey',marginBottom:10}}>Amount</StyledText>
+
+            <StyledText variant="h6">{details.amount}</StyledText>
+  </Grid>} 
+        </Grid>
+        <Grid container justify="left" spacing={4}>
+            <Grid item style={{marginLeft:20}}>
+            <StyledText variant="subtitle1" style={{color:'grey',marginBottom:10}}>Stamp</StyledText>
+
+            <StyledText variant="h6">{details.timeStamp}</StyledText>
+            </Grid>
+            <Grid item style={{marginLeft:20}}>
+            <StyledText variant="subtitle1" style={{color:'grey',marginBottom:10}}>Delivery Agent Id</StyledText>
+
+            <StyledText variant="h6">{details.deliveryAgentID}</StyledText>
   </Grid>
           
         </Grid>

@@ -59,10 +59,12 @@ const [loader,setLoader] = useState(false)
   const FinalStep = async (data) =>{
 for(let i=0;i<data.length;i++){
   const article = JSON.stringify({
-    CustomerAddress: data[i]["Customer Address"],
+    CustomerAddress: data[i]["Locality"]+" "+data[i]["Landmark"]+" "+data[i]["City"],
     itemWeight: data[i]["Item Weight"],
     phone: data[i]["Phone"].toString(),
     CustomerName:data[i]["Customer Name"],
+    paymentStatus:data[i]["Payment Status"]==="Done"?true:false,
+    amount:data[i]["Amount"] || 0,
     pincode:data[i]["Pincode"].toString(),
     BybID:bybId
   });

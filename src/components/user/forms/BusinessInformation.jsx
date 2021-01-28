@@ -5,20 +5,7 @@ import Select from "../../../inputs/select";
 import ReactPlaceInput from "../../../helpers/reactPlace"
 import { Helmet } from "react-helmet";
 
-const deliveryType = [
-  {
-    value: undefined,
-    label: "None"
-  },
-  {
-    value: "self",
-    label: "Self Delivery"
-  },
-  {
-    value: "bybrisk",
-    label: "ByBrisk Delivery"
-  }
-];
+
 
 const BusinessInformation = (props) => {
   const {
@@ -41,13 +28,14 @@ const BusinessInformation = (props) => {
             tip={businessName.tip}
 
           />
-          <Input
+           <Select
             name={businessCategory.name}
             label={businessCategory.label}
-            type={"text"}
+            data={businessCategory.data}
             tip={businessCategory.tip}
 
           />
+       
 
           <ReactPlaceInput
             name={Address.name}
@@ -60,7 +48,7 @@ const BusinessInformation = (props) => {
           <Select
             name={delivery.name}
             label={delivery.label}
-            data={deliveryType}
+            data={delivery.data}
             tip={delivery.tip}
 
           />

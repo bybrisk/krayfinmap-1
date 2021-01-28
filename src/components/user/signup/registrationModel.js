@@ -31,7 +31,53 @@ export default {
         name: "businessCategory",
         label: "BusinessCategory*",
         tip:'Sector in Which You Are Doing Business',
-        requiredErrorMsg: "BusinessCategory is required"
+        requiredErrorMsg: "BusinessCategory is required",
+        data:[
+          {
+            value: undefined,
+            label: "None"
+          },
+          {
+            value: "E-commerce",
+            label: "E-Commerce"
+          },
+          {
+            value: "FMCGs and MSMEs",
+            label: "FMCGs and MSMEs"
+          },
+          {
+            value: "Food Chain",
+            label: "Food Chain"
+          },
+          {
+            value: "Medicine",
+            label: "Medicine"
+          },
+          {
+            value: "Fruits and Grocery",
+            label: "Fruits and Grocery"
+          },
+          {
+            value: "Ghost/Cloud Kitchens",
+            label: "Ghost/Cloud Kitchens"
+          },
+          {
+            value: "Clothing and acessrories",
+            label: "Clothing and acessrories"
+          },
+          {
+            value: "Furniture",
+            label: "Furniture"
+          },
+          {
+            value: "Electronics",
+            label: "Electronics"
+          },
+          {
+            value: "Stationary",
+            label: "Stationary"
+          },
+        ]
       },
       Address: {
         name: "Address",
@@ -43,7 +89,21 @@ export default {
         name: "delivery",
         label: "delivery*",
         tip:'Specify Type Of Delivery',
-        requiredErrorMsg: "Delivery is required"
+        requiredErrorMsg: "Delivery is required",
+        data:[
+          {
+            value: undefined,
+            label: "None"
+          },
+          {
+            value: "self",
+            label: "Self Delivery"
+          },
+          {
+            value: "bybrisk",
+            label: "ByBrisk Delivery"
+          }
+        ]
       },
       avgWorkingHours: {
         name: "avgWorkingHours",
