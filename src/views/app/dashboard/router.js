@@ -1,14 +1,14 @@
 import React,{Suspense} from "react";
 import { Route, Switch,Redirect} from "react-router-dom";
-import Loader from '../../../components/application/Loader/Loader'
+import Loader from 'components/application/Loader/Loader'
 const ViewAgents = React.lazy(() =>
-  import(/* webpackChunkName: "views-app" */ '../../../components/application/agentTable/table')
+  import(/* webpackChunkName: "views-app" */ 'components/application/agentTable/table')
 );
 const ViewDeliveries = React.lazy(() =>
-  import(/* webpackChunkName: "views-user" */ '../../../components/application/deliveryTable/table')
+  import(/* webpackChunkName: "views-user" */ 'components/application/deliveryTable/table')
 );
 const ViewClusters = React.lazy(() =>
-  import(/* webpackChunkName: "views-error" */ '../../../components/application/agentTable/table')
+  import(/* webpackChunkName: "views-error" */ 'components/application/agentTable/table')
 );
 
 export const Dashboard = ({ match }) => {

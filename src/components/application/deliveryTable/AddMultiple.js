@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
 import Grid from '@material-ui/core/Grid';
-import { Wrapper } from "../../../helpers/Styles";
+import { Wrapper } from "helpers/Styles";
 import { useSnackbar } from 'notistack';
 
 import Button from '../button/button';
@@ -13,8 +13,8 @@ import IconButton from '@material-ui/core/IconButton';
 import Avatar from '@material-ui/core/Avatar';
 import XLSX from 'xlsx';
 import {useSelector} from "react-redux";
-import {AddDelivery} from '../../../helpers/NetworkRequest'
-import '../../../App.css'
+import {AddDelivery} from 'helpers/NetworkRequest'
+import 'App.css'
 
 function CircularProgressWithLabel(props) {
   return (
@@ -63,7 +63,7 @@ for(let i=0;i<data.length;i++){
     itemWeight: data[i]["Item Weight"],
     phone: data[i]["Phone"].toString(),
     CustomerName:data[i]["Customer Name"],
-    paymentStatus:data[i]["Payment Status"]==="Done"?true:false,
+    paymentStatus:data[i]["Amount"]?false:true,
     amount:data[i]["Amount"] || 0,
     pincode:data[i]["Pincode"].toString(),
     BybID:bybId
@@ -105,7 +105,6 @@ closeModal({makeRequest:true});
     
     promise.then(data=>{
       FinalStep(data);
-      console.log(data,"------------------array")
     })
       }
       

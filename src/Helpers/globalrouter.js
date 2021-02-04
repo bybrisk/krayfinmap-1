@@ -6,13 +6,13 @@ import {PrivateRoute} from './privateRoute'
 import { Route, Switch ,useHistory,Redirect} from "react-router-dom";
 
 const ViewApp = React.lazy(() =>
-  import(/* webpackChunkName: "views-app" */ '../views/app/dashboard/drawer')
+  import(/* webpackChunkName: "views-app" */ 'views/app/dashboard/drawer')
 );
 const ViewUser = React.lazy(() =>
-  import(/* webpackChunkName: "views-user" */ "../components/user/slider/Slider")
+  import(/* webpackChunkName: "views-user" */ "components/user/slider/Slider")
 );
 const ViewError = React.lazy(() =>
-  import(/* webpackChunkName: "views-error" */ '../views/error')
+  import(/* webpackChunkName: "views-error" */ 'views/error')
 );
 export const Routing = () => {
     const dispatch = useDispatch();

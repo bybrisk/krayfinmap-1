@@ -6,30 +6,30 @@ import { useSnackbar } from 'notistack';
 import React, {
   useState,Suspense
 } from "react";
-import Loader from "../../components/application/Loader/Loader"
+import Loader from "components/application/Loader/Loader"
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 // import useStyles from "./styles";
-import '../../App.css';
-import Logo from '../../Assets/logo.png';
-import Button from "../../components/application/button/button";
-import Signup from "../../components/user/forms/Signup";
-import formInitialValues from "../../components/user/signup/formInitialValues";
-import RegistrationModel from "../../components/user/signup/registrationModel";
-import validationSchema from "../../components/user/signup/validationSchema";
-import { CreateAccount, IsUsernameAvailable } from '../../helpers/NetworkRequest';
+import 'App.css';
+import Logo from 'Assets/logo.png';
+import Button from "components/application/button/button";
+import Signup from "components/user/forms/Signup";
+import formInitialValues from "components/user/signup/formInitialValues";
+import RegistrationModel from "components/user/signup/registrationModel";
+import validationSchema from "components/user/signup/validationSchema";
+import { CreateAccount, IsUsernameAvailable } from 'helpers/NetworkRequest';
 import {
   FormContainer,
   Wrapper
 } from "../../helpers/Styles";
 const SelfDelivery = React.lazy(() =>
-  import(/* webpackChunkName: "self-delivery" */ '../../components/user/forms/SelfDelivery')
+  import(/* webpackChunkName: "self-delivery" */ 'components/user/forms/SelfDelivery')
 );
 const ByBriskDelivery = React.lazy(() =>
-  import(/* webpackChunkName: "bybrisk-delivery" */ '../../components/user/forms/ByBriskDelivery')
+  import(/* webpackChunkName: "bybrisk-delivery" */ 'components/user/forms/ByBriskDelivery')
 );
 const BusinessInformation = React.lazy(() =>
-  import(/* webpackChunkName: "business-Information" */ '../../components/user/forms/BusinessInformation')
+  import(/* webpackChunkName: "business-Information" */ 'components/user/forms/BusinessInformation')
 );
 
   

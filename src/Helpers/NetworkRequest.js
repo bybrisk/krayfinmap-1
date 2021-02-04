@@ -34,7 +34,6 @@ export async function fetchAgents(props){
 const {bybId, setAgents} = props;
     try{
         const res = await API.get(`/agents/fetchAgents?bybid=${bybId}`);
-console.log(res)
       res.data.result!==null && setAgents(res.data.result)
     }
     catch(err){
@@ -49,7 +48,6 @@ export async function fetchAgentDetail(props){
 const {id,setDetails} = props;
     try{
         const res = await API.get(`/agents/fetchAgentDetails?id=${id}`);
-console.log(res)
       res.data.result!==null && setDetails(res.data)
   
     }
@@ -85,7 +83,6 @@ export async function deleteAgent(props){
     const {enqueueSnackbar,id,handleClose} = props;
     try{
         const res = await API.get(`/agents/delteAgent?id=${id}`);
-console.log(res)
 handleClose({makeRequest:true})
 enqueueSnackbar('Agent Deleted Succesfully',{
     variant: 'success',
@@ -128,7 +125,6 @@ export async function fetchDeliveryDetails(props){
 const {id,setDetails} = props;
 try{
     const res = await API.get(`/delivery/deliveryDetail?id=${id}`);
-console.log(res)
   res.data!==null &&     setDetails(res.data);
 }
 catch(err){
@@ -140,11 +136,9 @@ catch(err){
 
 //fetch deliveries
 export async function fetchDeliveries(props){
-    console.log(props)
     const {bybID,setDelivery} = props;
     try{
         const res = await API.get(`/delivery/fetchDeliveries?bybid=${bybID}`);
-    console.log(res)
       res.data.hits.hits!==null &&     setDelivery(res.data.hits.hits);
     }
     catch(err){
@@ -177,14 +171,12 @@ export async function modifyStatus(props){
 //create account
 export async function CreateAccount(prop){
     const {article,dispatch,history,actions,enqueueSnackbar} = prop;
-    console.log(article,"----------------article")
   
     try{
 const config = {headers:{"Content-Type": "application/json"}}
 const body = article
 const res = await API.post("/onboarding/createAccount",body,config);
 const bybID = res.data.bybID
-console.log(res.data)
 dispatch({
     type: "ID",
     payload: res.data.bybID
@@ -194,7 +186,6 @@ dispatch({
 
     }
     catch(err){
-console.log(err.response.data.message)
     }
   
 }
@@ -202,11 +193,9 @@ console.log(err.response.data.message)
 //fetch account details
 export async function fetchAccountDetails(props){
     const {dispatch,history,actions,enqueueSnackbar,bybID} = props;
-    console.log(props)
 
     try{
         const res = await API.get(`/onboarding/fetchAccountDetails?bybId=${bybID}`);
-        console.log(res)
         dispatch({type:'USER',payload:res.data.user});
         dispatch({ type: "LOG_IN", payload: true });
         enqueueSnackbar && (        enqueueSnackbar('Logined Succesfully',{
@@ -220,7 +209,6 @@ export async function fetchAccountDetails(props){
     catch(err){
         history && history.push('/')
         
-console.log(err.response)
     }
        
     }
@@ -240,8 +228,7 @@ export async function loginAccount(props){
                 autoHideDuration: 2000,
             })
            }
-           else{  console.log(res);
-             dispatch({type:'ID',payload:res.data.bybID});
+           else{ dispatch({type:'ID',payload:res.data.bybID});
              dispatch({type:'USER',payload:res.data.user});
              dispatch({type:'LOG_IN',payload:true});
              actions.setSubmitting(false);
@@ -293,7 +280,6 @@ export async function UpdateAccount(prop){
 export async function IsUsernameAvailable(props){
     try{
         const res = await API.get(`/onboarding/usernameAvailable?username=${props.username}`);
-console.log(res)
 return res.data.IsPresent
 }
     catch(err){
@@ -306,7 +292,6 @@ export async function logout(props){
 
     try{
 const res = await API.get(`/onboarding/logout`);
-console.log(res)
 props.history.push('/')
     }
     catch(err){

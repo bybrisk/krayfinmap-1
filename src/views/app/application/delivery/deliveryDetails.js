@@ -3,9 +3,9 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles, styled } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import React, { useEffect, useState } from 'react';
-import '../../../../App.css';
-import { Wrapper } from "../../../../helpers/Styles";
-import {fetchDeliveryDetails} from '../../../../helpers/NetworkRequest'
+import 'App.css';
+import { Wrapper } from "helpers/Styles";
+import {fetchDeliveryDetails} from 'helpers/NetworkRequest'
 import { Helmet } from "react-helmet";
 
 const StyledText = styled(Typography)({

@@ -10,10 +10,10 @@ import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import * as Yup from "yup";
 // import "./Professional.css";
-import { domain } from "../../../App";
-import Button from "../../application/button/button";
-import { FormSetter, FormContainer, Wrapper, StyledText } from "../../../helpers/styles";
-import Logo from '../../../Assets/logo.png'
+import { domain } from "App";
+import Button from "components/application/button/button";
+import { FormSetter, FormContainer, Wrapper, StyledText } from "helpers/styles";
+import Logo from 'Assets/logo.png'
 
 // Styled componenst with material styled
 const StyledField = styled(TextField)({
@@ -52,9 +52,6 @@ export default function (props) {
     });
 
 
-    // axios.post('http://localhost:5000/register', article, { headers })
-    //     .then(data=>console.log(data))
-    //     .catch(err=>console.log(err))
     let xhr = new XMLHttpRequest();
     xhr.open("POST", `${domain}/signin`);
     xhr.setRequestHeader("Content-type", "application/json; charset=utf-8");

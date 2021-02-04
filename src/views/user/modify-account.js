@@ -8,13 +8,13 @@ import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
 import { useSnackbar } from 'notistack';
-import {Wrapper,StyledText} from '../../helpers/Styles'
-import Input from '../../inputs/input';
-import Checkbox from '../../inputs/checkbox';
-import Select from '../../inputs/select';
-import {UpdateAccount} from '../../helpers/NetworkRequest'
-import Button from '../../components/application/button/button';
-import '../../App.css'
+import {Wrapper,StyledText} from 'helpers/Styles'
+import Input from 'inputs/input';
+import Checkbox from 'inputs/checkbox';
+import Select from 'inputs/select';
+import {UpdateAccount} from 'helpers/NetworkRequest'
+import Button from 'components/application/button/button';
+import 'App.css'
 import {useSelector} from 'react-redux'
 import { Helmet } from "react-helmet";
 

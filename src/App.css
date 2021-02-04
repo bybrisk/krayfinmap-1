@@ -46,7 +46,7 @@ input:-internal-autofill-selected{
 }
 
 .MuiTableSortLabel-root.MuiTableSortLabel-active.MuiTableSortLabel-root.MuiTableSortLabel-active .MuiTableSortLabel-icon{
-  color:#ffffff !important;
+  color:#000000 !important;
 }
 
 .flex{

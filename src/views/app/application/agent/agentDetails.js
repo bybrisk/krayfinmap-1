@@ -7,13 +7,13 @@ import Grow from '@material-ui/core/Grow';
 import { useSnackbar } from 'notistack';
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import '../../../../App.css';
-import Button from '../../../../components/application/button/button';
-import { deleteAgent, fetchAgentDetail } from '../../../../helpers/NetworkRequest';
-import { Wrapper } from "../../../../helpers/Styles";
+import 'App.css';
+import Button from 'components/application/button/button';
+import { deleteAgent, fetchAgentDetail } from 'helpers/NetworkRequest';
+import { Wrapper } from "helpers/Styles";
 import EditAgent from './addAgent';
 import { Helmet } from "react-helmet";
-import Loading from '../../../../components/application/Loader/Loader';
+import Loading from 'components/application/Loader/Loader';
 
 const StyledText = styled(Typography)({
     minWidth:250,

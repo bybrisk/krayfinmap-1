@@ -6,7 +6,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import { useField ,useFormikContext} from "formik";
 import { at } from "lodash";
-import '../App.css'
+import 'App.css'
 const StyledField = styled(TextField)({
   borderRadius: "1000rem",
   marginTop: "3px"
@@ -17,7 +17,6 @@ const StyledField = styled(TextField)({
 const GPlace = (props) => {
   const { errorText,label,tip, ...rest } = props;
   const [field, meta] = useField(props);
-  // console.log(props)
   function _renderHelperText() {
     const [touched, error] = at(meta, "touched", "error");
     if (touched && error) {
@@ -33,13 +32,10 @@ const GPlace = (props) => {
 
   // initialize the google place autocomplete
   const initPlaceAPI = () => {
-    console.log(placeInputRef.current.children[0].children[0])
     let autocomplete = new window.google.maps.places.Autocomplete(placeInputRef.current.children[0].children[0]);
-    console.log(autocomplete)
     new window.google.maps.event.addListener(autocomplete, "place_changed", function () {
       let place = autocomplete.getPlace();
       placeInputRef.current.value = place.formatted_address
-console.log(place)
       setFieldValue("Address",place.formatted_address)
       setFieldValue("longitude",place.geometry.location.lng())
       setFieldValue("latitude",place.geometry.location.lat())

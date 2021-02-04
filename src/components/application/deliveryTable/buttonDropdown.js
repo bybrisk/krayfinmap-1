@@ -1,6 +1,6 @@
 import React, { useRef, useEffect,useState, Suspense} from "react";
 import Avatar from '@material-ui/core/Avatar'
-import '../../../views/app/dashboard/dropdown.css'
+import 'views/app/dashboard/dropdown.css'
 import { fade, makeStyles } from "@material-ui/core/styles";
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -13,7 +13,7 @@ import AddIcon from "@material-ui/icons/Add";
 import ReactButton from "../button/button";
 import Loader from '../Loader/Loader'
 const AddDelivery = React.lazy(() =>
-  import(/* webpackChunkName: "Add-delivery" */ '../../../views/app/application/delivery/addDeivery')
+  import(/* webpackChunkName: "Add-delivery" */ 'views/app/application/delivery/addDeivery')
 );
 const AddMultiple = React.lazy(() =>
   import(/* webpackChunkName: "Add - Multiple" */ './AddMultiple')

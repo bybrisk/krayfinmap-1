@@ -19,7 +19,7 @@ import Loader from '../Loader/Loader'
 import { Helmet } from "react-helmet";
 import { useSelector,useDispatch} from "react-redux";
 // import AgentDetail from '../AgentDetails'
-import { fetchAccountDetails, fetchDeliveries, modifyStatus } from '../../../helpers/NetworkRequest';
+import { fetchAccountDetails, fetchDeliveries, modifyStatus } from 'helpers/NetworkRequest';
 import { getComparator, search, StyledTableCell, StyledTableRow } from '../tableHelpers/helpers';
 import Select from './StatusDropdown';
 import TableHead from './tableHead';
@@ -28,7 +28,7 @@ import Toolbar from './toolbar';
 
 
 const DeliveryDetails = React.lazy(() =>
-  import(/* webpackChunkName: "Delivery-Details" */ '../../../views/app/application/delivery/deliveryDetails')
+  import(/* webpackChunkName: "Delivery-Details" */ 'views/app/application/delivery/deliveryDetails')
 );
 
 //fetchDeliveryDetails to be replaced with get all deliveries
@@ -132,7 +132,6 @@ const dispatch = useDispatch();
   const handleQuery = (query) =>{
 setQuery(query.toLowerCase())
 }
-console.log(bybID)
     function handleDelivery(refreshRef){
       fetchDeliveries({bybID,setDelivery});
      refreshRef && setTimeout(()=>{refreshRef.current.classList.remove('refresh')},2000)

@@ -44,8 +44,8 @@ return stableSort(filteredrow,comparator)
 
 export const StyledTableCell = withStyles((theme) => ({
     head: {
-      backgroundColor: '#061336',
-      color: theme.palette.common.white,
+      backgroundColor: '#d9dcde',
+      color: theme.palette.common.black,
     },
     body: {
       fontSize: 16,

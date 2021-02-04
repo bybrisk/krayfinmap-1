@@ -12,11 +12,10 @@ import { useDispatch } from "react-redux";
 import { useSnackbar } from 'notistack';
 
 // import "./Professional.css";
-import { domain } from "../../App";
-import Logo from '../../Assets/logo.png';
-import Button from "../../components/application/button/button";
-import { loginAccount } from "../../helpers/NetworkRequest";
-import { FormContainer, FormSetter, StyledText, Wrapper } from "../../helpers/Styles";
+import Logo from 'Assets/logo.png';
+import Button from "components/application/button/button";
+import { loginAccount } from "helpers/NetworkRequest";
+import { FormContainer, FormSetter, StyledText, Wrapper } from "helpers/Styles";
 
 
 // Styled componenst with material styled

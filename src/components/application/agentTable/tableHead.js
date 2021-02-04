@@ -25,7 +25,6 @@ import { StyledTableCell } from '../tableHelpers/helpers';
               sortDirection={orderBy === headCell.id ? order : false}
             >
               <TableSortLabel
-              style={{color:'white'}}
                 active={orderBy === headCell.id}
                 direction={orderBy === headCell.id ? order : 'asc'}
                 onClick={createSortHandler(headCell.id)}

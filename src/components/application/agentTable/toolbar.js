@@ -1,16 +1,16 @@
 import Backdrop from '@material-ui/core/Backdrop';
 import Grow from '@material-ui/core/Grow';
 import Modal from "@material-ui/core/Modal";
-import Loader from '../../../components/application/Loader/Loader'
+import Loader from 'components/application/Loader/Loader'
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import AddIcon from '@material-ui/icons/Add';
 import React, { useRef, useState, Suspense } from 'react';
-import '../../../App.css';
+import 'App.css';
 import ReactButton from '../button/button';
 const AgentAdd = React.lazy(() =>
-  import(/* webpackChunkName: "Agent-add" */ '../../../views/app/application/agent/addAgent')
+  import(/* webpackChunkName: "Agent-add" */ 'views/app/application/agent/addAgent')
 );
 
 //styles for enhanced table toolbar

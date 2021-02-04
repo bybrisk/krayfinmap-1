@@ -2,26 +2,26 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSnackbar } from 'notistack';
 import CircularProgress from '@material-ui/core/CircularProgress'
-import ReactPlaceInput from "../../../../helpers/reactPlace"
+import ReactPlaceInput from "helpers/reactPlace"
 import { Helmet } from "react-helmet";
 
 import Grid from '@material-ui/core/Grid';
-import Input from '../../../../inputs/input';
-import CheckBox from '../../../../inputs/checkbox';
-import Select from '../../../../inputs/select';
+import Input from 'inputs/input';
+import CheckBox from 'inputs/checkbox';
+import Select from 'inputs/select';
 
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 
-import { domain } from "../../../../App";
-import { Wrapper } from "../../../../helpers/Styles";
-import {AddDelivery} from '../../../../helpers/NetworkRequest'
+import { domain } from "App";
+import { Wrapper } from "helpers/Styles";
+import {AddDelivery} from 'helpers/NetworkRequest'
 import { Formik, Form} from "formik";
-import validationSchema from "../../../../components/application/addDelivery/ValidationSchema";
-import DeliveryModel from "../../../../components/application/addDelivery/DeliveryModel";
-import formInitialValues from "../../../../components/application/addDelivery/DeliveryInitial";
-import '../../../../App.css'
-import Button from '../../../../components/application/button/button';
+import validationSchema from "components/application/addDelivery/ValidationSchema";
+import DeliveryModel from "components/application/addDelivery/DeliveryModel";
+import formInitialValues from "components/application/addDelivery/DeliveryInitial";
+import 'App.css'
+import Button from 'components/application/button/button';
 import {useSelector} from "react-redux";
 import axios from 'axios';
 const { formId, formField:{CustomerName,pincode,phone,itemWeight,paymentStatus,Locality,Landmark,City,PendingAmount} } = DeliveryModel;
@@ -88,16 +88,16 @@ const user = useSelector(state => state.user)
 
   function _handleSubmit(values,actions) {
     const article = JSON.stringify({
-      CustomerAddress: values.Locality + " " + values.Landmark + " " + values.City,
+      CustomerAddress: values.Locality + " " + values.Landmark + " " + values.City + " " + values.pincode,
       itemWeight: values.itemWeight,
       phone: values.phone,
       CustomerName: values.CustomerName,
       paymentStatus: values.paymentStatus,
       pincode:values.pincode,
       BybID:bybId,
-      deliveryStatus:'pending'
+      deliveryStatus:'pending',
+      amount: values.PendingAmount
     });
-
     AddDelivery({article,actions,closeModal,enqueueSnackbar})
   }
 
@@ -186,7 +186,6 @@ style={{height:100,width:100}}
             <CheckBox name={paymentStatus.name} tip={paymentStatus.tip} label={paymentStatus.label}  style={{minWidth:300}}/>
   </Grid>
   <Grid item style={{marginLeft:20,alignItems:"center",justifyContent:"center",display:"flex"}}>
-  {console.log(props.values.paymentStatus)}
   <Input name={PendingAmount.name} variant={!props.values.paymentStatus?"outlined":"filled"} disabled={props.values.paymentStatus} tip={PendingAmount.tip}label={PendingAmount.label} type="text"  style={{minWidth:300}}/>
 
   </Grid>

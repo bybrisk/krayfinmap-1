@@ -1,8 +1,8 @@
 import React from "react";
-import { FormSetter, StyledText } from "../../../helpers/Styles";
-import Input from "../../../inputs/input";
-import Select from "../../../inputs/select";
-import ReactPlaceInput from "../../../helpers/reactPlace"
+import { FormSetter, StyledText } from "helpers/Styles";
+import Input from "inputs/input";
+import Select from "inputs/select";
+import ReactPlaceInput from "helpers/reactPlace"
 import { Helmet } from "react-helmet";
 
 

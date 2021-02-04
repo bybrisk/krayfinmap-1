@@ -1,7 +1,7 @@
 import React from "react";
-import Input from "../../../inputs/input";
-import Select from "../../../inputs/select";
-import { FormSetter, StyledText } from "../../../helpers/Styles";
+import Input from "inputs/input";
+import Select from "inputs/select";
+import { FormSetter, StyledText } from "helpers/Styles";
 import { Helmet } from "react-helmet";
 
 const agentDeliveryTime = [

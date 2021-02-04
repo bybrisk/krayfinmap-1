@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { BrowserRouter } from "react-router-dom";
 import {useSelector} from 'react-redux'
-import Logo from '../../../Assets/logo.png';
+import Logo from 'Assets/logo.png';
 // import AgentTable from '../AgentTable/AgentTable'
 // import DeliveryTable from '../AgentTable/DeliveryTable/DeliveryTable'
 import Accordion from './accordion';
@@ -84,16 +84,17 @@ const user = useSelector(state => state.user)
       <div className={classes.toolbar}>
       <div style={{background:'#ffffff',width:'100%',height:64,display:'flex',justifyContent:'center'}}>
           <img src={Logo} style={{height:'inherit'}} alt="Krayfin Map" />
+          <Divider style={{background:'#000000'}}/>
 
           </div>
 
       </div>
       <List>
-      <Divider style={{background:'white'}}/>
-      <div style={{textAlign:'left',padding:10,color:"yellow"}}><Typography variant="h6">Hi, {user.UserName} </Typography></div>
 
+      <div style={{textAlign:'left',padding:10,color:"#000000"}}><Typography variant="h6">Hi, {user.UserName} </Typography></div>
+      <Divider style={{background:'#000000'}}/>
       <Accordion/>
-      <Divider style={{background:'white'}}/>
+      <Divider style={{background:'#000000'}}/>
 
      
       </List>
@@ -109,7 +110,7 @@ const user = useSelector(state => state.user)
 
       <AppBar position="fixed" className={classes.appBar}>
 
-        <Toolbar style={{background:'#061336',justifyContent:'space-between'}}>
+        <Toolbar style={{background:'#1A73E8',justifyContent:'space-between'}}>
          <div style={{display:'flex'}}>
           
           <div style={{marginRight:10,marginLeft:10}}>
@@ -136,7 +137,7 @@ const user = useSelector(state => state.user)
           </div>
         </Toolbar>
       </AppBar>
-      <nav className={classes.drawer} aria-label="mailbox folders">
+      <nav className={classes.drawer} aria-label="Drawer">
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Hidden mdUp implementation="css">
           <Drawer

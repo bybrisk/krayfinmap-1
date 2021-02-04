@@ -10,7 +10,7 @@ import { useField } from "formik";
 import { at } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
-import '../App.css';
+import 'App.css';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -31,7 +31,6 @@ function SelectField(props) {
   const { value: selectedValue } = field;
   const [touched, error] = at(meta, "touched", "error");
   const isError = touched && error && true;
-  // console.log(field,selectedValue,rest)
   function _renderHelperText() {
     if (isError) {
       return <FormHelperText>{error}</FormHelperText>;

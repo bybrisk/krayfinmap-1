@@ -11,12 +11,9 @@ const Slider = () => {
   const handleSignupClick = () => {
     signupcontainer.current.classList.remove("right-panel-active");
 
-    // signupcontainer.current.className.add('right-panel-active');
   };
   const handleLoginClick = () => {
     signupcontainer.current.classList.add("right-panel-active");
-    // signupcontainer.current.className.remove('right-panel-active');
-    // console.log()
   };
   return (
     <>

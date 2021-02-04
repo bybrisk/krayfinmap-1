@@ -2,11 +2,11 @@ import React from 'react'
 import { Formik, Form} from "formik";
 import { useSnackbar } from 'notistack';
 import * as Yup from "yup";
-import {Wrapper,FormContainer,StyledText,FormSetter} from '../../helpers/Styles'
-import Input from '../../inputs/input';
-import Button from '../../components/application/button/button';
+import {Wrapper,FormContainer,StyledText,FormSetter} from 'helpers/Styles'
+import Input from 'inputs/input';
+import Button from 'components/application/button/button';
 import CircularProgress from "@material-ui/core/CircularProgress";
-import {UpdatePassword} from '../../helpers/NetworkRequest'
+import {UpdatePassword} from 'helpers/NetworkRequest'
 import {useSelector} from 'react-redux'
 import { Helmet } from "react-helmet";
 
@@ -37,7 +37,6 @@ const {close} = prop;
       newPassword:values.newPassword,
       bybID:ID
     })
-  // console.log(newDetails,ID)
     UpdatePassword({newDetails,enqueueSnackbar,close})
   }
     return (

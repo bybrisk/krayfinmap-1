@@ -24,7 +24,7 @@ const ReactPlace = (props) => {
       setLoadMap(true)
     });
   }, []);
-  // console.log(props,"----------from container")
+
 
   return (
     <div className="container">

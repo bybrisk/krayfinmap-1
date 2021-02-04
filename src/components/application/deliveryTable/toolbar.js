@@ -16,9 +16,9 @@ import SearchIcon from "@material-ui/icons/Search";
 import React,{useRef} from "react";
 import {useSelector} from 'react-redux';
 import ButtonDropdown from './buttonDropdown'
-import ReactButton from "../../application/button/button";
-import AddDelivery from '../../../views/app/application/delivery/addDeivery'
-import '../../../App.css'
+import ReactButton from "components/application/button/button";
+import AddDelivery from 'views/app/application/delivery/addDeivery'
+import 'App.css'
 const CardComponent = (props) => {
   const { title, stat,backgroundColor } = props;
   const classes = useToolbarStyles();

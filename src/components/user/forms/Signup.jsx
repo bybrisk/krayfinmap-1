@@ -1,6 +1,6 @@
 import React,{useRef} from "react";
-import { FormSetter, StyledText } from "../../../helpers/Styles";
-import Input from "../../../inputs/input";
+import { FormSetter, StyledText } from "helpers/Styles";
+import Input from "inputs/input";
 import { Helmet } from "react-helmet";
 
 const Signup = (props) => {

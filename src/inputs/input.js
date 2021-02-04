@@ -6,7 +6,7 @@ import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import { useField } from "formik";
 import { at } from "lodash";
 import React from "react";
-import "../App.css";
+import "App.css";
 
 const StyledField = styled(TextField)({
   borderRadius: "1000rem",
@@ -16,7 +16,6 @@ const StyledField = styled(TextField)({
 const ReactInput = (props) => {
   const { errorText,label,tip, ...rest } = props;
   const [field, meta] = useField(props);
-  // console.log(props)
   function _renderHelperText() {
     const [touched, error] = at(meta, "touched", "error");
     if (touched && error) {

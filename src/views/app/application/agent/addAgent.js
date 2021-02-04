@@ -3,21 +3,21 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useSnackbar } from 'notistack';
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Grid from '@material-ui/core/Grid';
-import Input from '../../../../inputs/input';
-import Select from '../../../../inputs/select';
+import Input from 'inputs/input';
+import Select from 'inputs/select';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import { Helmet } from "react-helmet";
 
-import { domain } from "../../../../App";
-import { Wrapper } from "../../../../helpers/Styles";
-import {AddAgent,modifyAgent} from '../../../../helpers/NetworkRequest'
+import { domain } from "App";
+import { Wrapper } from "helpers/Styles";
+import {AddAgent,modifyAgent} from 'helpers/NetworkRequest'
 import { Formik, Form} from "formik";
-import validationSchema from "../../../../components/application/addAagent/ValidationSchema";
-import AgentModel from "../../../../components/application/addAagent/AgentModel";
-import formInitialValues from "../../../../components/application/addDelivery/DeliveryInitial";
-import '../../../../App.css'
-import Button from '../../../../components/application/button/button';
+import validationSchema from "components/application/addAagent/ValidationSchema";
+import AgentModel from "components/application/addAagent/AgentModel";
+import formInitialValues from "components/application/addDelivery/DeliveryInitial";
+import 'App.css'
+import Button from 'components/application/button/button';
 import {useSelector} from "react-redux";
 import axios from 'axios';
 const { formId, formField:{AgentName,Locality,Landmark,City,Pin,AgentID,PhoneNumber,MaxHourCapacity,MaxWeightCapacity,agentType,PANCardNumber,TypeOfVehicle,DrivingLicenceNumber,AadharNumber} } = AgentModel;

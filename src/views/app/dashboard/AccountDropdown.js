@@ -13,9 +13,9 @@ import Modal from "@material-ui/core/Modal";
 import Backdrop from '@material-ui/core/Backdrop';
 import Grow from '@material-ui/core/Grow';
 import {useHistory} from 'react-router-dom'
-import ForgotPassword from '../../user/forgot-password'
-import UpdateAccount from '../../user/modify-account'
-import {logout} from '../../../helpers/NetworkRequest'
+import ForgotPassword from 'views/user/forgot-password'
+import UpdateAccount from 'views/user/modify-account'
+import {logout} from 'helpers/NetworkRequest'
 /**
  * Hook that alerts clicks outside of the passed ref
  */

@@ -5,16 +5,14 @@ import { BrowserRouter} from "react-router-dom";
 import { SnackbarProvider } from 'notistack';
 import { useDispatch } from "react-redux";
 import { Route, Switch ,useHistory} from "react-router-dom";
-import {PrivateRoute} from './helpers/PrivateRoute'
-import {fetchAccountDetails} from './helpers/NetworkRequest'
-import Loader from './components/application/Loader/Loader'
+import {PrivateRoute} from 'helpers/PrivateRoute'
+import {fetchAccountDetails} from 'helpers/NetworkRequest'
+import Loader from 'components/application/Loader/Loader'
 import theme from './helpers/Theme';
-import store from "./redux/store";
-import "./App.css";
-import ReactPlace from "./helpers/reactPlace";
+import store from "redux/store";
+import "App.css";
 
 
-// import 'react-google-places-autocomplete/dist/assets/index.css'
 
 const ViewApp = React.lazy(() =>
   import(/* webpackChunkName: "views-app" */ './views/app/dashboard/drawer')

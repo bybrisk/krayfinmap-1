@@ -33,13 +33,13 @@ let theme = createMuiTheme({
       },
       MuiIconButton:{
   root:{
-    color:'#ffffff'
+    color:'#000000'
   }
       },
       MuiAccordion:{
         root:{
-  background:'#061336',
-  color:'#ffffff'
+  background:'#F0F0F0',
+  color:'#000000'
         }
       },
       MuiToolbar:{
@@ -49,7 +49,7 @@ let theme = createMuiTheme({
       },
       MuiListItemIcon:{
         root:{
-  color:'#ffffff'
+  color:'#000000'
         }
       },
       MuiFormLabel:{
@@ -63,19 +63,19 @@ let theme = createMuiTheme({
   root:{
     flexDirection:'column',
     paddingLeft:"2rem",
-    backgroundColor:'#142245',
+    backgroundColor:'#F5F6F7',
     textAlign:'left'
   }
       },
       MuiDrawer:{
         paper:{
-          backgroundColor:'#061336',
-          color:'#ffffff'
+          backgroundColor:'#F0F0F0',
+          color:'#000000'
         }
       },
       MuiTableSortLabel:{
         icon:{
-  color:'#ffffff'
+  color:'#000000'
         }
       }	,
       MuiButton: {

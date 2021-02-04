@@ -4,8 +4,6 @@ import { Route, Redirect } from "react-router";
 
 export const PrivateRoute = ({ component: Component, ...rest }) => {
   const logged = useSelector((state) => state.login);
-  // const user = JSON.parse(localStorage.getItem("user"));
-  // console.log(user)
   return (
     <Route
       {...rest}
