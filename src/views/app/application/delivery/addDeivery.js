@@ -186,7 +186,7 @@ style={{height:100,width:100}}
             <CheckBox name={paymentStatus.name} tip={paymentStatus.tip} label={paymentStatus.label}  style={{minWidth:300}}/>
   </Grid>
   <Grid item style={{marginLeft:20,alignItems:"center",justifyContent:"center",display:"flex"}}>
-  <Input name={PendingAmount.name} variant={!props.values.paymentStatus?"outlined":"filled"} disabled={props.values.paymentStatus} tip={PendingAmount.tip}label={PendingAmount.label} type="text"  style={{minWidth:300}}/>
+  <Input name={PendingAmount.name} variant={!props.values.paymentStatus?"outlined":"filled"} disabled={props.values.paymentStatus} tip={PendingAmount.tip}label={PendingAmount.label} type="number"  style={{minWidth:300}}/>
 
   </Grid>
 

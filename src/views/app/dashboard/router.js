@@ -10,13 +10,21 @@ const ViewDeliveries = React.lazy(() =>
 const ViewClusters = React.lazy(() =>
   import(/* webpackChunkName: "views-error" */ 'components/application/agentTable/table')
 );
+const ViewClusterMap = React.lazy(() =>
+  import(/* webpackChunkName: "views-error" */ 'views/app/application/cluster/clusterMap')
+);
 
 export const Dashboard = ({ match }) => {
       return (
         <Suspense fallback={<Loader/>}>
 
       <Switch>
-            <Redirect exact from={`${match.url}/`} to={`${match.url}/agents`} />
+            <Redirect exact from={`${match.url}/`} to={`${match.url}/clusterMap`} />
+            <Route path={`${match.url}/clusterMap`} 
+                      render={(props) => <ViewClusterMap {...props} />}
+
+         />
+
         <Route path={`${match.url}/agents`} 
                       render={(props) => <ViewAgents {...props} />}
 

@@ -320,3 +320,68 @@ export async function UpdatePassword(props){
     
 }
 
+//clusters
+function generateDarkColorHex() {
+    let color = "#";
+    for (let i = 0; i < 3; i++)
+      color += ("0" + Math.floor(Math.random() * Math.pow(16, 2) / 2).toString(16)).slice(-2);
+    return color;
+  }
+
+const createClusters = (data) =>{
+let clusters = [];
+for (let i = 0; i < data[0].ClusterIDArray.length; i++) {
+  const colorForThisCluster =
+  generateDarkColorHex();
+  let singleCluster = [];
+  data[0].AssignedDeliveryArray[i].hits.hits.map((item) => {
+    singleCluster.push({
+      clusterid: data[0].ClusterIDArray[i],
+      customerName: item._source.CustomerName,
+      color: colorForThisCluster,
+      geometry: {
+        latitude: item._source.latitude,
+        longitude: item._source.longitude
+      }
+    });
+  });
+  clusters.push(singleCluster);
+}
+return clusters;
+}
+
+export async function fetchClusterDeliveries(props){
+    const {clusterID,setDeliveries,enqueueSnackbar} = props;
+
+    try {
+        const res = await API.get(`/clusters/allClusters/?clusterid=${clusterID}`);
+        if(res.data.hits.hits!==null || res.data.hits.hits!==undefined){
+        setDeliveries(res.data.hits.hits);
+    }
+} catch (error) {
+    enqueueSnackbar('Problem Fetching Data',{
+        variant: 'error',
+        autoHideDuration: 2000,
+    });
+}
+}
+
+export async function fetchClusters(props){
+    const {bybId, setClusters,enqueueSnackbar} = props;
+        try{
+            const res = await API.get(`/clusters/allClusters/?bybid=${bybId}`);
+if(res.data!==null || res.data!==undefined){
+const clusters = createClusters();
+setClusters(clusters)
+}
+        }
+        catch(err){
+            console.log(err)
+            enqueueSnackbar('There are no Clusters Yet',{
+                variant: 'info',
+                autoHideDuration: 2000,
+            });
+        }
+        
+    }
+

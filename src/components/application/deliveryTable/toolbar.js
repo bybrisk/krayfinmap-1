@@ -253,7 +253,7 @@ const refresh = useRef(null)
               inputProps={{ "aria-label": "search" }}
             />
           </div>
-      <AutorenewIcon onClick={handleRefresh} className={classes.refresh} ref={refresh} />
+   {handleDelivery &&   <AutorenewIcon onClick={handleRefresh} className={classes.refresh} ref={refresh} />} 
          </div>
          </section>
       </Toolbar>

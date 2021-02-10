@@ -12,13 +12,15 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import PeopleIcon from '@material-ui/icons/People';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import RoomIcon from '@material-ui/icons/Room';
 import PieChartIcon from '@material-ui/icons/PieChart';
 import {NavLink} from 'react-router-dom'
 import 'App.css'
 const MenuItem = [
-  {id:1,label:'Agents',link:'/dashboard/agents',icon:<PeopleIcon />},
-  {id:2,label:'Delivery',link:'/dashboard/deliveries',icon:<ShoppingCartIcon />},
-  {id:3,label:'Cluster',link:'/dashboard/clusters',icon:<PieChartIcon />}
+  {id:1,label:'Dashboard',link:'/dashboard/clusterMap',icon:<RoomIcon />},
+  {id:2,label:'Agents',link:'/dashboard/agents',icon:<PeopleIcon />},
+  {id:3,label:'Delivery',link:'/dashboard/deliveries',icon:<ShoppingCartIcon />},
+  {id:4,label:'Cluster',link:'/dashboard/clusters',icon:<PieChartIcon />}
 
 
 ]
@@ -26,7 +28,7 @@ const MenuItem = [
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
-    background:'#142245'
+    background:'rgb(255, 255, 255)'
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
@@ -45,29 +47,18 @@ export default function SimpleAccordion() {
 
   return (
     <div className={classes.root}>
-      <Accordion expanded={true}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography className={classes.heading}>Dashboard</Typography>
-        </AccordionSummary>
-        <Divider style={{background:'#000000'}}/>
-
-        <AccordionDetails className={classes.accordiondetail}>
-          <Typography variant="body1" className={classes.body}>Menu</Typography>
-        <List>
+     <List>
       {  MenuItem.map((item, index) => (
-         <NavLink to={item.link} activeClassName="link-active"> <ListItem button key={item.id} style={{background:"inherit",textDecoration:'none',color:'#000000'}}>
+         <NavLink to={item.link} activeClassName="link-active"> 
+         <ListItem component={NavLink} button key={item.id} to={item.link} activeClassName="link-active" style={{background:"inherit",textDecoration:'none',color:'#000000'}}>
                         <ListItemIcon>{item.icon}</ListItemIcon>
             <ListItemText primary={item.label} />
           </ListItem></NavLink>
         ))}
+    
       </List>
-     
-        </AccordionDetails>
-      </Accordion>
+
+    
     </div>
   );
 }
