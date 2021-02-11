@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3),
+    // padding: theme.spacing(3),
     width:"100%"
   },
 }));
@@ -114,7 +114,7 @@ const user = useSelector(state => state.user)
          <div style={{display:'flex'}}>
           
           <div style={{marginRight:10,marginLeft:10}}>
-          <img src={"https://bybrisk.com/assets/images/logo.png"} style={{maxHeight:60}} alt="Krayfin Map"/>
+          <img src={Logo} style={{maxHeight:60}} alt="Krayfin Map"/>
 
           </div>
           <IconButton

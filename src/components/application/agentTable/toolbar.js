@@ -58,7 +58,7 @@ const useToolbarStyles = makeStyles((theme) => ({
         className={classes.root}
       >
        <Typography variant="h5">Agents</Typography>
-<ReactButton width={"140px"} className="flex" onClick={handleOpen}>Add Agent <AddIcon style={{fontSize:'25px',marginTop:'4px'}}/></ReactButton>
+<ReactButton width={"140px"} padding={'.5rem'} className="flex" onClick={handleOpen}>Add Agent <AddIcon style={{fontSize:'25px',marginTop:'4px'}}/></ReactButton>
       </Toolbar>
    <Suspense fallback={<Loader/>}>
       <Modal

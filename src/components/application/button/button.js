@@ -8,7 +8,8 @@ const Button = styled.button`
   color: ${(props) => props.color};
   margin: ${(props) => props.margin};
   padding: ${(props) => props.padding};
-  width:${(props) => props.width};
+  width:${(props) => props.width};,
+  maxWidth:${(props) => props.maxWidth};,
   height:${(props) => props.height};
   cursor: pointer;
   font-size:14px;

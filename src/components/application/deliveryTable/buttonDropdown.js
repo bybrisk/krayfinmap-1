@@ -100,6 +100,7 @@ props===true?wrapperRef.current.classList.add("active"):wrapperRef.current.class
                 <span className="profile-image">
                 <ReactButton
             width={"140px"}
+            padding={'.5rem'}
             style={{
             }}
             className={classes.reactbutton}

@@ -149,16 +149,15 @@ color:'#ffffff'
 //thiis is to show "Agent" at top Helps in fixing
 //them just above table
 const EnhancedTableToolbar = (props) => {
-    const {setQuery,query,handleDelivery} = props;
+    const {setQuery,query,handleDelivery,filterStats} = props;
   const classes = useToolbarStyles();
   const [deliveryFilter, setFilter] = React.useState(false);
-  const user = useSelector(state => state.user)
 const refresh = useRef(null)
-  const filters = [
-    { title: "Delivered", stat: user.DeliveryDelivered, filter: "delivered",color:'darkolivegreen' },
-    { title: "Cancelled", stat: user.DeliveryCancelled, filter: "cancelled",color:'indianred' },
-    { title: "Pending", stat: user.DeliveryPending, filter: "pending",color:'darkgoldenrod' },
-    { title: "Transit", stat: user.DeliveryTransit, filter: "transit",color:'cornflowerblue' }
+  const filters = filterStats && [
+    { title: "Delivered", stat: filterStats.DeliveryDelivered, filter: "delivered",color:'darkolivegreen' },
+    { title: "Cancelled", stat: filterStats.DeliveryCancelled, filter: "cancelled",color:'indianred' },
+    { title: "Pending", stat: filterStats.DeliveryPending, filter: "pending",color:'darkgoldenrod' },
+    { title: "Transit", stat: filterStats.DeliveryTransit, filter: "transit",color:'cornflowerblue' }
 
   ];
 
@@ -190,12 +189,12 @@ const refresh = useRef(null)
 
   return (
     <>
-      <Toolbar style={{ flexDirection: "column" }}>
+      <Toolbar style={{ flexDirection: "column",padding:'15px 10px' }}>
         <div className={classes.root}>
           <Typography variant="h5" className={classes.title}>Deliveries</Typography>
       <ButtonDropdown />
          </div>
-        {deliveryFilter && (
+        {deliveryFilter  && (
           <Grow in={deliveryFilter} timeout={250}>
  <section className={classes.filtersActive}>
           <ArrowBackIcon onClick={removeFilter} style={{fontSize:"2rem"}}/>
@@ -213,7 +212,7 @@ const refresh = useRef(null)
         spacing={3}
         style={{ margin: "20px 0" }}
       >
-        {filters.map((item) => {
+        {filters && filters.map((item) => {
           return (
             <Grid item style={{ marginLeft: 10,borderRadius:24}}>
               <CardComponent

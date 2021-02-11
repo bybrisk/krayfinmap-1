@@ -29,4 +29,9 @@ logout not working well
 AssignedDeliveryArray
 [{hits>>hits>>clusterPoints}]
 
-clusterpoints>>_source>>latitude>>longitude
+clusterpoints>>_source>>latitude>>
+
+
+mobile@test
+
+newPassword

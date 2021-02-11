@@ -1,5 +1,7 @@
 import React, { Component, useState,useEffect } from "react";
 import GoogleMapReact from "google-map-react";
+import CircularProgress from "@material-ui/core/CircularProgress";
+
 import RoomRoundedIcon from "@material-ui/icons/RoomRounded";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -14,7 +16,7 @@ import { fetchClusters } from "helpers/NetworkRequest";
 import { useSnackbar } from 'notistack';
 import Typography from '@material-ui/core/Typography';
 import { Helmet } from "react-helmet";
-
+import {Link} from 'react-router-dom'
 const useStyles = makeStyles((theme) => ({
   listItem:{
 paddingTop:0,
@@ -31,11 +33,10 @@ paddingBottom:0,
   },
   cardContainer:{
     position: "absolute",
-    display: "block",
-    top:55,
-    right:25,
+    top:150,
+    right:45,
     maxWidth: 200,
-    height: 110,
+    maxHeight: 200,
     zIndex:60,
     overflow:'scroll',
     background:'#fff',
@@ -43,6 +44,8 @@ paddingBottom:0,
     borderRadius: 10,
     transition: "all 0.4s",
     boxShadow: "0px 0px 120px -25px rgba(0, 0, 0, 0.5)",
+    display:'flex',
+    alignItems: "center",justifyContent:"center",minWidth:100
   },
 }));
 
@@ -57,6 +60,7 @@ const ClusterMap = () => {
 
   const classes = useStyles();
   const [clusters,setClusters] = useState([])
+  const [isLoading,setLoading] = useState(false);
   const [center, setCenter] = useState({
     lat: 23.202357,
     lng: 77.414254
@@ -64,8 +68,10 @@ const ClusterMap = () => {
   const bybId = useSelector(state => state.bybId)
   const [zoom, setZoom] = useState(11);
   useEffect(() => {
-      fetchClusters({bybId, setClusters,enqueueSnackbar})
+    setLoading(true)
+      fetchClusters({bybId, setClusters,enqueueSnackbar,setLoading})
       return () => {
+
        }
   }, [bybId])
   console.log(clusters);
@@ -75,13 +81,20 @@ const ClusterMap = () => {
         <title>Cluster Summary</title>
         <meta name="description" content="Visual Representation of Deliveries of your account Made Simple"  />
       </Helmet>
-    <div style={{ height: "80vh", width: "100%" }}>
+    <div style={{ height: "90vh", width: "100%" }}>
           <div className={classes.cardContainer} id="bright">
-     <List aria-label="Cluster display">
+  {isLoading?(<CircularProgress
+   style={{height: "30px",
+     width: "30px",
+   color: "#4caf50"
+    }}
+       />
+       ):(
+        <List aria-label="Cluster display">
       
       {clusters.length===0 && <ListItem className={classes.listItem} style={{marginTop:23,color:'#057g78'}}>No Clusters Present</ListItem>}
       {clusters.map((item,index)=>{
-        return   <ListItem button key={item[0].clusterid} className={classes.listItem}>
+        return   <ListItem button key={item[0].clusterid} component={Link} to={{ pathname: '/dashboard/clusterDeliveries', state: { clusterID: item[0].clusterid} }} className={classes.listItem}>
         <ListItemIcon className={classes.iconContainer}>
     <Paper className={classes.avatar} style={{background:item[0].color}} variant={'circle'}></Paper>
         </ListItemIcon>
@@ -91,6 +104,8 @@ const ClusterMap = () => {
       })}
         
       </List>
+    
+       )}
       </div>
       <GoogleMapReact
         bootstrapURLKeys={{ key: "AIzaSyCuMJ3dhADqNoE4tGuWTI3_NlwBihj5BtE" }}

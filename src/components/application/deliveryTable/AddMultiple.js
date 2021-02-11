@@ -15,7 +15,7 @@ import XLSX from 'xlsx';
 import {useSelector} from "react-redux";
 import {AddDelivery} from 'helpers/NetworkRequest'
 import 'App.css'
-
+import ExcelDemo from 'Assets/excelDemo.jpg'
 function CircularProgressWithLabel(props) {
   return (
     <Box position="relative" display="inline-flex">
@@ -111,6 +111,7 @@ closeModal({makeRequest:true});
     return(
         <>
     <Wrapper className="wrapper" style={{padding:'30px 30px',justifyContent:'flex-start'}}>
+   <img src={ExcelDemo} style={{width:'50%'}} alt={'excel file demo'} />
     <div>
   <input type="file" onChange={(e)=>{
         const file = e.target.files[0];

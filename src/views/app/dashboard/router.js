@@ -8,12 +8,14 @@ const ViewDeliveries = React.lazy(() =>
   import(/* webpackChunkName: "views-user" */ 'components/application/deliveryTable/table')
 );
 const ViewClusters = React.lazy(() =>
-  import(/* webpackChunkName: "views-error" */ 'components/application/agentTable/table')
+  import(/* webpackChunkName: "views-error" */ 'components/application/clusterTable/table')
 );
 const ViewClusterMap = React.lazy(() =>
   import(/* webpackChunkName: "views-error" */ 'views/app/application/cluster/clusterMap')
 );
-
+const ViewClusterDeliveries = React.lazy(() =>
+  import(/* webpackChunkName: "views-error" */ 'components/application/deliveryTable/clusterDeliveries')
+);
 export const Dashboard = ({ match }) => {
       return (
         <Suspense fallback={<Loader/>}>
@@ -35,6 +37,11 @@ export const Dashboard = ({ match }) => {
         /> 
         <Route path={`${match.url}/clusters`}
               render={(props) => <ViewClusters {...props} />}
+
+
+        /> 
+        <Route path={`${match.url}/clusterDeliveries`}
+              render={(props) => <ViewClusterDeliveries {...props} />}
 
 
         /> 

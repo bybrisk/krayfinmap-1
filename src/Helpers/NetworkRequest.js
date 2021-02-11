@@ -328,17 +328,20 @@ function generateDarkColorHex() {
     return color;
   }
 
-const createClusters = (data) =>{
+const createClusters = ({data}) =>{
+    console.log(data)
 let clusters = [];
-for (let i = 0; i < data[0].ClusterIDArray.length; i++) {
+for (let i = 0; i < data.ClusterIDArray.length; i++) {
   const colorForThisCluster =
   generateDarkColorHex();
   let singleCluster = [];
-  data[0].AssignedDeliveryArray[i].hits.hits.map((item) => {
+  data.AssignedDeliveryArray[i].hits.hits.map((item) => {
     singleCluster.push({
-      clusterid: data[0].ClusterIDArray[i],
+      clusterid: data.ClusterIDArray[i],
       customerName: item._source.CustomerName,
       color: colorForThisCluster,
+      deliveryAgentID:item._source.deliveryAgentID,
+      distanceObserved:item._source.distanceObserved,
       geometry: {
         latitude: item._source.latitude,
         longitude: item._source.longitude
@@ -351,15 +354,13 @@ return clusters;
 }
 
 export async function fetchClusterDeliveries(props){
-    const {clusterID,setDeliveries,enqueueSnackbar} = props;
+    const {clusterID,setDelivery,enqueueSnackbar} = props;
 
     try {
-        const res = await API.get(`/clusters/allClusters/?clusterid=${clusterID}`);
-        if(res.data.hits.hits!==null || res.data.hits.hits!==undefined){
-        setDeliveries(res.data.hits.hits);
-    }
+        const res = await API.get(`/clusters/getdeliveries?clusterid=${clusterID}`);
+        res.data.hits.hits!==null &&     setDelivery(res.data.hits.hits);
 } catch (error) {
-    enqueueSnackbar('Problem Fetching Data',{
+    enqueueSnackbar('Problem Fetching Deliveries',{
         variant: 'error',
         autoHideDuration: 2000,
     });
@@ -367,21 +368,81 @@ export async function fetchClusterDeliveries(props){
 }
 
 export async function fetchClusters(props){
-    const {bybId, setClusters,enqueueSnackbar} = props;
+    const {bybId, setClusters,enqueueSnackbar,setLoading} = props;
+    console.log(setLoading)
         try{
-            const res = await API.get(`/clusters/allClusters/?bybid=${bybId}`);
-if(res.data!==null || res.data!==undefined){
-const clusters = createClusters();
-setClusters(clusters)
+    let clusters;
+            const res = await API.get(`/clusters/allClusters?bybid=${bybId}`);
+if(res.data.ClusterIDArray!==null && res.data!==undefined){
+ clusters = createClusters({data:res.data});
+console.log(clusters)
+setClusters && setClusters(clusters)
+setLoading && setLoading(false)
+}else{
+    setLoading && setLoading(false)
+
 }
+return clusters;
         }
         catch(err){
             console.log(err)
-            enqueueSnackbar('There are no Clusters Yet',{
+            setLoading && setLoading(false)
+
+            enqueueSnackbar  && enqueueSnackbar('There are no Clusters Yet',{
                 variant: 'info',
                 autoHideDuration: 2000,
             });
         }
         
     }
+
+
+export async function postCluster(props){
+    const {clusterData,enqueueSnackbar,setSubmitting} = props;
+    console.log('great,this being called')
+
+    try{
+        const config = {headers:{"Content-Type": "application/json"}}
+        const body = clusterData
+        
+             await API.post("/clusters/createCluster",body,config);
+             console.log('great,this being stayed')
+             setSubmitting(false)
+             enqueueSnackbar('Cluster Made Succesfully',{
+                    variant: 'success',
+                    autoHideDuration: 2000,
+                });
+    
+    }
+    catch(e){
+        setSubmitting(false)
+
+        enqueueSnackbar('Problem while making clusters',{
+            variant: 'success',
+            autoHideDuration: 2000,
+        });
+
+    }
+    
+}
+
+export async function  genetateOverview(props){
+    const {bybId, setClusters} = props;
+
+    try {
+    const clusterData = await fetchClusters({bybId})
+    const clusterOverview = clusterData.map(item=>{
+        return {
+            clusterid:item[0].clusterid,
+            deliveryAgentID:item[0].deliveryAgentID,
+            totalDeliveries:item.length,
+            distanceObserved:item.distanceObserved
+        }
+    })
+        setClusters(clusterOverview)    
+} catch (error) {
+    console.log(error)
+}
+
+}
 

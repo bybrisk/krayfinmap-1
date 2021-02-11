@@ -74,6 +74,8 @@ const pending = [
   const useStyles = makeStyles((theme) => ({
     root: {
       width: '100%',
+      padding:theme.spacing(3)
+
     },
     paper: {
       width: '100%',
@@ -101,7 +103,7 @@ const pending = [
   }));
 
   export default function DeliveryContainer(props) {
-    const {rows} = props;
+    const {rows,handleDelivery,setDelivery,filterStats} = props;
     const classes = useStyles();
     const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
@@ -192,7 +194,7 @@ const pending = [
    <Suspense fallback={<Loader />}>
       <div className={classes.root}>
         <Paper className={classes.paper}>
-          <Toolbar setQuery={handleQuery} query={query} handleDelivery={handleDelivery}/>
+          <Toolbar setQuery={handleQuery} query={query} handleDelivery={handleDelivery} filterStats={filterStats}/>
           <TableContainer>
             <Table
               className={classes.table}

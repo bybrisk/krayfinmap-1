@@ -4,6 +4,7 @@ import Backdrop from '@material-ui/core/Backdrop';
 import red from '@material-ui/core/colors/indigo';
 import Grow from '@material-ui/core/Grow';
 import { Helmet } from "react-helmet";
+import { useSnackbar } from 'notistack';
 
 //dependencies for modal
 import Modal from "@material-ui/core/Modal";
@@ -16,10 +17,9 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import React, { useEffect } from 'react';
+import React, { Component, useState,useEffect } from "react";
 import { useSelector } from "react-redux";
-import { fetchAgents } from 'helpers/NetworkRequest';
-import AgentDetail from 'views/app/application/agent/agentDetails';
+import { genetateOverview } from 'helpers/NetworkRequest';
 import { getComparator, stableSort, StyledTableCell, StyledTableRow } from '../tableHelpers/helpers';
 import EnhancedTableHead from './tableHead';
 //divided component to make them one
@@ -60,42 +60,33 @@ export default function AgentTable(props) {
   const [orderBy, setOrderBy] = React.useState('AgentID');
   const [page, setPage] = React.useState(0);
   const [agentid, setagentid] = React.useState('');
-  
+  const { enqueueSnackbar } = useSnackbar();
+  const [isLoading,setLoading] = useState(false);
+
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [open, setOpen] = React.useState(false);
-  const [rows,setAgents] = React.useState([])
+  const [rows,setClusters] = React.useState([])
   const bybId = useSelector(state => state.bybId);
   const headCells = [
-    { id: 'PicURL', numeric: true, disablePadding: false, label: 'Photo' },
-    { id: 'AgentID', numeric: true, disablePadding: false, label: 'Agent Id' },
-    { id: 'AgentName', numeric: false, disablePadding: false, label: 'Agent Name' },
-    { id: 'agentType', numeric: false, disablePadding: false, label: 'Type' },
-    { id: 'PhoneNumber', numeric: true, disablePadding: false, label: 'Phone Number' },
-    { id: 'action', numeric: true, disablePadding: false, label: 'Action' },
+    { id: 'clusterid', numeric: true, disablePadding: false, label: 'Cluster ID' },
+    { id: 'deliveryAgentID', numeric: true, disablePadding: false, label: 'Agent ID' },
+    { id: 'totalDeliveries', numeric: false, disablePadding: false, label: 'Deliveries in Cluster' },
+    // { id: 'Expected Distance', numeric: false, disablePadding: false, label: 'Type' },
+    // { id: 'Observed Distance', numeric: true, disablePadding: false, label: 'Phone Number' },
+    // { id: 'action', numeric: true, disablePadding: false, label: 'Action' },
 
   ];
 
-  const handleOpen = (id) => {
-    setagentid(id);
-    setOpen(true);
-  };
-    function handleAgent(){
-      fetchAgents({bybId,setAgents});
-  }
 
-
-  const handleClose = () => {
-    setOpen(false);
-handleAgent();
-  };
-
-  useEffect(() => {
-  fetchAgents({bybId,setAgents});
+  useEffect( () => {
+    genetateOverview({bybId, setClusters})
 
     return () => {
       
     }
   }, [bybId])
+
+  
 
   //this function set the state for sorting information
   const handleRequestSort = (event, property) => {
@@ -128,7 +119,7 @@ handleAgent();
  
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar  handleAgent={handleAgent}/>
+        <EnhancedTableToolbar/>
         <TableContainer>
           <Table
             className={classes.table}
@@ -154,14 +145,11 @@ handleAgent();
                       tabIndex={-1}
                       key={row.name}
                     >
-              <StyledTableCell>
-              <Avatar alt={row.AgentName} src={row.PicURL || row.AgentName[0]} />
-              </StyledTableCell>
-              <StyledTableCell align="center">{row.AgentID}</StyledTableCell>
-              <StyledTableCell align="center">{row.AgentName}</StyledTableCell>
-              <StyledTableCell align="center">{row.agentType}</StyledTableCell>
-              <StyledTableCell align="center">{row.PhoneNumber}</StyledTableCell>
-              <StyledTableCell align="center" style={{cursor:'pointer',color:'blue'}} onClick={()=>handleOpen(row.bybid)}>View</StyledTableCell>
+               <StyledTableCell align="center">{row.clusterid}</StyledTableCell>
+              <StyledTableCell align="center">{row.deliveryAgentID}</StyledTableCell>
+              <StyledTableCell align="center">{row.totalDeliveries}</StyledTableCell>
+              {/* <StyledTableCell align="center">{row.PhoneNumber}</StyledTableCell>
+              <StyledTableCell align="center" style={{cursor:'pointer',color:'blue'}} onClick={()=>handleOpen(row.bybid)}>View</StyledTableCell> */}
                     </StyledTableRow>
                     </>
                   );
@@ -188,34 +176,7 @@ handleAgent();
       </Paper>
       
     </div>
-    <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="Agent-detail"
-        aria-describedby="Agent-detail"
-        closeAfterTransition
-                BackdropComponent={Backdrop}
-                BackdropProps={{
-                    timeout: 400,
-                }}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          flexDirection:'column',
-          background:'#ffffff',
-        }}
-      >
-                      <Grow in={open} timeout={250} >
-
-      <section style={{background:'#ffffff',width:'100%',height:'100%',overflow:'scroll'}}> 
-  <div style={{fontSize:40,textAlign:'right',padding:'0 30px',margin:0}}>    <span style={{cursor:'pointer'}} onClick={handleClose} >x</span>
-</div>
-        <AgentDetail id={agentid} handleClose={handleClose}/>
-      </section>
-      </Grow>
-      </Modal>
-  
+   
   </>
   );
 }
