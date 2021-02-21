@@ -96,7 +96,7 @@ const user = useSelector(state => state.user)
       pincode:values.pincode,
       BybID:bybId,
       deliveryStatus:'pending',
-      amount: values.PendingAmount
+      amount: values.PendingAmount || 0
     });
     AddDelivery({article,actions,closeModal,enqueueSnackbar})
   }

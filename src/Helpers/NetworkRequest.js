@@ -105,7 +105,7 @@ export async function AddDelivery(props){
         const config = {headers:{"Content-Type": "application/json"}}
         const body = article
         
-             await API.post("/delivery/addDelivery",body,config);
+         const response = await API.post("/delivery/addDelivery",body,config);
            actions && actions.setSubmitting(false);
 
            closeModal && closeModal({makeRequest:true})
@@ -113,12 +113,50 @@ export async function AddDelivery(props){
                  variant: 'success',
                  autoHideDuration: 2000,
              });
-             return;
+             return response;
          }
     catch(e){
     
     }
     }
+
+export async function AddMultipleDeliveries(props){
+    const {deliveryJson,cancel,closeModal,failedDeliveries,setFailedDeliveries,setProgress,enqueueSnackbar} = props;
+    console.log("started try step",cancel)
+
+    try {
+    let i=0;
+    console.log(cancel)
+    console.log("entering WHhie loop try step",cancel)
+
+    while(!cancel && i<deliveryJson.length){
+        if(cancel){
+            console.log("break from inside cancel",cancel)
+
+break;
+        }
+     const response =  await AddDelivery({article:deliveryJson[i]})
+     console.log(response)
+     i+=1;
+    }
+    if(i!==deliveryJson.length-1){
+        enqueueSnackbar('Delivery Adding interrupted',{
+            variant: 'error',
+            autoHideDuration: 2000,
+        });
+    }
+    else{
+        enqueueSnackbar('Delivery Added Succesfully',{
+            variant: 'success',
+            autoHideDuration: 2000,
+        });
+        closeModal();
+
+    }
+} catch (error) {
+    
+}
+}
 
     //fetch deliveryDetails
 export async function fetchDeliveryDetails(props){
@@ -342,6 +380,7 @@ for (let i = 0; i < data.ClusterIDArray.length; i++) {
       color: colorForThisCluster,
       deliveryAgentID:item._source.deliveryAgentID,
       distanceObserved:item._source.distanceObserved,
+      itemWeight:item._source.itemWeight,
       geometry: {
         latitude: item._source.latitude,
         longitude: item._source.longitude
@@ -398,8 +437,7 @@ return clusters;
 
 
 export async function postCluster(props){
-    const {clusterData,enqueueSnackbar,setSubmitting} = props;
-    console.log('great,this being called')
+    const {clusterData,enqueueSnackbar,setSubmitting,bybId, setClusters} = props;
 
     try{
         const config = {headers:{"Content-Type": "application/json"}}
@@ -408,10 +446,11 @@ export async function postCluster(props){
              await API.post("/clusters/createCluster",body,config);
              console.log('great,this being stayed')
              setSubmitting(false)
-             enqueueSnackbar('Cluster Made Succesfully',{
+             enqueueSnackbar('Cluster will be updated in 5 minutes',{
                     variant: 'success',
                     autoHideDuration: 2000,
                 });
+console.log("here starts")
     
     }
     catch(e){
@@ -429,16 +468,50 @@ export async function postCluster(props){
 export async function  genetateOverview(props){
     const {bybId, setClusters} = props;
 
+const calculateAverageWeight = (array) =>{
+    console.log(array,"ghghghghghghg")
+    let averageWeight = 0;
+    for(let i=0;i<array.length;i++){
+averageWeight += array[i].itemWeight
+}
+return averageWeight
+}
+
+const calculateDistanceObserved = (array) =>{
+    let distanceObserved = 0;
+    for(let i=0;i<array.length;i++){
+        distanceObserved += array[i].distanceObserved
+}
+return distanceObserved
+}
+
+const calculateTotals = (array) =>{
+    let distanceObserved = 0;
+    let averageWeight = 0;
+
+    for(let i=0;i<array.length;i++){
+        distanceObserved += array[i].distanceObserved
+        averageWeight += array[i].itemWeight
+
+}
+return {distanceObserved, averageWeight}
+}
+
+
+
     try {
     const clusterData = await fetchClusters({bybId})
-    const clusterOverview = clusterData.map(item=>{
+    const clusterOverview = clusterData.map((item,index)=>{
+        const {distanceObserved, averageWeight} = calculateTotals(item);
         return {
-            clusterid:item[0].clusterid,
+            clusterid:`Cluster ${index}`,
             deliveryAgentID:item[0].deliveryAgentID,
             totalDeliveries:item.length,
-            distanceObserved:item.distanceObserved
+            distanceObserved:distanceObserved,
+            averageWeight:averageWeight
         }
     })
+console.log(clusterOverview,"===----===----===----")
         setClusters(clusterOverview)    
 } catch (error) {
     console.log(error)

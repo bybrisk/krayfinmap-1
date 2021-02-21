@@ -9,7 +9,7 @@ const Button = styled.button`
   margin: ${(props) => props.margin};
   padding: ${(props) => props.padding};
   width:${(props) => props.width};,
-  maxWidth:${(props) => props.maxWidth};,
+  maxWidth:${(props) => props.maxWidth};
   height:${(props) => props.height};
   cursor: pointer;
   font-size:14px;

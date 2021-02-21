@@ -16,6 +16,7 @@ import {useSelector} from "react-redux";
 import {AddDelivery} from 'helpers/NetworkRequest'
 import 'App.css'
 import ExcelDemo from 'Assets/excelDemo.jpg'
+import { object } from 'yup';
 function CircularProgressWithLabel(props) {
   return (
     <Box position="relative" display="inline-flex">
@@ -52,39 +53,66 @@ CircularProgressWithLabel.propTypes = {
 const AddMultiple = (props) =>{
   const [progress, setProgress] = React.useState(0);
   const { enqueueSnackbar } = useSnackbar();
-const [loader,setLoader] = useState(false)
-  const bybId = useSelector(state => state.bybId)
-  const {closeModal} = props;
+const [loader,setLoader] = useState(false);
+let cancel = {status:false}
+const bybId = useSelector(state => state.bybId)
+  const {closeModal,isOpen} = props;
+  const [failedDeliveries,setFailedDeliveries] = useState([])
+  
+
 
   const FinalStep = async (data) =>{
-for(let i=0;i<data.length;i++){
-  const article = JSON.stringify({
-    CustomerAddress: data[i]["Locality"]+" "+data[i]["Landmark"]+" "+data[i]["City"],
-    itemWeight: data[i]["Item Weight"],
-    phone: data[i]["Phone"].toString(),
-    CustomerName:data[i]["Customer Name"],
-    paymentStatus:data[i]["Amount"]?false:true,
-    amount:data[i]["Amount"] || 0,
-    pincode:data[i]["Pincode"].toString(),
-    BybID:bybId
-  });
-await AddDelivery({article})
+    console.log("started final step",loader)
+    console.log(data,cancel.status,"enyered ifinanfjfj")
+    const deliveryJson = data.map(item=>{
+      return JSON.stringify({
+        CustomerAddress: item['Locality']+", "+item["Landmark"]+ ", " +item["City"],
+        itemWeight: item["Item Weight"],
+        phone: item["Phone"].toString(),
+        CustomerName:item["Customer Name"],
+        paymentStatus:item["Amount"]?false:true,
+        amount:item["Amount"] || 0,
+        pincode:item["Pincode"].toString(),
+        BybID:bybId
+      })
+    })
+    console.log(loader)
 
-setProgress((i/data.length)*100);
+    const RequestMaker = async (index) => {
+      console.log(cancel.status,"from request maker")
+if(cancel.status===true || index>=deliveryJson.length){
+  return;
 }
-setLoader(false);
-enqueueSnackbar('Delivery Added Succesfully',{
-  variant: 'success',
-  autoHideDuration: 2000,
-});
+const response =  await AddDelivery({article:deliveryJson[index]})
+console.log(response)
+RequestMaker(index+1)
+return;
+    }
 
-closeModal({makeRequest:true});
-  }
+RequestMaker(0)
+ 
+}
+
+
+
+  
+//  console.log(deliveryJson)
+
+
+
+  
+const handleCancel = () =>{
+  console.log(cancel.status,"from handlecancel")
+
+cancel.status = true  
+
+}
 
 
     const readExcel = (file) =>{
       setLoader(true);
-
+      console.log(loader,"----------independent")
+console.log("reading excel file",loader)
         const promise = new Promise((resolve,reject)=>
         {
     const fileReader = new FileReader()
@@ -102,12 +130,13 @@ closeModal({makeRequest:true});
     reject(error)
     })
     })
-    
+    console.log("read excel file",loader)
+
     promise.then(data=>{
       FinalStep(data);
     })
       }
-      
+      console.log(cancel.status,"from global ")
     return(
         <>
     <Wrapper className="wrapper" style={{padding:'30px 30px',justifyContent:'flex-start'}}>
@@ -131,10 +160,11 @@ closeModal({makeRequest:true});
     textAlign:'center',
     cursor:'pointer'
 }}>
-          {!loader?"Upload Excel File":(<CircularProgressWithLabel value={progress}/>)}
+{console.log(loader,"inside me")}
+          {!loader?"Upload Excel File":(<CircularProgressWithLabel value={progress} />)}
 </div>
             </label>
-
+<div onClick={handleCancel}>Cancel</div>
 </div>
     </Wrapper>
 
@@ -144,3 +174,6 @@ closeModal({makeRequest:true});
 }
 
 export default AddMultiple;
+
+
+

@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AgentTable(props) {
+export default function ClusterTable(props) {
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('AgentID');
@@ -66,16 +66,17 @@ export default function AgentTable(props) {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [open, setOpen] = React.useState(false);
   const [rows,setClusters] = React.useState([])
+  
   const bybId = useSelector(state => state.bybId);
   const headCells = [
     { id: 'clusterid', numeric: true, disablePadding: false, label: 'Cluster ID' },
     { id: 'deliveryAgentID', numeric: true, disablePadding: false, label: 'Agent ID' },
     { id: 'totalDeliveries', numeric: false, disablePadding: false, label: 'Deliveries in Cluster' },
-    // { id: 'Expected Distance', numeric: false, disablePadding: false, label: 'Type' },
-    // { id: 'Observed Distance', numeric: true, disablePadding: false, label: 'Phone Number' },
-    // { id: 'action', numeric: true, disablePadding: false, label: 'Action' },
+    { id: 'distanceObserved', numeric: true, disablePadding: false, label: 'Distance Observed' },
+    { id: 'averageWeight', numeric: true, disablePadding: false, label: 'Total Weight' },
 
   ];
+
 
 
   useEffect( () => {
@@ -101,6 +102,15 @@ export default function AgentTable(props) {
     setPage(newPage);
   };
 
+  const calculatedLength = () =>{
+    let calculatedlength=0;
+      for(let i=0;i<rows.length;i++){
+        console.log(rows[i].totalDeliveries,calculatedlength,"====---===---===---==")
+calculatedlength+=rows[i].totalDeliveries
+    }
+    return calculatedlength;
+  }
+
   //function for row change
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
@@ -119,7 +129,7 @@ export default function AgentTable(props) {
  
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar/>
+        <EnhancedTableToolbar totaldeliveries={calculatedLength()} setClusters={setClusters} />
         <TableContainer>
           <Table
             className={classes.table}
@@ -148,8 +158,10 @@ export default function AgentTable(props) {
                <StyledTableCell align="center">{row.clusterid}</StyledTableCell>
               <StyledTableCell align="center">{row.deliveryAgentID}</StyledTableCell>
               <StyledTableCell align="center">{row.totalDeliveries}</StyledTableCell>
-              {/* <StyledTableCell align="center">{row.PhoneNumber}</StyledTableCell>
-              <StyledTableCell align="center" style={{cursor:'pointer',color:'blue'}} onClick={()=>handleOpen(row.bybid)}>View</StyledTableCell> */}
+               <StyledTableCell align="center">{row.distanceObserved}</StyledTableCell>
+               <StyledTableCell align="center">{row.averageWeight}</StyledTableCell>
+
+              {/*<StyledTableCell align="center" style={{cursor:'pointer',color:'blue'}} onClick={()=>handleOpen(row.bybid)}>View</StyledTableCell> */}
                     </StyledTableRow>
                     </>
                   );

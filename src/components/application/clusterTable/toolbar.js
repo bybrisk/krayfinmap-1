@@ -23,6 +23,8 @@ const tableToolbar = makeStyles((theme) => ({
 }));
 
 export default function Toolbar(props) {
+  console.log(props)
+  const {setClusters,totaldeliveries} = props
     const [isSubmitting,setSubmitting] = useState(false);
     const [rows,setAgents] = React.useState([])
     const bybId = useSelector(state => state.bybId)
@@ -41,19 +43,22 @@ export default function Toolbar(props) {
     const handleClusters = () =>{
         setSubmitting(true)
 
-        console.log(rows)
-        console.log(cluster)
-        if(cluster>rows.length && cluster===0){
-          console.log('oops,this being called')
+        console.log(rows,cluster>rows.length,cluster===0,"---------------")
+        console.log(cluster,"-------------------")
+        if(cluster>rows.length || cluster===0){
+          console.log('This cluster cannot be made')
             setSubmitting(false)
             setCluster(0)
-return;
+
         }
-        const clusterData = JSON.stringify({
-            BybID:bybId,
-            NumberOfCluster: cluster
-        })
-        postCluster({clusterData,enqueueSnackbar,setSubmitting})
+else{
+  const clusterData = JSON.stringify({
+    BybID:bybId,
+    NumberOfCluster: cluster
+})
+postCluster({clusterData,enqueueSnackbar,setSubmitting,bybId, setClusters})
+}
+    
 setCluster(0)
       }
   const classes = tableToolbar();
@@ -117,7 +122,7 @@ setCluster(0)
           <Typography variant="h6">Total Deliveries :</Typography>
         </Grid>
         <Grid container xs={12} md={8} alignItems="center">
-          <Typography variant="h4" component="h5">23</Typography>
+          <Typography variant="h4" component="h5">{totaldeliveries}</Typography>
         </Grid>
       </Grid>
     </Grid>

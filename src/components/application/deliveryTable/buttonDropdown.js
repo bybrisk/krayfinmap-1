@@ -151,7 +151,7 @@ props===true?wrapperRef.current.classList.add("active"):wrapperRef.current.class
 <section style={{background:'#ffffff',width:'100%',height:'100%'}}> 
 <div style={{fontSize:40,textAlign:'right',padding:'0 30px',margin:0}}>    <span style={{cursor:'pointer'}} onClick={handleClose} >x</span>
 </div>
-{link==='Add Single'?<AddDelivery closeModal={handleClose} />:<AddMultiple closeModal={handleClose}/>}
+{link==='Add Single'?<AddDelivery closeModal={handleClose} />:<AddMultiple closeModal={handleClose} isOpen={open}/>}
 </section>
 </Grow>
 

@@ -7,6 +7,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import AddIcon from '@material-ui/icons/Add';
 import React, { useRef, useState, Suspense } from 'react';
+import Grid from "@material-ui/core/Grid";
+import {useSelector} from 'react-redux';
 import 'App.css';
 import ReactButton from '../button/button';
 const AgentAdd = React.lazy(() =>
@@ -18,11 +20,17 @@ const useToolbarStyles = makeStyles((theme) => ({
     root: {
       paddingLeft: theme.spacing(2),
       paddingRight: theme.spacing(1),
+      padding:'0 30px',
       display:'flex',
       justifyContent:'space-between',
       alignItems:'center',
+
+    },
+    root1:{
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(1),
       padding:'0 30px',
-  
+
     },
     title: {
       flex: '1 1 100%',
@@ -38,6 +46,8 @@ const useToolbarStyles = makeStyles((theme) => ({
   const handleOpen = () => {
     setOpen(true);
   };
+
+  const Bybid = useSelector(state=>state.bybId)
 
   const handleClose = (newprops) => {
     setOpen(false);
@@ -57,9 +67,21 @@ const useToolbarStyles = makeStyles((theme) => ({
       <Toolbar
         className={classes.root}
       >
-       <Typography variant="h5">Agents</Typography>
-<ReactButton width={"140px"} padding={'.5rem'} className="flex" onClick={handleOpen}>Add Agent <AddIcon style={{fontSize:'25px',marginTop:'4px'}}/></ReactButton>
+   
+      <Typography variant="h5">Agents</Typography>
+<ReactButton width={"140px"} height={'56px'} padding={'.5rem'} className="flex" onClick={handleOpen}>Add Agent <AddIcon style={{fontSize:'25px',marginTop:'4px'}}/></ReactButton>
+    
       </Toolbar>
+ <div className={classes.root1}>
+      <Grid item xs={12} md={10} container justify="flex-start" style={{marginBottom:20}}>
+        <Grid item xs={12} md={2} lg={2} container alignItems="center">
+          <Typography variant="h6">Business Id :</Typography>
+        </Grid>
+        <Grid container xs={12} md={8} alignItems="center">
+          <Typography variant="h5" component="h5">{Bybid}</Typography>
+        </Grid>
+      </Grid>
+</div>
    <Suspense fallback={<Loader/>}>
       <Modal
         open={open}
@@ -93,7 +115,6 @@ const useToolbarStyles = makeStyles((theme) => ({
         const { clientWidth, scrollWidth } = element;
         setIsScrollable(scrollWidth > clientWidth);
       }}/>
-        <div className={"scrollarrow" + (isScrollable ? " scrollable" : "")}>hello</div>
 
       </section>
       </Grow>
