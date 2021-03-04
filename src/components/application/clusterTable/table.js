@@ -158,7 +158,7 @@ calculatedlength+=rows[i].totalDeliveries
                <StyledTableCell align="center">{row.clusterid}</StyledTableCell>
               <StyledTableCell align="center">{row.deliveryAgentID}</StyledTableCell>
               <StyledTableCell align="center">{row.totalDeliveries}</StyledTableCell>
-               <StyledTableCell align="center">{row.distanceObserved}</StyledTableCell>
+               <StyledTableCell align="center">{(row.distanceObserved/1000).toFixed(2)} KM</StyledTableCell>
                <StyledTableCell align="center">{row.averageWeight}</StyledTableCell>
 
               {/*<StyledTableCell align="center" style={{cursor:'pointer',color:'blue'}} onClick={()=>handleOpen(row.bybid)}>View</StyledTableCell> */}

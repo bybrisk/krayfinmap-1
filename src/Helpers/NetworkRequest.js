@@ -1,6 +1,6 @@
 import axios from 'axios'
 const API = axios.create({
-    baseURL:"https://bybriskbackend.herokuapp.com",
+    baseURL:"http://localhost:5000",
     withCredentials:true,
     credentials:"include"
 })
@@ -119,6 +119,27 @@ export async function AddDelivery(props){
     
     }
     }
+
+    export async function AddDeliveryWithGeoCode(props){
+        const {article,actions,closeModal,enqueueSnackbar} = props;
+        try{
+            const config = {headers:{"Content-Type": "application/json"}}
+            const body = article
+            
+             const response = await API.post("/delivery/addDeliveryWithGeocode",body,config);
+               actions && actions.setSubmitting(false);
+    
+               closeModal && closeModal({makeRequest:true})
+               enqueueSnackbar && enqueueSnackbar('Delivery Added Succesfully',{
+                     variant: 'success',
+                     autoHideDuration: 2000,
+                 });
+                 return response;
+             }
+        catch(e){
+        
+        }
+        }
 
 export async function AddMultipleDeliveries(props){
     const {deliveryJson,cancel,closeModal,failedDeliveries,setFailedDeliveries,setProgress,enqueueSnackbar} = props;
@@ -301,7 +322,7 @@ export async function UpdateAccount(prop){
         const config = {headers:{"Content-Type": "application/json"}}
         const body = newDetails
             await API.post("/onboarding/updateAccount",body,config);
-                enqueueSnackbar('Account Password Changed',{
+                enqueueSnackbar('Account Updated Succesfully',{
                     variant: 'success',
                     autoHideDuration: 2000,
                 });
@@ -309,7 +330,10 @@ export async function UpdateAccount(prop){
     
     }
     catch(e){
-    
+        enqueueSnackbar('Failed to Update',{
+            variant: 'error',
+            autoHideDuration: 2000,
+        });
     }
     
 }
@@ -437,21 +461,19 @@ return clusters;
 
 
 export async function postCluster(props){
-    const {clusterData,enqueueSnackbar,setSubmitting,bybId, setClusters} = props;
+    const {clusterData,enqueueSnackbar,setSubmitting,bybId, setCluster} = props;
 
     try{
         const config = {headers:{"Content-Type": "application/json"}}
         const body = clusterData
         
              await API.post("/clusters/createCluster",body,config);
-             console.log('great,this being stayed')
              setSubmitting(false)
              enqueueSnackbar('Cluster will be updated in 5 minutes',{
                     variant: 'success',
                     autoHideDuration: 2000,
                 });
-console.log("here starts")
-    
+                setCluster(null)    
     }
     catch(e){
         setSubmitting(false)

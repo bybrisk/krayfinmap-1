@@ -37,7 +37,7 @@ export default function Toolbar(props) {
             
           }
         }, [bybId])
-    const [cluster,setCluster] = useState(0);
+    const [cluster,setCluster] = useState(null);
 
 
     const handleClusters = () =>{
@@ -48,15 +48,15 @@ export default function Toolbar(props) {
         if(cluster>rows.length || cluster===0){
           console.log('This cluster cannot be made')
             setSubmitting(false)
-            setCluster(0)
-
+            setCluster(null)
+return;
         }
 else{
   const clusterData = JSON.stringify({
     BybID:bybId,
-    NumberOfCluster: cluster
+    NumberOfCluster: parseInt(cluster, 10)
 })
-postCluster({clusterData,enqueueSnackbar,setSubmitting,bybId, setClusters})
+postCluster({clusterData,enqueueSnackbar,setSubmitting,bybId, setCluster})
 }
     
 setCluster(0)

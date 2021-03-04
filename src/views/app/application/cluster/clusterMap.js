@@ -45,7 +45,7 @@ paddingBottom:0,
     transition: "all 0.4s",
     boxShadow: "0px 0px 120px -25px rgba(0, 0, 0, 0.5)",
     display:'flex',
-    alignItems: "center",justifyContent:"center",minWidth:100
+    alignItems: "flex-start",justifyContent:"center",minWidth:100
   },
 }));
 

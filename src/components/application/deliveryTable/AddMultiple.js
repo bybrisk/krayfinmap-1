@@ -7,13 +7,13 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import { Wrapper } from "helpers/Styles";
 import { useSnackbar } from 'notistack';
-
+import FailedDeliveries from './failedDeliveries/failedDeliveryTable'
 import Button from '../button/button';
 import IconButton from '@material-ui/core/IconButton';
 import Avatar from '@material-ui/core/Avatar';
 import XLSX from 'xlsx';
 import {useSelector} from "react-redux";
-import {AddDelivery} from 'helpers/NetworkRequest'
+import {AddDelivery,AddDeliveryWithGeoCode} from 'helpers/NetworkRequest'
 import 'App.css'
 import ExcelDemo from 'Assets/excelDemo.jpg'
 import { object } from 'yup';
@@ -56,12 +56,11 @@ const AddMultiple = (props) =>{
 const [loader,setLoader] = useState(false);
 let cancel = {status:false}
 const bybId = useSelector(state => state.bybId)
-  const {closeModal,isOpen} = props;
-  const [failedDeliveries,setFailedDeliveries] = useState([])
-  
+const [failedDeliveries,setFailedDeliveries] = useState([])
+const [showFailed,setShowFailed] = useState(false)  
 
 
-  const FinalStep = async (data) =>{
+  const ApiRequestsWithoutLatitude = async (data) =>{
     console.log("started final step",loader)
     console.log(data,cancel.status,"enyered ifinanfjfj")
     const deliveryJson = data.map(item=>{
@@ -81,18 +80,63 @@ const bybId = useSelector(state => state.bybId)
     const RequestMaker = async (index) => {
       console.log(cancel.status,"from request maker")
 if(cancel.status===true || index>=deliveryJson.length){
+  failedDeliveries.length!==0 ? setShowFailed(true) : props.closeModal()
+console.log(showFailed)
   return;
 }
-const response =  await AddDelivery({article:deliveryJson[index]})
-console.log(response)
+const response =  await AddDelivery({article:deliveryJson[index],setFailedDeliveries,failedDeliveries})
+if(response.data.message==="GEOCODING FAILED"){
+  console.log(failedDeliveries,"before pushing",data[index])
+  failedDeliveries.push(data[index])
+  console.log(failedDeliveries,"'settong faoledk clelc")
+  // setFailedDeliveries(newDeliveries)
+}
+setProgress((index/data.length)*100);
+
 RequestMaker(index+1)
 return;
     }
 
-RequestMaker(0)
- 
+    await RequestMaker(0)
+
 }
 
+const ApiRequestsWithLatitude = async (data) =>{
+  console.log("started final step",loader)
+  console.log(data,cancel.status,"enyered ifinanfjfj")
+  const deliveryJson = data.map(item=>{
+    return JSON.stringify({
+      CustomerAddress: item['Locality']+", "+item["Landmark"]+ ", " +item["City"],
+      itemWeight: item["Item Weight"],
+      phone: item["Phone"].toString(),
+      latitude:item['Latitude'],
+      longitude:item["Longitude"],
+      CustomerName:item["Customer Name"],
+      paymentStatus:item["Amount"]?false:true,
+      amount:item["Amount"] || 0,
+      pincode:item["Pincode"].toString(),
+      BybID:bybId
+    })
+  })
+  console.log(loader)
+
+  const RequestMaker = async (index) => {
+    console.log(cancel.status,"from request maker")
+if(cancel.status===true || index>=deliveryJson.length){
+  failedDeliveries.length!==0 ? setShowFailed(true) : props.closeModal()
+
+return;
+}
+const response =  await AddDeliveryWithGeoCode({article:deliveryJson[index],setFailedDeliveries,failedDeliveries})
+
+setProgress((index/data.length)*100);
+RequestMaker(index+1)
+return;
+  }
+
+await RequestMaker(0)
+
+}
 
 
   
@@ -133,13 +177,16 @@ console.log("reading excel file",loader)
     console.log("read excel file",loader)
 
     promise.then(data=>{
-      FinalStep(data);
-    })
+      data[0].Latitude ? ApiRequestsWithLatitude(data):ApiRequestsWithoutLatitude(data)    })
       }
-      console.log(cancel.status,"from global ")
+      console.log(failedDeliveries,"from global ")
     return(
         <>
-    <Wrapper className="wrapper" style={{padding:'30px 30px',justifyContent:'flex-start'}}>
+        {showFailed?(
+          <>
+           <FailedDeliveries rows={failedDeliveries}/> 
+          </>
+        ):(<Wrapper className="wrapper" style={{padding:'30px 30px',justifyContent:'flex-start'}}>
    <img src={ExcelDemo} style={{width:'50%'}} alt={'excel file demo'} />
     <div>
   <input type="file" onChange={(e)=>{
@@ -164,9 +211,10 @@ console.log("reading excel file",loader)
           {!loader?"Upload Excel File":(<CircularProgressWithLabel value={progress} />)}
 </div>
             </label>
-<div onClick={handleCancel}>Cancel</div>
+{/* <div onClick={handleCancel}>Cancel</div> */}
 </div>
     </Wrapper>
+)}
 
 
         </>
