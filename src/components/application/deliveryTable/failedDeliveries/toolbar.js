@@ -4,12 +4,14 @@ import Modal from "@material-ui/core/Modal";
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import AddIcon from '@material-ui/icons/Add';
+import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import React, { useRef, useState, Suspense } from 'react';
 import Grid from "@material-ui/core/Grid";
 import {useSelector} from 'react-redux';
 import 'App.css';
 import { Button } from '@material-ui/core';
+import ReactButton from "../../button/button";
+import XLSX from 'xlsx';
 
 //styles for enhanced table toolbar
 const useToolbarStyles = makeStyles((theme) => ({
@@ -27,6 +29,11 @@ const useToolbarStyles = makeStyles((theme) => ({
       
         }
   
+    },
+    reactbutton:{
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
     },
     root1:{
       paddingLeft: theme.spacing(2),
@@ -65,12 +72,29 @@ const useToolbarStyles = makeStyles((theme) => ({
   //thiis is to show "Agent" at top Helps in fixing 
   //them just above table
   const EnhancedTableToolbar = (props) => {
+    const {rows} = props
     const classes = useToolbarStyles();
     const [open, setOpen] = React.useState(false);
 
-
+    const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+    const fileExtension = '.xlsx';
   // this has to be done by ref so when window event resize listener will trigger - we will get the current element
-  
+  const exportToCSV = () => {
+    
+    const ws = XLSX.utils.json_to_sheet(rows);
+    const wb = { Sheets: { 'data': ws }, SheetNames: ['data'] };
+    const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    const data = new Blob([excelBuffer], {type: fileType});
+    const element = document.createElement("a");
+  //  const file = new Blob(data,    
+  //              {type:fileType});
+               console.log(data)
+               element.href = URL.createObjectURL(data);
+   element.download = 'FailedDeliveries.xlsx';
+   document.body.appendChild(element);
+   element.click();
+   console.log(element)
+}
 
     return (
       <>
@@ -79,11 +103,16 @@ const useToolbarStyles = makeStyles((theme) => ({
       >
    
       <Typography variant="h5">Failed Deliveries</Typography>
-      <Button variant="contained"
-                                disableFocusRipple={true}
-                                disableElevation={true}
-        
-         color="primary" className={classes.btn}>Download as Excel <AddIcon style={{fontSize:'25px',marginTop:'4px'}}/></Button>
+      <ReactButton
+            width={"140px"}
+            padding={'.5rem'}
+            style={{
+            }}
+            className={classes.reactbutton}
+            onClick={exportToCSV}
+          >
+            <CloudDownloadIcon style={{ fontSize: "25px", marginTop: "4px" }} />
+          </ReactButton>
     
       </Toolbar>
  {/* <div className={classes.root1}>

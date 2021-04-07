@@ -72,6 +72,8 @@ export default function ClusterTable(props) {
     { id: 'clusterid', numeric: true, disablePadding: false, label: 'Cluster ID' },
     { id: 'deliveryAgentID', numeric: true, disablePadding: false, label: 'Agent ID' },
     { id: 'totalDeliveries', numeric: false, disablePadding: false, label: 'Deliveries in Cluster' },
+    { id: 'clusterDistance', numeric: false, disablePadding: false, label: 'Cluster Distance' },
+    { id: 'clusterTime', numeric: false, disablePadding: false, label: 'Cluster Time' },
     { id: 'distanceObserved', numeric: true, disablePadding: false, label: 'Distance Observed' },
     { id: 'averageWeight', numeric: true, disablePadding: false, label: 'Total Weight' },
 
@@ -158,6 +160,9 @@ calculatedlength+=rows[i].totalDeliveries
                <StyledTableCell align="center">{row.clusterid}</StyledTableCell>
               <StyledTableCell align="center">{row.deliveryAgentID}</StyledTableCell>
               <StyledTableCell align="center">{row.totalDeliveries}</StyledTableCell>
+              <StyledTableCell align="center">{row.clusterDistance}</StyledTableCell>
+              <StyledTableCell align="center">{row.clusterTime}</StyledTableCell>
+
                <StyledTableCell align="center">{(row.distanceObserved/1000).toFixed(2)} KM</StyledTableCell>
                <StyledTableCell align="center">{row.averageWeight}</StyledTableCell>
 

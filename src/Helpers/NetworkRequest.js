@@ -105,7 +105,7 @@ export async function AddDelivery(props){
         const config = {headers:{"Content-Type": "application/json"}}
         const body = article
         
-         const response = await API.post("/delivery/addDelivery",body,config);
+         const response = API.post("/delivery/addDelivery",body,config);
            actions && actions.setSubmitting(false);
 
            closeModal && closeModal({makeRequest:true})
@@ -431,7 +431,7 @@ export async function fetchClusterDeliveries(props){
 }
 
 export async function fetchClusters(props){
-    const {bybId, setClusters,enqueueSnackbar,setLoading} = props;
+    const {bybId, setClusters,enqueueSnackbar,setLoading,setDelivery} = props;
     console.log(setLoading)
         try{
     let clusters;
@@ -442,6 +442,7 @@ console.log(clusters)
 setClusters && setClusters(clusters)
 setLoading && setLoading(false)
 }else{
+    fetchDeliveries({bybId,setDelivery})
     setLoading && setLoading(false)
 
 }
@@ -519,21 +520,31 @@ const calculateTotals = (array) =>{
 return {distanceObserved, averageWeight}
 }
 
-
-
+const getTimeDistance = async (agentId) =>{
+    try{
+      const res = await API.get(`/clusters/timeNdistance?agentId=${agentId}`);
+      console.log(res)
+      return {clusterTime:res.clusterTime || 0,clusterDistance:res.clusterDistance || 0}
+    }
+    catch(error){
+        console.log(error)
+    }
+}
     try {
     const clusterData = await fetchClusters({bybId})
     const clusterOverview = clusterData.map((item,index)=>{
-        const {distanceObserved, averageWeight} = calculateTotals(item);
+        const {distanceObserved, averageWeight} =  calculateTotals(item);
+        const {clusterTime,clusterDistance} =  getTimeDistance(item[0].deliveryAgentID);
         return {
             clusterid:`Cluster ${index}`,
             deliveryAgentID:item[0].deliveryAgentID,
             totalDeliveries:item.length,
             distanceObserved:distanceObserved,
-            averageWeight:averageWeight
+            averageWeight:averageWeight,
+            clusterTime:clusterTime,
+            clusterDistance:clusterDistance
         }
     })
-console.log(clusterOverview,"===----===----===----")
         setClusters(clusterOverview)    
 } catch (error) {
     console.log(error)

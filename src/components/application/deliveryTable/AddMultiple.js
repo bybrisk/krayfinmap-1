@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-
+import axios from 'axios';
 import Grid from '@material-ui/core/Grid';
 import { Wrapper } from "helpers/Styles";
 import { useSnackbar } from 'notistack';
@@ -17,6 +17,13 @@ import {AddDelivery,AddDeliveryWithGeoCode} from 'helpers/NetworkRequest'
 import 'App.css'
 import ExcelDemo from 'Assets/excelDemo.jpg'
 import { object } from 'yup';
+const API = axios.create({
+  baseURL:"http://localhost:5000",
+  withCredentials:true,
+  credentials:"include"
+})
+const config = {headers:{"Content-Type": "application/json"}}
+
 function CircularProgressWithLabel(props) {
   return (
     <Box position="relative" display="inline-flex">
@@ -57,12 +64,14 @@ const [loader,setLoader] = useState(false);
 let cancel = {status:false}
 const bybId = useSelector(state => state.bybId)
 const [failedDeliveries,setFailedDeliveries] = useState([])
-const [showFailed,setShowFailed] = useState(false)  
+const [showFailed,setShowFailed] = useState(false);
+const token = axios.CancelToken.source();
+const [data,setData] = useState([])
 
-
-  const ApiRequestsWithoutLatitude = async (data) =>{
+  const ApiRequestsWithoutLatitude = async () =>{
     console.log("started final step",loader)
-    console.log(data,cancel.status,"enyered ifinanfjfj")
+    let responseArray = [];
+    console.log(data,token,"enyered ifinanfjfj")
     const deliveryJson = data.map(item=>{
       return JSON.stringify({
         CustomerAddress: item['Locality']+", "+item["Landmark"]+ ", " +item["City"],
@@ -75,35 +84,44 @@ const [showFailed,setShowFailed] = useState(false)
         BybID:bybId
       })
     })
-    console.log(loader)
+
+      //  const response = API.post("/delivery/addDelivery",deliveryJson[index],config);
+       
+
+
 
     const RequestMaker = async (index) => {
-      console.log(cancel.status,"from request maker")
-if(cancel.status===true || index>=deliveryJson.length){
+if(index>=deliveryJson.length){
   failedDeliveries.length!==0 ? setShowFailed(true) : props.closeModal()
-console.log(showFailed)
+// console.log(showFailed)
   return;
 }
-const response =  await AddDelivery({article:deliveryJson[index],setFailedDeliveries,failedDeliveries})
-if(response.data.message==="GEOCODING FAILED"){
-  console.log(failedDeliveries,"before pushing",data[index])
-  failedDeliveries.push(data[index])
-  console.log(failedDeliveries,"'settong faoledk clelc")
-  // setFailedDeliveries(newDeliveries)
-}
+const response =  AddDelivery({article:deliveryJson[index],setFailedDeliveries,failedDeliveries})
 setProgress((index/data.length)*100);
-
+responseArray.push(response);
 RequestMaker(index+1)
 return;
     }
 
-    await RequestMaker(0)
-
+    RequestMaker(0)
+    Promise.allSettled(responseArray).
+    then(results=>results.forEach((result,index)=>{
+      if(result.data.message==="GEOCODING FAILED"){
+        // console.log(failedDeliveries,"before pushing",data[index])
+        failedDeliveries.push(data[index])
+        // console.log(failedDeliveries,"'settong faoledk clelc")
+        // setFailedDeliveries(newDeliveries)
+      }
+    }))
+    
 }
+
+
+
 
 const ApiRequestsWithLatitude = async (data) =>{
   console.log("started final step",loader)
-  console.log(data,cancel.status,"enyered ifinanfjfj")
+  console.log(data,token,"enyered ifinanfjfj")
   const deliveryJson = data.map(item=>{
     return JSON.stringify({
       CustomerAddress: item['Locality']+", "+item["Landmark"]+ ", " +item["City"],
@@ -175,7 +193,7 @@ console.log("reading excel file",loader)
     })
     })
     console.log("read excel file",loader)
-
+setData(data);
     promise.then(data=>{
       data[0].Latitude ? ApiRequestsWithLatitude(data):ApiRequestsWithoutLatitude(data)    })
       }
@@ -211,7 +229,7 @@ console.log("reading excel file",loader)
           {!loader?"Upload Excel File":(<CircularProgressWithLabel value={progress} />)}
 </div>
             </label>
-{/* <div onClick={handleCancel}>Cancel</div> */}
+<div onClick={token.cancel("axios request cancelled")}>Cancel</div>
 </div>
     </Wrapper>
 )}

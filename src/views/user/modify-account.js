@@ -62,6 +62,7 @@ const validation = Yup.object().shape({
     .min(10, "Address should have min 10 characters")
     .max(1000, "Address can have max 1000 characters")
     .required("required"),
+    StandbyDuration:Yup.number().required('Standby duration is Required')
 
 })
 
@@ -110,7 +111,8 @@ export default function ModifyAccount(prop){
         DeliveryTime:user.DeliveryConfig.InstantDelivery?'1':'24',
         Email:user.Email,
         PicURL:user.PicURL,
-        UserName:user.UserName
+        UserName:user.UserName,
+        StandbyDuration:user.StandbyDuration || null
     }: {}
 
 
@@ -134,7 +136,8 @@ DeliveryAgent: 0,
 InstantDelivery: values.deliveryTime === '24' ? false : true,
 Email: values.Email,
 PicURL:pic,
-UserName:values.UserName
+UserName:values.UserName,
+StandbyDuration:values.StandbyDuration
 })
 
 UpdateAccount({newDetails,enqueueSnackbar,close})
@@ -217,7 +220,9 @@ style={{height:100,width:100}}
             <Grid item style={{marginLeft:20}}>
             <Input name={'AvgWorkingHours'} label={'Average Working Hours'} tip={'AvgWorkingHours'}  style={{minWidth:300}}/>
             </Grid>
-      
+            <Grid item style={{marginLeft:20}}>
+            <Input name={'StandbyDuration'} label={'Stand By Duration'} tip={'StandbyDuration'}  style={{minWidth:300}}/>
+            </Grid>
         </Grid>
 
       </Grid>

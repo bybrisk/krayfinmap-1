@@ -1,7 +1,7 @@
 import React, { Component, useState,useEffect } from "react";
 import GoogleMapReact from "google-map-react";
 import CircularProgress from "@material-ui/core/CircularProgress";
-
+import { PubNubProvider, usePubNub } from 'pubnub-react';
 import RoomRoundedIcon from "@material-ui/icons/RoomRounded";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -59,22 +59,41 @@ const ClusterMap = () => {
     const { enqueueSnackbar } = useSnackbar();
 
   const classes = useStyles();
-  const [clusters,setClusters] = useState([])
+  const [clusters,setClusters] = useState(null)
   const [isLoading,setLoading] = useState(false);
+  const [pendingDeliveries,setDelivery] = useState(null);
+        const [channels] = useState(['businessid']);
+
+  const pubnub = usePubNub();
+  
   const [center, setCenter] = useState({
     lat: 23.202357,
     lng: 77.414254
   });
   const bybId = useSelector(state => state.bybId)
   const [zoom, setZoom] = useState(11);
+  const handleMessage = event => {
+    const message = event.message;
+    if (typeof message === 'string' || message.hasOwnProperty('text')) {
+      const text = message.text || message;
+      console.log(message,text,"--5--5--5-5-5-5--5")
+      // addMessage(messages => [...messages, text]);
+    }
+  };
+
   useEffect(() => {
     setLoading(true)
-      fetchClusters({bybId, setClusters,enqueueSnackbar,setLoading})
+      fetchClusters({bybId, setClusters,enqueueSnackbar,setLoading,setDelivery});
       return () => {
 
        }
   }, [bybId])
-  console.log(clusters);
+  console.log(pendingDeliveries);
+  useEffect(() => {
+    pubnub.addListener({ message: handleMessage });
+    pubnub.subscribe({ channels });
+  }, [pubnub, channels]);
+
   return (
       <>
            <Helmet>
@@ -92,8 +111,8 @@ const ClusterMap = () => {
        ):(
         <List aria-label="Cluster display">
       
-      {clusters.length===0 && <ListItem className={classes.listItem} style={{marginTop:23,color:'#057g78'}}>No Clusters Present</ListItem>}
-      {clusters.map((item,index)=>{
+      {clusters?.length===0 && <ListItem className={classes.listItem} style={{marginTop:23,color:'#057g78'}}>No Clusters Present</ListItem>}
+      {clusters?.map((item,index)=>{
         return   <ListItem button key={item[0].clusterid} component={Link} to={{ pathname: '/dashboard/clusterDeliveries', state: { clusterID: item[0].clusterid} }} className={classes.listItem}>
         <ListItemIcon className={classes.iconContainer}>
     <Paper className={classes.avatar} style={{background:item[0].color}} variant={'circle'}></Paper>
@@ -117,13 +136,25 @@ const ClusterMap = () => {
         }}
         
       >
-        {clusters.map((item) => {
+        {clusters?.map((item) => {
           return item.map((clusterItem) => {
             return (
               <AnyReactComponent
                 lat={clusterItem.geometry.latitude}
                 lng={clusterItem.geometry.longitude}
                 color={clusterItem.color}
+                text="My Marker"
+              />
+            );
+          });
+        })}
+        {clusters===null && pendingDeliveries?.filter(item=>item.deliveryStatus==='pending')?.map((item) => {
+          return item.map((clusterItem) => {
+            return (
+              <AnyReactComponent
+                lat={clusterItem.latitude}
+                lng={clusterItem.longitude}
+                color={'#000'}
                 text="My Marker"
               />
             );

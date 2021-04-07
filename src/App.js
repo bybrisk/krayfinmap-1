@@ -8,11 +8,17 @@ import { Route, Switch ,useHistory} from "react-router-dom";
 import {PrivateRoute} from 'helpers/PrivateRoute'
 import {fetchAccountDetails} from 'helpers/NetworkRequest'
 import Loader from 'components/application/Loader/Loader'
+import PubNub from 'pubnub';
+import { PubNubProvider, usePubNub } from 'pubnub-react';
 import theme from './helpers/Theme';
 import store from "redux/store";
 import "App.css";
 
-
+const pubnub = new PubNub({
+  publishKey: 'pub-c-b62c8c92-592d-4472-bee9-03e3ccf8645b',
+  subscribeKey: 'sub-c-ad9893f0-6907-11eb-b914-eedc703588a5',
+  // uuid: 'myUniqueUUID'
+});
 
 const ViewApp = React.lazy(() =>
   import(/* webpackChunkName: "views-app" */ './views/app/dashboard/drawer')
@@ -59,11 +65,14 @@ export default function App() {
     }}
     hideIconVariant={false}
     >
+        <PubNubProvider client={pubnub}>
+
         <div className="App">
           <BrowserRouter>
 <Routing/>
           </BrowserRouter>
         </div>
+        </PubNubProvider>
         </SnackbarProvider>
       </ThemeProvider>
     </Provider>

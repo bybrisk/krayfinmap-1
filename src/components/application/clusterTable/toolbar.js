@@ -43,23 +43,23 @@ export default function Toolbar(props) {
     const handleClusters = () =>{
         setSubmitting(true)
 
-        console.log(rows,cluster>rows.length,cluster===0,"---------------")
-        console.log(cluster,"-------------------")
-        if(cluster>rows.length || cluster===0){
-          console.log('This cluster cannot be made')
-            setSubmitting(false)
-            setCluster(null)
-return;
-        }
-else{
+        // console.log(rows,cluster>rows.length,cluster===0,"---------------")
+        // console.log(cluster,"-------------------")
+        // if(cluster>rows.length || cluster===0){
+          // console.log('This cluster cannot be made')
+          //   setSubmitting(false)
+          //   setCluster(null)
+// return;
+//         }
+// else{
   const clusterData = JSON.stringify({
     BybID:bybId,
-    NumberOfCluster: parseInt(cluster, 10)
+    NumberOfCluster:0
 })
 postCluster({clusterData,enqueueSnackbar,setSubmitting,bybId, setCluster})
-}
+// }
     
-setCluster(0)
+// setCluster(0)
       }
   const classes = tableToolbar();
   return (
@@ -85,7 +85,7 @@ setCluster(0)
           <Typography variant="h6">No. of Clusters :</Typography>
         </Grid>
         <Grid container xs={12} md={8} alignItems="flex-start">
-          <TextField
+          {/* <TextField
             variant="outlined"
             style={{ maxWidth: 200, marginRight: 30 }}
             margin="dense"
@@ -95,7 +95,7 @@ setCluster(0)
             max={rows.length}
             helperText="Must be less than no. of Agents Added to your account"
 
-          />
+          /> */}
           <ReactButton variant="contained"         disableFocusRipple={true}
                         disableElevation={true}
                         type="submit"

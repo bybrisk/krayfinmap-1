@@ -107,7 +107,7 @@ import Toolbar from './toolbar'
    <Suspense fallback={<Loader />}>
       <div className={classes.root}>
         <Paper className={classes.paper}>
-        <Toolbar/>
+        <Toolbar rows={rows}/>
         <TableContainer>
             <Table
               className={classes.table}
