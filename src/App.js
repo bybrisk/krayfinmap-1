@@ -65,14 +65,16 @@ export default function App() {
     }}
     hideIconVariant={false}
     >
-        <PubNubProvider client={pubnub}>
 
         <div className="App">
           <BrowserRouter>
+          <PubNubProvider client={pubnub}>
+
 <Routing/>
+</PubNubProvider>
+
           </BrowserRouter>
         </div>
-        </PubNubProvider>
         </SnackbarProvider>
       </ThemeProvider>
     </Provider>

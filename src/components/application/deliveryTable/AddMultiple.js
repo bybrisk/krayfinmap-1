@@ -18,7 +18,7 @@ import 'App.css'
 import ExcelDemo from 'Assets/excelDemo.jpg'
 import { object } from 'yup';
 const API = axios.create({
-  baseURL:"http://localhost:5000",
+  baseURL:"https://bybriskbackend.herokuapp.com",
   withCredentials:true,
   credentials:"include"
 })
@@ -65,13 +65,14 @@ let cancel = {status:false}
 const bybId = useSelector(state => state.bybId)
 const [failedDeliveries,setFailedDeliveries] = useState([])
 const [showFailed,setShowFailed] = useState(false);
-const token = axios.CancelToken.source();
+const CancelToken = axios.CancelToken;
+const source = CancelToken.source();
 const [data,setData] = useState([])
 
   const ApiRequestsWithoutLatitude = async () =>{
     console.log("started final step",loader)
     let responseArray = [];
-    console.log(data,token,"enyered ifinanfjfj")
+    console.log(data,source,"enyered ifinanfjfj")
     const deliveryJson = data.map(item=>{
       return JSON.stringify({
         CustomerAddress: item['Locality']+", "+item["Landmark"]+ ", " +item["City"],
@@ -119,42 +120,38 @@ return;
 
 
 
-const ApiRequestsWithLatitude = async (data) =>{
-  console.log("started final step",loader)
-  console.log(data,token,"enyered ifinanfjfj")
-  const deliveryJson = data.map(item=>{
-    return JSON.stringify({
-      CustomerAddress: item['Locality']+", "+item["Landmark"]+ ", " +item["City"],
-      itemWeight: item["Item Weight"],
-      phone: item["Phone"].toString(),
-      latitude:item['Latitude'],
-      longitude:item["Longitude"],
-      CustomerName:item["Customer Name"],
-      paymentStatus:item["Amount"]?false:true,
-      amount:item["Amount"] || 0,
-      pincode:item["Pincode"].toString(),
-      BybID:bybId
-    })
+const ApiRequestsWithLatitude = (data) =>{
+  let responseArray = [];
+  console.log(data,"entered into apirequestwithout latitude")
+  data.map((item,index)=>{
+    
+      const json = JSON.stringify({
+     CustomerAddress: item['Locality']+", "+item["Landmark"]+ ", " +item["City"],
+    itemWeight: item["Item Weight"],
+    phone: item["Phone"].toString(),
+    latitude:item['Latitude'],
+    longitude:item["Longitude"],
+    CustomerName:item["Customer Name"],
+    paymentStatus:item["Amount"]?false:true,
+    amount:item["Amount"] || 0,
+    pincode:item["Pincode"].toString(),
+    BybID:bybId
   })
-  console.log(loader)
+  AddDeliveryWithGeoCode({article:json,source,responseArray})
 
-  const RequestMaker = async (index) => {
-    console.log(cancel.status,"from request maker")
-if(cancel.status===true || index>=deliveryJson.length){
-  failedDeliveries.length!==0 ? setShowFailed(true) : props.closeModal()
+  setProgress((index/data.length)*100);
 
-return;
+  })
+  console.log(axios.isCancel(),"---------------------------------")
+  Promise.all(responseArray).then(result=>
+    {props.closeModal();
+      result.forEach((item)=>console.log(item,"from item"))});
+if(axios.isCancel()){
+  setLoader(false);
+  console.log("0f0f0f0f0f0")
 }
-const response =  await AddDeliveryWithGeoCode({article:deliveryJson[index],setFailedDeliveries,failedDeliveries})
-
-setProgress((index/data.length)*100);
-RequestMaker(index+1)
-return;
-  }
-
-await RequestMaker(0)
-
 }
+
 
 
   
@@ -173,8 +170,8 @@ cancel.status = true
 
     const readExcel = (file) =>{
       setLoader(true);
-      console.log(loader,"----------independent")
-console.log("reading excel file",loader)
+//       console.log(loader,"----------independent")
+// console.log("reading excel file",loader)
         const promise = new Promise((resolve,reject)=>
         {
     const fileReader = new FileReader()
@@ -192,12 +189,12 @@ console.log("reading excel file",loader)
     reject(error)
     })
     })
-    console.log("read excel file",loader)
+    // console.log("read excel file",loader)
 setData(data);
     promise.then(data=>{
       data[0].Latitude ? ApiRequestsWithLatitude(data):ApiRequestsWithoutLatitude(data)    })
       }
-      console.log(failedDeliveries,"from global ")
+      // console.log(failedDeliveries,"from global ")
     return(
         <>
         {showFailed?(
@@ -225,11 +222,10 @@ setData(data);
     textAlign:'center',
     cursor:'pointer'
 }}>
-{console.log(loader,"inside me")}
           {!loader?"Upload Excel File":(<CircularProgressWithLabel value={progress} />)}
 </div>
             </label>
-<div onClick={token.cancel("axios request cancelled")}>Cancel</div>
+<div style={{marginTop:50}} onClick={()=>source.cancel("axios request cancelled")}>Cancel</div>
 </div>
     </Wrapper>
 )}

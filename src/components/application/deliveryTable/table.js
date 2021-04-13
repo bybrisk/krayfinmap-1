@@ -25,6 +25,7 @@ import Select from './StatusDropdown';
 import TableHead from './tableHead';
 //divided component to make them one
 import Toolbar from './toolbar';
+import CircularLoader from '../Loader/circularLoader';
 
 
 const DeliveryDetails = React.lazy(() =>
@@ -108,6 +109,8 @@ export default function DeliveryTable() {
   const bybID = useSelector(state => state.bybId);
   const dispatch = useDispatch();
   const user = useSelector(state => state.user);
+  const [isLoading,setLoading] = React.useState(false);
+
 const filterStats = {
   DeliveryDelivered:user.DeliveryDelivered,
   DeliveryCancelled:user.DeliveryCancelled,
@@ -121,7 +124,7 @@ function handleDelivery(refreshRef){
     }
 
   useEffect(() => {
-    fetchDeliveries({bybID,setDelivery});
+    fetchDeliveries({bybID,setDelivery,setLoading});
 
 return () => {
       
@@ -134,8 +137,11 @@ return () => {
         <title>Deliveries</title>
         <meta name="description" content="List of Deliveries of your account"  />
       </Helmet>
- <Suspense fallback={<Loader />}>
-  <TableContainer rows={rows} handleDelivery={handleDelivery} setDelivery={setDelivery} filterStats={filterStats} />
+ <Suspense fallback={<CircularLoader />}>
+  {
+    isLoading ? <CircularLoader/> :  <TableContainer rows={rows} handleDelivery={handleDelivery} setDelivery={setDelivery} filterStats={filterStats} />
+
+  }
    </Suspense>
   </>
   );

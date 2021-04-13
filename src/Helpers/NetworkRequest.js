@@ -1,6 +1,6 @@
 import axios from 'axios'
 const API = axios.create({
-    baseURL:"http://localhost:5000",
+    baseURL:"https://bybriskbackend.herokuapp.com",
     withCredentials:true,
     credentials:"include"
 })
@@ -31,10 +31,13 @@ const body = article
 
 //fetch agents
 export async function fetchAgents(props){
-const {bybId, setAgents} = props;
+const {bybId, setAgents,setLoading} = props;
     try{
+        setLoading && setLoading(true)
         const res = await API.get(`/agents/fetchAgents?bybid=${bybId}`);
-      res.data.result!==null && setAgents(res.data.result)
+      res.data.result!==null && setAgents(res.data.result);
+      setLoading && setLoading(false);
+
     }
     catch(err){
         
@@ -121,21 +124,16 @@ export async function AddDelivery(props){
     }
 
     export async function AddDeliveryWithGeoCode(props){
-        const {article,actions,closeModal,enqueueSnackbar} = props;
+        const {article,source,responseArray} = props;
         try{
-            const config = {headers:{"Content-Type": "application/json"}}
+            const config = {headers:{"Content-Type": "application/json"},cancelToken:source.token}
             const body = article
             
-             const response = await API.post("/delivery/addDeliveryWithGeocode",body,config);
-               actions && actions.setSubmitting(false);
-    
-               closeModal && closeModal({makeRequest:true})
-               enqueueSnackbar && enqueueSnackbar('Delivery Added Succesfully',{
-                     variant: 'success',
-                     autoHideDuration: 2000,
-                 });
-                 return response;
-             }
+             const response = API.post("/delivery/addDeliveryWithGeocode",body,config);
+            //  console.log(response,"--g--g-g-g-g-g--g-g-g-");
+responseArray.push(response);
+return;
+            }
         catch(e){
         
         }
@@ -147,9 +145,6 @@ export async function AddMultipleDeliveries(props){
 
     try {
     let i=0;
-    console.log(cancel)
-    console.log("entering WHhie loop try step",cancel)
-
     while(!cancel && i<deliveryJson.length){
         if(cancel){
             console.log("break from inside cancel",cancel)
@@ -195,10 +190,13 @@ catch(err){
 
 //fetch deliveries
 export async function fetchDeliveries(props){
-    const {bybID,setDelivery} = props;
+    const {bybID,setDelivery,setLoading} = props;
     try{
+       setLoading && setLoading(true)
         const res = await API.get(`/delivery/fetchDeliveries?bybid=${bybID}`);
+        console.log(res,"--f-f-f-f-f-")
       res.data.hits.hits!==null &&     setDelivery(res.data.hits.hits);
+      setLoading && setLoading(false)
     }
     catch(err){
         
@@ -399,9 +397,10 @@ for (let i = 0; i < data.ClusterIDArray.length; i++) {
   let singleCluster = [];
   data.AssignedDeliveryArray[i].hits.hits.map((item) => {
     singleCluster.push({
-      clusterid: data.ClusterIDArray[i],
+      clusterid: item._id,
       customerName: item._source.CustomerName,
       color: colorForThisCluster,
+      deliveryAgentName:item._source.deliveryAgentName,
       deliveryAgentID:item._source.deliveryAgentID,
       distanceObserved:item._source.distanceObserved,
       itemWeight:item._source.itemWeight,
@@ -432,7 +431,6 @@ export async function fetchClusterDeliveries(props){
 
 export async function fetchClusters(props){
     const {bybId, setClusters,enqueueSnackbar,setLoading,setDelivery} = props;
-    console.log(setLoading)
         try{
     let clusters;
             const res = await API.get(`/clusters/allClusters?bybid=${bybId}`);
@@ -442,14 +440,15 @@ console.log(clusters)
 setClusters && setClusters(clusters)
 setLoading && setLoading(false)
 }else{
-    fetchDeliveries({bybId,setDelivery})
+    console.log('reached')
+    fetchDeliveries({bybID:bybId,setDelivery})
     setLoading && setLoading(false)
 
 }
 return clusters;
         }
         catch(err){
-            console.log(err)
+            console.log(err,"error from me")
             setLoading && setLoading(false)
 
             enqueueSnackbar  && enqueueSnackbar('There are no Clusters Yet',{
@@ -489,10 +488,9 @@ export async function postCluster(props){
 }
 
 export async function  genetateOverview(props){
-    const {bybId, setClusters} = props;
-
+    const {bybId, setClusters,setLoading} = props;
+setLoading(true);
 const calculateAverageWeight = (array) =>{
-    console.log(array,"ghghghghghghg")
     let averageWeight = 0;
     for(let i=0;i<array.length;i++){
 averageWeight += array[i].itemWeight
@@ -520,32 +518,40 @@ const calculateTotals = (array) =>{
 return {distanceObserved, averageWeight}
 }
 
-const getTimeDistance = async (agentId) =>{
-    try{
-      const res = await API.get(`/clusters/timeNdistance?agentId=${agentId}`);
-      console.log(res)
-      return {clusterTime:res.clusterTime || 0,clusterDistance:res.clusterDistance || 0}
-    }
-    catch(error){
-        console.log(error)
-    }
-}
+// const getTimeDistance = async (agentId) =>{
+//     try{
+//       console.log(res)
+//       return {clusterTime:res.data.clusterTime || 0,clusterDistance:res.data.clusterDistance || 0}
+//     }
+//     catch(error){
+//         console.log(error)
+//     }
+// }
     try {
     const clusterData = await fetchClusters({bybId})
-    const clusterOverview = clusterData.map((item,index)=>{
+    console.log(clusterData);
+   const clusterOverview = clusterData.map( async (item,index)=>{
         const {distanceObserved, averageWeight} =  calculateTotals(item);
-        const {clusterTime,clusterDistance} =  getTimeDistance(item[0].deliveryAgentID);
+        const res = await API.get(`/clusters/timeNdistance?agentId=${item[0].deliveryAgentID}`);
+
+
         return {
-            clusterid:`Cluster ${index}`,
+            clusterid:item[0].clusterid,
             deliveryAgentID:item[0].deliveryAgentID,
             totalDeliveries:item.length,
+            deliveryAgentName:item[0].deliveryAgentName,
             distanceObserved:distanceObserved,
             averageWeight:averageWeight,
-            clusterTime:clusterTime,
-            clusterDistance:clusterDistance
+            clusterTime:res.data.clusterTime,
+            clusterDistance:res.data.clusterDistance
         }
     })
-        setClusters(clusterOverview)    
+
+Promise.all(clusterOverview).then(result=>{
+    console.log(result)
+    setLoading(false);
+    setClusters(result)
+})
 } catch (error) {
     console.log(error)
 }

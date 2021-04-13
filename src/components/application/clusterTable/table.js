@@ -24,6 +24,7 @@ import { getComparator, stableSort, StyledTableCell, StyledTableRow } from '../t
 import EnhancedTableHead from './tableHead';
 //divided component to make them one
 import EnhancedTableToolbar from './toolbar';
+import CircularLoader from '../Loader/circularLoader';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -54,10 +55,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ClusterTable(props) {
+function ClusterTable(props) {
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('AgentID');
+  const [orderBy, setOrderBy] = React.useState('clusterTime');
   const [page, setPage] = React.useState(0);
   const [agentid, setagentid] = React.useState('');
   const { enqueueSnackbar } = useSnackbar();
@@ -69,7 +70,7 @@ export default function ClusterTable(props) {
   
   const bybId = useSelector(state => state.bybId);
   const headCells = [
-    { id: 'clusterid', numeric: true, disablePadding: false, label: 'Cluster ID' },
+    { id: 'Agent_Name', numeric: true, disablePadding: false, label: 'Agent Name' },
     { id: 'deliveryAgentID', numeric: true, disablePadding: false, label: 'Agent ID' },
     { id: 'totalDeliveries', numeric: false, disablePadding: false, label: 'Deliveries in Cluster' },
     { id: 'clusterDistance', numeric: false, disablePadding: false, label: 'Cluster Distance' },
@@ -82,7 +83,7 @@ export default function ClusterTable(props) {
 
 
   useEffect( () => {
-    genetateOverview({bybId, setClusters})
+    genetateOverview({bybId, setClusters,setLoading})
 
     return () => {
       
@@ -107,8 +108,8 @@ export default function ClusterTable(props) {
   const calculatedLength = () =>{
     let calculatedlength=0;
       for(let i=0;i<rows.length;i++){
-        console.log(rows[i].totalDeliveries,calculatedlength,"====---===---===---==")
-calculatedlength+=rows[i].totalDeliveries
+        console.log(rows[i]?.totalDeliveries,calculatedlength,"====---===---===---==")
+calculatedlength+=rows[i]?.totalDeliveries
     }
     return calculatedlength;
   }
@@ -128,8 +129,9 @@ calculatedlength+=rows[i].totalDeliveries
         <title>Agents</title>
         <meta name="description" content="List of Agents Delivering your deliveries"  />
       </Helmet>
- 
-    <div className={classes.root}>
+ {isLoading ? (
+   <CircularLoader/>
+ ):(<div className={classes.root}>
       <Paper className={classes.paper}>
         <EnhancedTableToolbar totaldeliveries={calculatedLength()} setClusters={setClusters} />
         <TableContainer>
@@ -157,7 +159,7 @@ calculatedlength+=rows[i].totalDeliveries
                       tabIndex={-1}
                       key={row.name}
                     >
-               <StyledTableCell align="center">{row.clusterid}</StyledTableCell>
+               <StyledTableCell align="center">{row.deliveryAgentName}</StyledTableCell>
               <StyledTableCell align="center">{row.deliveryAgentID}</StyledTableCell>
               <StyledTableCell align="center">{row.totalDeliveries}</StyledTableCell>
               <StyledTableCell align="center">{row.clusterDistance}</StyledTableCell>
@@ -193,7 +195,10 @@ calculatedlength+=rows[i].totalDeliveries
       </Paper>
       
     </div>
-   
+   )}
+    
   </>
   );
 }
+
+export default React.memo(ClusterTable)

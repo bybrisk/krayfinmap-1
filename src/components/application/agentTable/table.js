@@ -4,6 +4,7 @@ import Backdrop from '@material-ui/core/Backdrop';
 import red from '@material-ui/core/colors/indigo';
 import Grow from '@material-ui/core/Grow';
 import { Helmet } from "react-helmet";
+import CircularLoader from '../Loader/circularLoader';
 
 //dependencies for modal
 import Modal from "@material-ui/core/Modal";
@@ -63,6 +64,8 @@ export default function AgentTable(props) {
   
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [open, setOpen] = React.useState(false);
+  const [isLoading,setLoading] = React.useState(false);
+
   const [rows,setAgents] = React.useState([])
   const bybId = useSelector(state => state.bybId);
   const headCells = [
@@ -90,7 +93,7 @@ handleAgent();
   };
 
   useEffect(() => {
-  fetchAgents({bybId,setAgents});
+  fetchAgents({bybId,setAgents,setLoading});
 
     return () => {
       
@@ -125,8 +128,8 @@ handleAgent();
         <title>Agents</title>
         <meta name="description" content="List of Agents Delivering your deliveries"  />
       </Helmet>
- 
-    <div className={classes.root}>
+ {isLoading ? <CircularLoader/>:(
+  <div className={classes.root}>
       <Paper className={classes.paper}>
         <EnhancedTableToolbar  handleAgent={handleAgent}/>
         <TableContainer>
@@ -188,6 +191,8 @@ handleAgent();
       </Paper>
       
     </div>
+   
+ )}
     <Modal
         open={open}
         onClose={handleClose}

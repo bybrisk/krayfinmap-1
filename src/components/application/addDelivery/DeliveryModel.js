@@ -42,11 +42,11 @@ export default {
         requiredErrorMsg: "Weight is required",
         tip:'Weight Of Item To Be Delivered'
       },
-      pincode: {
-        name: "pincode",
-        label: "PinCode",
-        requiredErrorMsg: "PinCode is required",
-        tip:'PinCode of Delivery Location'
+      note: {
+        name: "note",
+        label: "note",
+        requiredErrorMsg: "note is required",
+        tip:'Any instructions'
       },
       PicURL: {
         name: "PicURL",

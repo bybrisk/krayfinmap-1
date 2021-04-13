@@ -1,8 +1,8 @@
 import React, { Component, useState,useEffect } from "react";
 import GoogleMapReact from "google-map-react";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { PubNubProvider, usePubNub } from 'pubnub-react';
 import RoomRoundedIcon from "@material-ui/icons/RoomRounded";
+import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -10,11 +10,16 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
+import CircularLoader from 'components/application/Loader/circularLoader';
+
 import { Paper } from "@material-ui/core";
 import {useSelector} from 'react-redux'
 import { fetchClusters } from "helpers/NetworkRequest";
 import { useSnackbar } from 'notistack';
 import Typography from '@material-ui/core/Typography';
+import PubNub from 'pubnub';
+import { PubNubProvider, usePubNub } from 'pubnub-react';
+
 import { Helmet } from "react-helmet";
 import {Link} from 'react-router-dom'
 const useStyles = makeStyles((theme) => ({
@@ -51,10 +56,20 @@ paddingBottom:0,
 
 const AnyReactComponent = ({ color }) => (
   <div>
-    <RoomRoundedIcon style={{ color: color }} />
+    <RoomRoundedIcon style={{ color: color,height:20,width:20 }} />
   </div>
 );
 
+const PendingIcon = ({ color }) => (
+  <div>
+    <ShoppingBasketIcon style={{ color: 'darkgoldenrod',height:20,width:20 }} />
+  </div>
+);
+const pubnub = new PubNub({
+  publishKey: 'pub-c-b62c8c92-592d-4472-bee9-03e3ccf8645b',
+  subscribeKey: 'sub-c-ad9893f0-6907-11eb-b914-eedc703588a5',
+  // uuid: 'myUniqueUUID'
+});
 const ClusterMap = () => {
     const { enqueueSnackbar } = useSnackbar();
 
@@ -62,7 +77,7 @@ const ClusterMap = () => {
   const [clusters,setClusters] = useState(null)
   const [isLoading,setLoading] = useState(false);
   const [pendingDeliveries,setDelivery] = useState(null);
-        const [channels] = useState(['businessid']);
+        const [channels] = useState(['6038bd0fc35e3b8e8bd9f81a']);
 
   const pubnub = usePubNub();
   
@@ -74,11 +89,8 @@ const ClusterMap = () => {
   const [zoom, setZoom] = useState(11);
   const handleMessage = event => {
     const message = event.message;
-    if (typeof message === 'string' || message.hasOwnProperty('text')) {
-      const text = message.text || message;
-      console.log(message,text,"--5--5--5-5-5-5--5")
-      // addMessage(messages => [...messages, text]);
-    }
+    console.log(message);
+
   };
 
   useEffect(() => {
@@ -94,14 +106,17 @@ const ClusterMap = () => {
     pubnub.subscribe({ channels });
   }, [pubnub, channels]);
 
+
+
   return (
       <>
            <Helmet>
         <title>Cluster Summary</title>
         <meta name="description" content="Visual Representation of Deliveries of your account Made Simple"  />
       </Helmet>
-    <div style={{ height: "90vh", width: "100%" }}>
-          <div className={classes.cardContainer} id="bright">
+      {isLoading?<CircularLoader/>:(
+        <div style={{ height: "90vh", width: "100%" }}>
+    <div className={classes.cardContainer} id="bright">
   {isLoading?(<CircularProgress
    style={{height: "30px",
      width: "30px",
@@ -113,11 +128,11 @@ const ClusterMap = () => {
       
       {clusters?.length===0 && <ListItem className={classes.listItem} style={{marginTop:23,color:'#057g78'}}>No Clusters Present</ListItem>}
       {clusters?.map((item,index)=>{
-        return   <ListItem button key={item[0].clusterid} component={Link} to={{ pathname: '/dashboard/clusterDeliveries', state: { clusterID: item[0].clusterid} }} className={classes.listItem}>
+        return   <ListItem button key={item[0].deliveryAgentName} component={Link} to={{ pathname: '/dashboard/clusterDeliveries', state: { clusterID: item[0].clusterid} }} className={classes.listItem}>
         <ListItemIcon className={classes.iconContainer}>
-    <Paper className={classes.avatar} style={{background:item[0].color}} variant={'circle'}></Paper>
+    <Paper className={classes.avatar} style={{background:item[0].color}} variant={'elevation'}></Paper>
         </ListItemIcon>
-        <ListItemText primary={`cluser ${index}`} />
+        <ListItemText primary={item[0].deliveryAgentName} />
       </ListItem>
    
       })}
@@ -127,10 +142,11 @@ const ClusterMap = () => {
        )}
       </div>
       <GoogleMapReact
-        bootstrapURLKeys={{ key: "AIzaSyCuMJ3dhADqNoE4tGuWTI3_NlwBihj5BtE" }}
+        bootstrapURLKeys={{ key: "AIzaSyDSl1BOkFlpEiOs3PIavj24cMDo0tDBOIQ" }}
         defaultCenter={center}
         defaultZoom={zoom}
         yesIWantToUseGoogleMapApiInternals
+
         onChange={({ zoom, bounds }) => {
           setZoom(zoom);
         }}
@@ -148,20 +164,24 @@ const ClusterMap = () => {
             );
           });
         })}
-        {clusters===null && pendingDeliveries?.filter(item=>item.deliveryStatus==='pending')?.map((item) => {
-          return item.map((clusterItem) => {
+
+        {clusters===null && pendingDeliveries?.filter(item=>item._source.deliveryStatus==='Pending')?.map((clusterItem) => {
             return (
-              <AnyReactComponent
-                lat={clusterItem.latitude}
-                lng={clusterItem.longitude}
-                color={'#000'}
+              <PendingIcon
+                lat={clusterItem._source.latitude}
+                lng={clusterItem._source.longitude}
+                color={'darkgoldenrod'}
                 text="My Marker"
               />
             );
-          });
         })}
       </GoogleMapReact>
+
     </div>
-  </>);
+ 
+      )
+
+}
+    </>);
 };
 export default ClusterMap;

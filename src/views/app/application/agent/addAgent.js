@@ -20,7 +20,7 @@ import 'App.css'
 import Button from 'components/application/button/button';
 import {useSelector} from "react-redux";
 import axios from 'axios';
-const { formId, formField:{AgentName,Locality,Landmark,City,Pin,AgentID,PhoneNumber,MaxHourCapacity,MaxWeightCapacity,agentType,PANCardNumber,TypeOfVehicle,DrivingLicenceNumber,AadharNumber} } = AgentModel;
+const { formId, formField:{AgentName,AgentID,PhoneNumber,MaxHourCapacity,MaxWeightCapacity,TypeOfVehicle} } = AgentModel;
 
 
 const useStyles = makeStyles((theme) => ({
@@ -69,19 +69,19 @@ const handleChange = function loadFile(event) {
 
   function _handleSubmit(values,actions) {
     const article = JSON.stringify({
-      Address: values.Locality + " & "+ values.Landmark + " & "+ values.City + " & "+  values.Pin,
+      Address: "",
       MaxWeightCapacity: values.MaxWeightCapacity,
       MaxHourCapacity: values.MaxHourCapacity,
       PhoneNumber: values.PhoneNumber,
       AgentName: values.AgentName,
-      agentType: values.agentType,
+      agentType: "Delivery",
       BusinessID:bybId,
       AgentID:values.AgentID,
       picurl:pic,
       bybID:values.bybId,
-      AadharNumber:values.AadharNumber,
-      DrivingLicenceNumber:values.DrivingLicenceNumber,
-      PANCardNumber:values.PANCardNumber,
+      AadharNumber:"",
+      DrivingLicenceNumber:"",
+      PANCardNumber:"",
       TypeOfVehicle: values.TypeOfVehicle
     });
     if(props.values){
@@ -140,38 +140,12 @@ style={{height:100,width:100}}
 <Input name={AgentName.name} label={AgentName.label} tip={AgentName.tip}  style={{minWidth:300}}/>
             </Grid>
             <Grid item style={{marginLeft:20}}>
-            <Select
-            name={agentType.name}
-            label={agentType.label}
-            data={agentType.data}
-            style={{minWidth:300}}
-            tip={agentType.tip}
-
-          />  </Grid>
-            <Grid item style={{marginLeft:20}}>
             <Input name={PhoneNumber.name} tip={PhoneNumber.tip} label={PhoneNumber.label}  type="tel" style={{minWidth:300}}/>
             </Grid>
 
         </Grid>
 
-        <Grid container justify="left" spacing={4}>
-            <Grid item style={{marginLeft:20}}>
-            <Input name={Locality.name} label={Locality.label} tip={Locality.tip}  style={{minWidth:300}}/>
-            </Grid>
-            <Grid item style={{marginLeft:20}}>
-            <Input name={Landmark.name} label={Landmark.label}  tip={Landmark.tip} style={{minWidth:300}}/>
-  </Grid>
-            
-        </Grid>
-        <Grid container justify="left" spacing={4}>
-            <Grid item style={{marginLeft:20}}>
-            <Input name={City.name} label={City.label} tip={City.tip} style={{minWidth:300}}/>
-            </Grid>
-            <Grid item style={{marginLeft:20}}>
-            <Input name={Pin.name} label={Pin.label} tip={Pin.tip} style={{minWidth:300}}/>
-  </Grid>
-            
-        </Grid>
+        
         <Grid container justify="left" spacing={4}>
             <Grid item style={{marginLeft:20}}>
 <Input name={MaxWeightCapacity.name} tip={MaxWeightCapacity.tip} label={MaxWeightCapacity.label} type="number" style={{minWidth:300}}/>
@@ -185,19 +159,8 @@ style={{height:100,width:100}}
 
         </Grid>
 
+
         <Grid container justify="left" spacing={4}>
-            <Grid item style={{marginLeft:20}}>
-<Input name={AadharNumber.name} tip={AadharNumber.tip} label={AadharNumber.label} type="text" style={{minWidth:300}}/>
-            </Grid>
-            <Grid item style={{marginLeft:20}}>
-            <Input name={DrivingLicenceNumber.name} tip={DrivingLicenceNumber.tip} label={DrivingLicenceNumber.label} type="text"  style={{minWidth:300}}/>
-  </Grid>
-          
-        </Grid>
-        <Grid container justify="left" spacing={4}>
-        <Grid item style={{marginLeft:20}}>
-            <Input name={PANCardNumber.name} tip={PANCardNumber.tip} type={"text"} label={PANCardNumber.label}  style={{minWidth:300}}/>
-            </Grid>
    <Grid item style={{marginLeft:20}}>
    <Select
             name={TypeOfVehicle.name}

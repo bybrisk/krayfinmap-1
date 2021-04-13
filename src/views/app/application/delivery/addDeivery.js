@@ -24,7 +24,7 @@ import 'App.css'
 import Button from 'components/application/button/button';
 import {useSelector} from "react-redux";
 import axios from 'axios';
-const { formId, formField:{CustomerName,pincode,phone,itemWeight,paymentStatus,Locality,Landmark,City,PendingAmount} } = DeliveryModel;
+const { formId, formField:{CustomerName,note,phone,itemWeight,paymentStatus,Locality,Landmark,City,PendingAmount} } = DeliveryModel;
 
 
 
@@ -88,12 +88,12 @@ const user = useSelector(state => state.user)
 
   function _handleSubmit(values,actions) {
     const article = JSON.stringify({
-      CustomerAddress: values.Locality + " " + values.Landmark + " " + values.City + " " + values.pincode,
+      CustomerAddress: values.Locality + " " + values.Landmark + " " + values.City + " " + values.note,
       itemWeight: values.itemWeight,
       phone: values.phone,
       CustomerName: values.CustomerName,
       paymentStatus: values.paymentStatus,
-      pincode:values.pincode,
+      note:values.note,
       BybID:bybId,
       deliveryStatus:'pending',
       amount: values.PendingAmount || 0
@@ -180,7 +180,7 @@ style={{height:100,width:100}}
         </Grid>
         <Grid container justify="left" spacing={4}>
             <Grid item style={{marginLeft:20}}>
-            <Input name={pincode.name} tip={pincode.tip}label={pincode.label} type="text"  style={{minWidth:300}}/>
+            <Input name={note.name} tip={note.tip}label={note.label} type="text"  style={{minWidth:300}}/>
   </Grid>
   <Grid item style={{marginLeft:20,alignItems:"center",justifyContent:"center",display:"flex"}}>
             <CheckBox name={paymentStatus.name} tip={paymentStatus.tip} label={paymentStatus.label}  style={{minWidth:300}}/>

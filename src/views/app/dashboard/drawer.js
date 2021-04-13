@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { BrowserRouter } from "react-router-dom";
 import {useSelector} from 'react-redux'
-import Logo from 'Assets/logo.png';
+import Logo from 'Assets/logoWhite.png';
 // import AgentTable from '../AgentTable/AgentTable'
 // import DeliveryTable from '../AgentTable/DeliveryTable/DeliveryTable'
 import Accordion from './accordion';

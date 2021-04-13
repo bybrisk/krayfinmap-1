@@ -10,7 +10,7 @@ const {
     paymentStatus,
     PendingAmount,
     phone,
-    pincode,
+    note,
       }
 } = DeliveryModel;
 
@@ -23,7 +23,7 @@ export default
     [CustomerName.name]: Yup.string().min(3,"not less than 3 characters").max(30,"not more than 30 characters").required(`${CustomerName.requiredErrorMsg}`),
     [itemWeight.name]: Yup.number().min(0).required(`${itemWeight.requiredErrorMsg}`),
     [phone.name]: Yup.string().min(10,"must be a valid phone").max(13).required(`${phone.requiredErrorMsg}`),
-    [pincode.name]: Yup.string().length(6).matches(`^[1-9]{1}[0-9]{2}[0-9]{3}$`,"must be a valid pin").required(`${pincode.requiredErrorMsg}`),
+    [note.name]: Yup.string(),
     [paymentStatus.name]: Yup.boolean(),
 [PendingAmount.name]: Yup.number().when('paymentStatus', {
   is: false, // alternatively: (val) => val == true
