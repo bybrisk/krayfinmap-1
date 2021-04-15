@@ -11,6 +11,9 @@ import Divider from "@material-ui/core/Divider";
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import CircularLoader from 'components/application/Loader/circularLoader';
+import Backdrop from '@material-ui/core/Backdrop';
+import Grow from '@material-ui/core/Grow';
+import Modal from "@material-ui/core/Modal";
 
 import { Paper } from "@material-ui/core";
 import {useSelector} from 'react-redux'
@@ -22,6 +25,9 @@ import { PubNubProvider, usePubNub } from 'pubnub-react';
 
 import { Helmet } from "react-helmet";
 import {Link} from 'react-router-dom'
+const DeliveryDetails = React.lazy(() =>
+  import(/* webpackChunkName: "Delivery-Details" */ 'views/app/application/delivery/deliveryDetails')
+);
 const useStyles = makeStyles((theme) => ({
   listItem:{
 paddingTop:0,
@@ -60,9 +66,9 @@ const AnyReactComponent = ({ color }) => (
   </div>
 );
 
-const PendingIcon = ({ color }) => (
+const PendingIcon = ({ onClick }) => (
   <div>
-    <ShoppingBasketIcon style={{ color: 'darkgoldenrod',height:20,width:20 }} />
+    <ShoppingBasketIcon onClick={onClick} style={{ color: 'darkgoldenrod',height:20,width:20 }} />
   </div>
 );
 const pubnub = new PubNub({
@@ -72,6 +78,7 @@ const pubnub = new PubNub({
 });
 const ClusterMap = () => {
     const { enqueueSnackbar } = useSnackbar();
+    const [open, setOpen] = React.useState(false);
 
   const classes = useStyles();
   const [clusters,setClusters] = useState(null)
@@ -87,12 +94,24 @@ const ClusterMap = () => {
   });
   const bybId = useSelector(state => state.bybId)
   const [zoom, setZoom] = useState(11);
+  const [deliveryID, setdeliveryID] = React.useState('');
+
   const handleMessage = event => {
     const message = event.message;
     console.log(message);
 
   };
+  const handleOpen = (id) => {
+    setdeliveryID(id);
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+    // setTimeout(() => {
+    //   fetchAccountDetails({dispatch})  
+    // }, 1000);
 
+  };
   useEffect(() => {
     setLoading(true)
       fetchClusters({bybId, setClusters,enqueueSnackbar,setLoading,setDelivery});
@@ -128,6 +147,7 @@ const ClusterMap = () => {
       
       {clusters?.length===0 && <ListItem className={classes.listItem} style={{marginTop:23,color:'#057g78'}}>No Clusters Present</ListItem>}
       {clusters?.map((item,index)=>{
+        console.log(item);
         return   <ListItem button key={item[0].deliveryAgentName} component={Link} to={{ pathname: '/dashboard/clusterDeliveries', state: { clusterID: item[0].clusterid} }} className={classes.listItem}>
         <ListItemIcon className={classes.iconContainer}>
     <Paper className={classes.avatar} style={{background:item[0].color}} variant={'elevation'}></Paper>
@@ -170,7 +190,9 @@ const ClusterMap = () => {
               <PendingIcon
                 lat={clusterItem._source.latitude}
                 lng={clusterItem._source.longitude}
+                onClick={()=>handleOpen(clusterItem._id)}
                 color={'darkgoldenrod'}
+
                 text="My Marker"
               />
             );
@@ -182,6 +204,34 @@ const ClusterMap = () => {
       )
 
 }
+<Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="Deliveries"
+          aria-describedby="Deliveries"
+          closeAfterTransition
+                  BackdropComponent={Backdrop}
+                  BackdropProps={{
+                      timeout: 400,
+                  }}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection:'column',
+            background:'#ffffff'
+          }}
+        >
+                        <Grow in={open} timeout={250}>
+  
+        <section style={{background:'#ffffff',width:'100%',height:'100%'}}> 
+        <div style={{fontSize:40,textAlign:'right',padding:'0 30px',margin:0}}>    <span style={{cursor:'pointer'}} onClick={handleClose} >x</span>
+  </div>
+          <DeliveryDetails id={deliveryID} handleClose={handleClose}/>
+        </section>
+        </Grow>
+        </Modal>
+ 
     </>);
 };
 export default ClusterMap;

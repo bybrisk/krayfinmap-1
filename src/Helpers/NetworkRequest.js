@@ -397,7 +397,7 @@ for (let i = 0; i < data.ClusterIDArray.length; i++) {
   let singleCluster = [];
   data.AssignedDeliveryArray[i].hits.hits.map((item) => {
     singleCluster.push({
-      clusterid: item._id,
+      clusterid: item._source.clusterID,
       customerName: item._source.CustomerName,
       color: colorForThisCluster,
       deliveryAgentName:item._source.deliveryAgentName,
@@ -420,6 +420,7 @@ export async function fetchClusterDeliveries(props){
 
     try {
         const res = await API.get(`/clusters/getdeliveries?clusterid=${clusterID}`);
+        console.log(res);
         res.data.hits.hits!==null &&     setDelivery(res.data.hits.hits);
 } catch (error) {
     enqueueSnackbar('Problem Fetching Deliveries',{
@@ -542,19 +543,35 @@ return {distanceObserved, averageWeight}
             deliveryAgentName:item[0].deliveryAgentName,
             distanceObserved:distanceObserved,
             averageWeight:averageWeight,
-            clusterTime:res.data.clusterTime,
-            clusterDistance:res.data.clusterDistance
+            clusterTime:res.data.clusterTime>3600?`${(res.data.clusterTime/3600).toFixed(2)} hour`:res.data.clusterTime>60?`${(res.data.clusterTime/60).toFixed(2)} minutes`:`${res.data.clusterTime} sec`,
+            clusterDistance:res.data.clusterDistance>1000000?`${(res.data.clusterDistance/1000000).toFixed(2)} K Km`:res.data.clusterDistance>1000?`${(res.data.clusterDistance/1000).toFixed(2)} Km`:`${res.data.clusterDistance} m`
         }
     })
-
+//logic problem above always goes to first statement make first condition for hours then smaller
 Promise.all(clusterOverview).then(result=>{
     console.log(result)
     setLoading(false);
     setClusters(result)
+}).catch(error=>{
+    setLoading(false);
 })
 } catch (error) {
+    setLoading(false);
     console.log(error)
 }
 
 }
 
+
+export async function getDeliveryStats(props){
+    const {bybID, setStats} = props;
+    try {
+        const res = await API.get(`/delivery/deliveryStatus?bybID=${bybID}`);
+console.log(res);
+        setStats(res.data)
+    } catch (error) {
+        setStats([]);
+        
+    }
+
+}

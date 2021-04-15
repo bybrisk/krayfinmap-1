@@ -42,7 +42,7 @@ const filterStats = {
   DeliveryPending:filterLength({array:rows,filter:'pending'}),
   DeliveryTransit:filterLength({array:rows,filter:'transit'})
 }
-
+console.log(rows);
 
   return (
     <>

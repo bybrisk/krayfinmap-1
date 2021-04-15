@@ -61,9 +61,7 @@ const validation = Yup.object().shape({
     Address: Yup.string()
     .min(10, "Address should have min 10 characters")
     .max(1000, "Address can have max 1000 characters")
-    .required("required"),
-    StandbyDuration:Yup.number("Standby Time should be in ms").required('Standby duration is Required')
-
+    .required("required")
 })
 
 const deliveryType = [

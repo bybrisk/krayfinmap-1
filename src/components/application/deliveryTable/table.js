@@ -14,12 +14,12 @@ import TableContainer from './tableContainer';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import { useSnackbar } from 'notistack';
-import React, { useEffect, useRef, Suspense} from 'react';
+import React, { useEffect, useRef, Suspense, useState} from 'react';
 import Loader from '../Loader/Loader'
 import { Helmet } from "react-helmet";
 import { useSelector,useDispatch} from "react-redux";
 // import AgentDetail from '../AgentDetails'
-import { fetchAccountDetails, fetchDeliveries, modifyStatus } from 'helpers/NetworkRequest';
+import { fetchAccountDetails, fetchDeliveries, modifyStatus,getDeliveryStats } from 'helpers/NetworkRequest';
 import { getComparator, search, StyledTableCell, StyledTableRow } from '../tableHelpers/helpers';
 import Select from './StatusDropdown';
 import TableHead from './tableHead';
@@ -110,13 +110,8 @@ export default function DeliveryTable() {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user);
   const [isLoading,setLoading] = React.useState(false);
+  const [filterStats,setStats] = useState(null);
 
-const filterStats = {
-  DeliveryDelivered:user.DeliveryDelivered,
-  DeliveryCancelled:user.DeliveryCancelled,
-  DeliveryPending:user.DeliveryPending,
-  DeliveryTransit:user.DeliveryTransit
-}
 function handleDelivery(refreshRef){
       fetchDeliveries({bybID,setDelivery});
      refreshRef && setTimeout(()=>{refreshRef.current.classList.remove('refresh')},2000)
@@ -125,6 +120,7 @@ function handleDelivery(refreshRef){
 
   useEffect(() => {
     fetchDeliveries({bybID,setDelivery,setLoading});
+    getDeliveryStats({setStats,bybID})
 
 return () => {
       

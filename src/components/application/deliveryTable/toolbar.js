@@ -7,17 +7,19 @@ import Grid from "@material-ui/core/Grid";
 import InputBase from "@material-ui/core/InputBase";
 import Modal from "@material-ui/core/Modal";
 import { fade, makeStyles } from "@material-ui/core/styles";
+
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import AddIcon from "@material-ui/icons/Add";
 import AutorenewIcon from '@material-ui/icons/Autorenew';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import SearchIcon from "@material-ui/icons/Search";
-import React,{useRef} from "react";
+import React,{useEffect, useRef, useState} from "react";
 import {useSelector} from 'react-redux';
 import ButtonDropdown from './buttonDropdown'
 import ReactButton from "components/application/button/button";
 import AddDelivery from 'views/app/application/delivery/addDeivery'
+import { getDeliveryStats } from 'helpers/NetworkRequest';
+
 import 'App.css'
 const CardComponent = (props) => {
   const { title, stat,backgroundColor } = props;
@@ -149,15 +151,16 @@ color:'#ffffff'
 //thiis is to show "Agent" at top Helps in fixing
 //them just above table
 const EnhancedTableToolbar = (props) => {
-    const {setQuery,query,handleDelivery,filterStats} = props;
+    const {setQuery,query,handleDelivery, filterStats} = props;
   const classes = useToolbarStyles();
   const [deliveryFilter, setFilter] = React.useState(false);
+
 const refresh = useRef(null)
   const filters = filterStats && [
-    { title: "Delivered", stat: filterStats.DeliveryDelivered, filter: "delivered",color:'darkolivegreen' },
-    { title: "Cancelled", stat: filterStats.DeliveryCancelled, filter: "cancelled",color:'indianred' },
-    { title: "Pending", stat: filterStats.DeliveryPending, filter: "pending",color:'darkgoldenrod' },
-    { title: "Transit", stat: filterStats.DeliveryTransit, filter: "transit",color:'cornflowerblue' }
+    { title: "Delivered", stat: filterStats?.delivered, filter: "delivered",color:'darkolivegreen' },
+    { title: "Cancelled", stat: filterStats?.cancelled, filter: "cancelled",color:'indianred' },
+    { title: "Pending", stat: filterStats?.pending, filter: "pending",color:'darkgoldenrod' },
+    { title: "Transit", stat: filterStats?.transit, filter: "transit",color:'cornflowerblue' }
 
   ];
 

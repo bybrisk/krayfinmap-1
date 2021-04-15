@@ -69,12 +69,19 @@ const CancelToken = axios.CancelToken;
 const source = CancelToken.source();
 const [data,setData] = useState([])
 
-  const ApiRequestsWithoutLatitude = async () =>{
-    console.log("started final step",loader)
-    let responseArray = [];
+  const ApiRequestsWithoutLatitude = async (data) =>{
+    console.log("started final step123",loader)
+    function setfailed(item, index, arr) {
+      if(item.data.message!=="OK"){
+        setFailedDeliveries(failedDeliveries=>[...failedDeliveries,arr[index]]);
+        // setFailedDeliveries(newDeliveries)
+      }
+
+  }
+  
     console.log(data,source,"enyered ifinanfjfj")
-    const deliveryJson = data.map(item=>{
-      return JSON.stringify({
+    const deliveryPromises = data.map((item,index)=>{
+     const deliveryJson =  JSON.stringify({
         CustomerAddress: item['Locality']+", "+item["Landmark"]+ ", " +item["City"],
         itemWeight: item["Item Weight"],
         phone: item["Phone"].toString(),
@@ -84,38 +91,36 @@ const [data,setData] = useState([])
         pincode:item["Pincode"].toString(),
         BybID:bybId
       })
+      const response =  AddDelivery({article:deliveryJson,failedDeliveries})
+      setProgress((index/data.length)*100);
+return response;
     })
+  await Promise.allSettled(deliveryPromises).then(values=>{
+    console.log(values)
+  
+  values.forEach(setfailed);
+  setProgress(100);
+  props.closeModal();
+    // return values;
+  }).catch(error=>props.closeModal());
 
-      //  const response = API.post("/delivery/addDelivery",deliveryJson[index],config);
-       
 
 
 
-    const RequestMaker = async (index) => {
-if(index>=deliveryJson.length){
-  failedDeliveries.length!==0 ? setShowFailed(true) : props.closeModal()
-// console.log(showFailed)
-  return;
-}
-const response =  AddDelivery({article:deliveryJson[index],setFailedDeliveries,failedDeliveries})
-setProgress((index/data.length)*100);
-responseArray.push(response);
-RequestMaker(index+1)
-return;
     }
 
-    RequestMaker(0)
-    Promise.allSettled(responseArray).
-    then(results=>results.forEach((result,index)=>{
-      if(result.data.message==="GEOCODING FAILED"){
-        // console.log(failedDeliveries,"before pushing",data[index])
-        failedDeliveries.push(data[index])
-        // console.log(failedDeliveries,"'settong faoledk clelc")
-        // setFailedDeliveries(newDeliveries)
-      }
-    }))
+    // RequestMaker(0)
+    // Promise.allSettled(responseArray).
+    // then(results=>results.forEach((result,index)=>{
+    //   if(result.data.message==="GEOCODING FAILED"){
+    //     // console.log(failedDeliveries,"before pushing",data[index])
+    //     failedDeliveries.push(data[index])
+    //     // console.log(failedDeliveries,"'settong faoledk clelc")
+    //     // setFailedDeliveries(newDeliveries)
+    //   }
+    // }))
     
-}
+
 
 
 

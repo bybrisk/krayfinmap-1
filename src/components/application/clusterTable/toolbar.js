@@ -81,21 +81,8 @@ postCluster({clusterData,enqueueSnackbar,setSubmitting,bybId, setCluster})
         </Typography>
       </Grid>
       <Grid item xs={12} md={10} container justify="flex-start" style={{marginBottom:20}}>
-        <Grid item xs={12} md={3} lg={2} container>
-          <Typography variant="h6">No. of Clusters :</Typography>
-        </Grid>
-        <Grid container xs={12} md={8} alignItems="flex-start">
-          {/* <TextField
-            variant="outlined"
-            style={{ maxWidth: 200, marginRight: 30 }}
-            margin="dense"
-            onChange={e=>setCluster(e.target.value)}
-            type={'number'}
-            min={0}
-            max={rows.length}
-            helperText="Must be less than no. of Agents Added to your account"
+        <Grid container xs={12} alignItems="flex-start">
 
-          /> */}
           <ReactButton variant="contained"         disableFocusRipple={true}
                         disableElevation={true}
                         type="submit"
