@@ -95,7 +95,6 @@ import Toolbar from './toolbar'
     //page elements end
   
    //query is internal part of application
-   console.log(rows,"llllflflflflflflflflflflfls")
 
    
     return (
@@ -141,7 +140,7 @@ rows?.map((row) => {
                 <StyledTableCell align="center" >{row["Pincode"]}</StyledTableCell>
                 <StyledTableCell align="center" >{row["Phone"]}</StyledTableCell>
                 <StyledTableCell align="center" >{row["Item Weight"]}</StyledTableCell>
-                <StyledTableCell align="center" >{row["Amount"]}</StyledTableCell>
+                <StyledTableCell align="center" >{row["Amount"] || "Paid"}</StyledTableCell>
  
                       </StyledTableRow>
       

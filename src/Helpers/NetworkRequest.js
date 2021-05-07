@@ -1,6 +1,6 @@
 import axios from 'axios'
 const API = axios.create({
-    baseURL:"https://bybriskbackend.herokuapp.com",
+    baseURL:"http://localhost:5000",
     withCredentials:true,
     credentials:"include"
 })
@@ -103,36 +103,28 @@ enqueueSnackbar('Agent Deleted Succesfully',{
 
 //add delivery
 export async function AddDelivery(props){
-    const {article,actions,closeModal,enqueueSnackbar} = props;
+    const {article} = props;
     try{
         const config = {headers:{"Content-Type": "application/json"}}
         const body = article
         
          const response = API.post("/delivery/addDelivery",body,config);
-           actions && actions.setSubmitting(false);
-
-           closeModal && closeModal({makeRequest:true})
-           enqueueSnackbar && enqueueSnackbar('Delivery Added Succesfully',{
-                 variant: 'success',
-                 autoHideDuration: 2000,
-             });
              return response;
          }
     catch(e){
-    
+    return e;
     }
     }
 
     export async function AddDeliveryWithGeoCode(props){
-        const {article,source,responseArray} = props;
+        const {article,responseArray} = props;
         try{
-            const config = {headers:{"Content-Type": "application/json"},cancelToken:source.token}
+            const config = {headers:{"Content-Type": "application/json"}}
             const body = article
             
              const response = API.post("/delivery/addDeliveryWithGeocode",body,config);
-            //  console.log(response,"--g--g-g-g-g-g--g-g-g-");
-responseArray.push(response);
-return;
+responseArray && responseArray.push(response);
+return response;
             }
         catch(e){
         
@@ -141,18 +133,17 @@ return;
 
 export async function AddMultipleDeliveries(props){
     const {deliveryJson,cancel,closeModal,failedDeliveries,setFailedDeliveries,setProgress,enqueueSnackbar} = props;
-    console.log("started try step",cancel)
 
     try {
     let i=0;
     while(!cancel && i<deliveryJson.length){
         if(cancel){
-            console.log("break from inside cancel",cancel)
+            // console.log("break from inside cancel",cancel)
 
 break;
         }
      const response =  await AddDelivery({article:deliveryJson[i]})
-     console.log(response)
+    //  console.log(response)
      i+=1;
     }
     if(i!==deliveryJson.length-1){
@@ -194,7 +185,7 @@ export async function fetchDeliveries(props){
     try{
        setLoading && setLoading(true)
         const res = await API.get(`/delivery/fetchDeliveries?bybid=${bybID}`);
-        console.log(res,"--f-f-f-f-f-")
+        // console.log(res,"--f-f-f-f-f-")
       res.data.hits.hits!==null &&     setDelivery(res.data.hits.hits);
       setLoading && setLoading(false)
     }
@@ -398,6 +389,7 @@ for (let i = 0; i < data.ClusterIDArray.length; i++) {
   data.AssignedDeliveryArray[i].hits.hits.map((item) => {
     singleCluster.push({
       clusterid: item._source.clusterID,
+deliveryid:item._id,
       customerName: item._source.CustomerName,
       color: colorForThisCluster,
       deliveryAgentName:item._source.deliveryAgentName,
@@ -420,7 +412,7 @@ export async function fetchClusterDeliveries(props){
 
     try {
         const res = await API.get(`/clusters/getdeliveries?clusterid=${clusterID}`);
-        console.log(res);
+        // console.log(res);
         res.data.hits.hits!==null &&     setDelivery(res.data.hits.hits);
 } catch (error) {
     enqueueSnackbar('Problem Fetching Deliveries',{
@@ -441,7 +433,7 @@ console.log(clusters)
 setClusters && setClusters(clusters)
 setLoading && setLoading(false)
 }else{
-    console.log('reached')
+    // console.log('reached')
     fetchDeliveries({bybID:bybId,setDelivery})
     setLoading && setLoading(false)
 
@@ -449,7 +441,7 @@ setLoading && setLoading(false)
 return clusters;
         }
         catch(err){
-            console.log(err,"error from me")
+            // console.log(err,"error from me")
             setLoading && setLoading(false)
 
             enqueueSnackbar  && enqueueSnackbar('There are no Clusters Yet',{
@@ -530,7 +522,7 @@ return {distanceObserved, averageWeight}
 // }
     try {
     const clusterData = await fetchClusters({bybId})
-    console.log(clusterData);
+    // console.log(clusterData);
    const clusterOverview = clusterData.map( async (item,index)=>{
         const {distanceObserved, averageWeight} =  calculateTotals(item);
         const res = await API.get(`/clusters/timeNdistance?agentId=${item[0].deliveryAgentID}`);
@@ -549,7 +541,7 @@ return {distanceObserved, averageWeight}
     })
 //logic problem above always goes to first statement make first condition for hours then smaller
 Promise.all(clusterOverview).then(result=>{
-    console.log(result)
+    // console.log(result)
     setLoading(false);
     setClusters(result)
 }).catch(error=>{
@@ -557,7 +549,7 @@ Promise.all(clusterOverview).then(result=>{
 })
 } catch (error) {
     setLoading(false);
-    console.log(error)
+    // console.log(error)
 }
 
 }
@@ -567,7 +559,7 @@ export async function getDeliveryStats(props){
     const {bybID, setStats} = props;
     try {
         const res = await API.get(`/delivery/deliveryStatus?bybID=${bybID}`);
-console.log(res);
+// console.log(res);
         setStats(res.data)
     } catch (error) {
         setStats([]);

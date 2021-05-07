@@ -15,7 +15,7 @@ import IconButton from '@material-ui/core/IconButton';
 
 import { domain } from "App";
 import { Wrapper } from "helpers/Styles";
-import {AddDelivery} from 'helpers/NetworkRequest'
+import {AddDelivery, AddDeliveryWithGeoCode} from 'helpers/NetworkRequest'
 import { Formik, Form} from "formik";
 import validationSchema from "components/application/addDelivery/ValidationSchema";
 import DeliveryModel from "components/application/addDelivery/DeliveryModel";
@@ -24,7 +24,7 @@ import 'App.css'
 import Button from 'components/application/button/button';
 import {useSelector} from "react-redux";
 import axios from 'axios';
-const { formId, formField:{CustomerName,note,phone,itemWeight,paymentStatus,Locality,Landmark,City,PendingAmount} } = DeliveryModel;
+const { formId, formField:{CustomerName,note,phone,itemWeight,paymentStatus,Locality,Landmark,City,PendingAmount,longitude,latitude} } = DeliveryModel;
 
 
 
@@ -96,9 +96,34 @@ const user = useSelector(state => state.user)
       note:values.note,
       BybID:bybId,
       deliveryStatus:'pending',
-      amount: values.PendingAmount || 0
+      pincode:"462001",
+      amount: values.PendingAmount || 0,
+      latitude:values.latitude,
+      longitude:values.longitude
     });
-    AddDelivery({article,actions,closeModal,enqueueSnackbar})
+    if(values.longitude){
+      AddDelivery({article,enqueueSnackbar}).then(result=>{
+        console.log(result);
+        enqueueSnackbar('Delivery Added Succesfully',{
+          variant: 'success',
+          autoHideDuration: 2000,
+      });
+      closeModal({makeRequest:true})
+      }).catch(error=>{
+        enqueueSnackbar('Delivery Adding Failed',{
+          variant: 'error',
+          autoHideDuration: 2000,
+      });
+      }).finally(result=>{
+        actions.setSubmitting(false);
+      })
+    }
+    else{
+      AddDeliveryWithGeoCode({article}).then(result=>{
+        console.log(result.success,"-gg--gggggg")
+      })
+    }
+
   }
 
 
@@ -174,9 +199,12 @@ style={{height:100,width:100}}
             <Input name={itemWeight.name} tip={itemWeight.tip} label={itemWeight.label} type="number"  style={{minWidth:300}}/>
             </Grid>
             
-            <Grid item style={{marginLeft:20,alignItems:"center",justifyContent:"center",display:"flex"}}>
+            <Grid item style={{marginLeft:20}}>
+            <Input name={latitude.name} tip={latitude.tip}label={latitude.label} type="number"  style={{minWidth:300}}/>
   </Grid>
-            
+  <Grid item style={{marginLeft:20}}>
+            <Input name={longitude.name} tip={longitude.tip} label={longitude.label} type="number"  style={{minWidth:300}}/>
+  </Grid>            
         </Grid>
         <Grid container justify="left" spacing={4}>
             <Grid item style={{marginLeft:20}}>

@@ -154,7 +154,7 @@ const EnhancedTableToolbar = (props) => {
     const {setQuery,query,handleDelivery, filterStats} = props;
   const classes = useToolbarStyles();
   const [deliveryFilter, setFilter] = React.useState(false);
-
+// console.log(filterStats);
 const refresh = useRef(null)
   const filters = filterStats && [
     { title: "Delivered", stat: filterStats?.delivered, filter: "delivered",color:'darkolivegreen' },

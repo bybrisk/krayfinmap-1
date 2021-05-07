@@ -15,7 +15,7 @@ import XLSX from 'xlsx';
 import {useSelector} from "react-redux";
 import {AddDelivery,AddDeliveryWithGeoCode} from 'helpers/NetworkRequest'
 import 'App.css'
-import ExcelDemo from 'Assets/excelDemo.jpg'
+import ExcelDemo from 'Assets/excelDemo.png'
 import { object } from 'yup';
 const API = axios.create({
   baseURL:"https://bybriskbackend.herokuapp.com",
@@ -70,16 +70,15 @@ const source = CancelToken.source();
 const [data,setData] = useState([])
 
   const ApiRequestsWithoutLatitude = async (data) =>{
-    console.log("started final step123",loader)
     function setfailed(item, index, arr) {
-      if(item.data.message!=="OK"){
-        setFailedDeliveries(failedDeliveries=>[...failedDeliveries,arr[index]]);
-        // setFailedDeliveries(newDeliveries)
+      if(item.value.data.message==="GEOCODING FAILED"){
+        const newArray = failedDeliveries;
+        newArray.push(data[index]);
+        setFailedDeliveries(newArray);
       }
 
   }
   
-    console.log(data,source,"enyered ifinanfjfj")
     const deliveryPromises = data.map((item,index)=>{
      const deliveryJson =  JSON.stringify({
         CustomerAddress: item['Locality']+", "+item["Landmark"]+ ", " +item["City"],
@@ -88,21 +87,46 @@ const [data,setData] = useState([])
         CustomerName:item["Customer Name"],
         paymentStatus:item["Amount"]?false:true,
         amount:item["Amount"] || 0,
-        pincode:item["Pincode"].toString(),
+        note:item["Note"].toString(),
         BybID:bybId
       })
       const response =  AddDelivery({article:deliveryJson,failedDeliveries})
-      setProgress((index/data.length)*100);
+      // setProgress((index/data.length)*100);
 return response;
     })
-  await Promise.allSettled(deliveryPromises).then(values=>{
-    console.log(values)
-  
-  values.forEach(setfailed);
-  setProgress(100);
+//adding new for loop 
+let count = 0;
+for(const proms of deliveryPromises){
+ await proms.then(result=>{
+    count+=1;
+    setProgress(count*100/deliveryPromises.length);
+  if(result.data.message==="GEOCODING FAILED"){
+  const newArray = failedDeliveries;
+  newArray.push(data[progress]);
+  setFailedDeliveries(newArray);
+console.log(failedDeliveries,"-nikhiltale");
+}
+  })
+  .catch(error=>{
+// console.log(error);
+  })
+}
+if(failedDeliveries.length!==0) {setShowFailed(true)}
+else{
   props.closeModal();
-    // return values;
-  }).catch(error=>props.closeModal());
+}
+  // await Promise.allSettled(deliveryPromises).then(values=>{
+  //   console.log(values);
+
+  // values.forEach(setfailed);
+  // if(failedDeliveries.length!==0) {setShowFailed(true)}
+  // else{
+  //   setProgress(100);
+  //   props.closeModal();
+  // }
+  
+  //   // return values;
+  // }).catch(error=>props.closeModal());
 
 
 
@@ -125,7 +149,7 @@ return response;
 
 
 
-const ApiRequestsWithLatitude = (data) =>{
+const ApiRequestsWithLatitude = async (data) =>{
   let responseArray = [];
   console.log(data,"entered into apirequestwithout latitude")
   data.map((item,index)=>{
@@ -139,21 +163,28 @@ const ApiRequestsWithLatitude = (data) =>{
     CustomerName:item["Customer Name"],
     paymentStatus:item["Amount"]?false:true,
     amount:item["Amount"] || 0,
-    pincode:item["Pincode"].toString(),
+    note:item["Note"].toString(),
     BybID:bybId
   })
   AddDeliveryWithGeoCode({article:json,source,responseArray})
-
-  setProgress((index/data.length)*100);
-
   })
-  console.log(axios.isCancel(),"---------------------------------")
-  Promise.all(responseArray).then(result=>
-    {props.closeModal();
-      result.forEach((item)=>console.log(item,"from item"))});
+let count = 0;
+for(const proms of responseArray){
+  count+=1;
+     setProgress(count*100/responseArray.length);
+  await proms.then(result=>{
+
+   })
+   .catch(error=>{
+//  console.log(error);
+   })
+ }
+ props.closeModal();
+  // Promise.all(responseArray).then(result=>
+  //   {props.closeModal();
+  //     result.forEach((item)=>console.log(item,"from item"))});
 if(axios.isCancel()){
   setLoader(false);
-  console.log("0f0f0f0f0f0")
 }
 }
 
@@ -199,7 +230,7 @@ setData(data);
     promise.then(data=>{
       data[0].Latitude ? ApiRequestsWithLatitude(data):ApiRequestsWithoutLatitude(data)    })
       }
-      // console.log(failedDeliveries,"from global ")
+      console.log(failedDeliveries,"from global ")
     return(
         <>
         {showFailed?(
