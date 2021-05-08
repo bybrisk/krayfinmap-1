@@ -22,12 +22,13 @@ import { getDeliveryStats } from 'helpers/NetworkRequest';
 
 import 'App.css'
 const CardComponent = (props) => {
-  const { title, stat,backgroundColor } = props;
+  const { title, stat,backgroundColor,active } = props;
   const classes = useToolbarStyles();
 
   return (
     <Card
       onClick={props.onClick}
+      className={active && "filteractive"}
       style={{ width: 180, height: 120, textAlign: "center",cursor:'pointer',backgroundColor:`${backgroundColor}`}}
     >
       <CardHeader title={title} className={classes.cardColor}/>
@@ -151,16 +152,16 @@ color:'#ffffff'
 //thiis is to show "Agent" at top Helps in fixing
 //them just above table
 const EnhancedTableToolbar = (props) => {
-    const {setQuery,query,handleDelivery, filterStats} = props;
+    const {setQuery,query,handleDelivery, filterStats,setFilter,filter} = props;
   const classes = useToolbarStyles();
-  const [deliveryFilter, setFilter] = React.useState(false);
+  // const [deliveryFilter, setFilter] = React.useState(false);
 // console.log(filterStats);
 const refresh = useRef(null)
   const filters = filterStats && [
-    { title: "Delivered", stat: filterStats?.delivered, filter: "delivered",color:'darkolivegreen' },
-    { title: "Cancelled", stat: filterStats?.cancelled, filter: "cancelled",color:'indianred' },
-    { title: "Pending", stat: filterStats?.pending, filter: "pending",color:'darkgoldenrod' },
-    { title: "Transit", stat: filterStats?.transit, filter: "transit",color:'cornflowerblue' }
+    { title: "Delivered", stat: filterStats?.delivered, filter: "Delivered",color:'darkolivegreen' },
+    { title: "Cancelled", stat: filterStats?.cancelled, filter: "Cancelled",color:'indianred' },
+    { title: "Pending", stat: filterStats?.pending, filter: "Pending",color:'darkgoldenrod' },
+    { title: "Transit", stat: filterStats?.transit, filter: "Transit",color:'cornflowerblue' }
 
   ];
 
@@ -197,40 +198,29 @@ const refresh = useRef(null)
           <Typography variant="h5" className={classes.title}>Deliveries</Typography>
       <ButtonDropdown />
          </div>
-        {deliveryFilter  && (
-          <Grow in={deliveryFilter} timeout={250}>
- <section className={classes.filtersActive}>
-          <ArrowBackIcon onClick={removeFilter} style={{fontSize:"2rem"}}/>
-<p style={{ background: query==='delivered'?'darkolivegreen':(query==='pending'?'darkgoldenrod':(query==='cancelled'?'indianred':'cornflowerblue')),fontSize:'1rem',marginLeft:20,padding:2,color:'#ffffff',borderRadius:6}}> deliveries {query}</p> </section>
-     </Grow>   )}
-
-        {/* {deliveryFilter ? (
-          <div style={{ color: "green" }}>{query}</div>
-        ) : ( */}
-          {!deliveryFilter && (
-                   <Grow in={!deliveryFilter} timeout={250}>
+         {filterStats && <Grow in={filterStats} timeout={250}>
                    <Grid
         container
         className={classes.gridcontainer}
         spacing={3}
         style={{ margin: "20px 0" }}
       >
-        {filters && filters.map((item) => {
+        {filters.map((item) => {
           return (
             <Grid item style={{ marginLeft: 10,borderRadius:24}}>
               <CardComponent
                 title={item.title}
                 stat={item.stat}
                 backgroundColor={item.color}
-                onClick={() => addFilter(item.filter)}
+                onClick={() => setFilter(item.filter)}
+                active = {filter===item.filter}
               />
             </Grid>
           );
         })}
       </Grid></Grow>
-      
-          )  }
-    
+}
+       
         <section
           style={{
             display: "flex",

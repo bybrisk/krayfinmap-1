@@ -12,7 +12,9 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Modal from "@material-ui/core/Modal";
 import Backdrop from '@material-ui/core/Backdrop';
 import Grow from '@material-ui/core/Grow';
-import {useHistory} from 'react-router-dom'
+import {withRouter} from 'react-router-dom'
+import {history} from 'helpers/history';
+
 import ForgotPassword from 'views/user/forgot-password'
 import UpdateAccount from 'views/user/modify-account'
 import {logout} from 'helpers/NetworkRequest'
@@ -43,8 +45,7 @@ function useOutsideAlerter(props) {
 /**
  * Component that alerts if you click outside of it
  */
-export default function AccountDropdown() {
-const history = useHistory();
+function AccountDropdown() {
   const wrapperRef = useRef(null);
   const [open, OpenModal] = useState(false);
   const [link,setLink] = useState('');
@@ -63,7 +64,9 @@ props===true?wrapperRef.current.classList.toggle("active"):wrapperRef.current.cl
   }
 
   const logOut = () =>{
-logout(history)        
+logout().then(response=>{
+  history.push('/');
+})     
   }
 
 
@@ -141,3 +144,5 @@ logout(history)
 
     ;
 }
+
+export default withRouter(AccountDropdown)

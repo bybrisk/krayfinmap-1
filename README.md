@@ -35,3 +35,10 @@ clusterpoints>>_source>>latitude>>
 mobile@test
 
 newPassword
+
+
+
+#to ask
+1) give lat and long in profile data
+3) to be explained
+4)   

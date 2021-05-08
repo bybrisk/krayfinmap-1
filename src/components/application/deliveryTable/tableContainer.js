@@ -110,6 +110,8 @@ const pending = [
   //page elements starts
     const [order, setOrder] = React.useState('asc');
     const [query, setQuery] = React.useState('');
+    const [filter, setFilter] = React.useState('Pending');
+
     const [orderBy, setOrderBy] = React.useState('AgentID');
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -194,7 +196,7 @@ const pending = [
    <Suspense fallback={<Loader />}>
       <div className={classes.root}>
         <Paper className={classes.paper}>
-          <Toolbar setQuery={handleQuery} query={query} handleDelivery={handleDelivery} filterStats={filterStats}/>
+          <Toolbar setQuery={handleQuery} query={query}  handleDelivery={handleDelivery} setFilter={setFilter} filter={filter} filterStats={filterStats}/>
           <TableContainer>
             <Table
               className={classes.table}
@@ -211,7 +213,7 @@ const pending = [
               />
               <TableBody>
                 {rows && (
-                  search(rows,query,getComparator(order, orderBy))
+                  search((filter==="" ? rows:rows.filter(item=>item._source.deliveryStatus==filter)),query,getComparator(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => {
                     return (

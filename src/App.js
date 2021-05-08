@@ -1,7 +1,9 @@
 import { ThemeProvider } from "@material-ui/core/styles";
 import React,{useEffect,Suspense} from "react";
 import { Provider } from "react-redux";
-import { BrowserRouter} from "react-router-dom";
+// import { BrowserRouter} from "react-router-dom";
+import { Router } from 'react-router';
+import {history} from 'helpers/history';
 import { SnackbarProvider } from 'notistack';
 import { useDispatch } from "react-redux";
 import { Route, Switch ,useHistory} from "react-router-dom";
@@ -29,6 +31,7 @@ const ViewUser = React.lazy(() =>
 // const ViewError = React.lazy(() =>
 //   import(/* webpackChunkName: "views-error" */ './views/error')
 // );
+
 const Routing = () => {
     const dispatch = useDispatch();
     const history = useHistory();
@@ -67,13 +70,13 @@ export default function App() {
     >
 
         <div className="App">
-          <BrowserRouter>
+          <Router history={history}>
           <PubNubProvider client={pubnub}>
 
 <Routing/>
 </PubNubProvider>
 
-          </BrowserRouter>
+          </Router>
         </div>
         </SnackbarProvider>
       </ThemeProvider>

@@ -343,7 +343,7 @@ export async function logout(props){
 
     try{
 const res = await API.get(`/onboarding/logout`);
-props.history.push('/')
+return
     }
     catch(err){
         
