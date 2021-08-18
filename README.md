@@ -32,3 +32,8 @@
   <li>View all clusters</li>
   <li>View all deliveries in one cluster</li>
 </ol>
+
+Krayfin Map: ![Krayfin Map](https://media-exp1.licdn.com/dms/image/C5622AQEXhOuhEkDm_Q/feedshare-shrink_1280/0/1614627527690?e=1632355200&v=beta&t=Xm2MbliAzl9Me_LvyL0ewBUHgdU6Ry1zr7o6K56xmGk)
+![Krayfin Map](/src/Assets/bybrisk2.PNG)
+
+
