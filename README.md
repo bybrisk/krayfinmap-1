@@ -1,44 +1,34 @@
-<h1>This is full report of this WepApp</h1>
+<h1>Krayfin Map (a depracated feature of Bybrisk)</h1>
 
-<h3>Pending</h3>
-1) including maps place api in inputs<br />
-2) Making Update Account and modify Password <br />
-
-5)See Delivery Details<br />
-6) Login is not made<br />
-7) Sidebar configuration are not clear yet
-
-<h3>Known Bugs</h3>
-1) Agent Table is not refreshing after Deleting A Agent<br/>
-2) Check if agent details has 'x' in front of its name
-
-<h3>Technologies Used</h3>
-1) React(100%)<br/>
-2) Material-ui(80%)<br/>
-3) Styled-components<br/>
-4) Formik-yup<br/>
-5) notistack (notification manager)<br/>
-6) react-redux<br/>
-7) axios<br/>
+<h2>Features</h2>
 
 
+<h3>Krayfin Map</h3>
+<ol>
+  <li>Graphical view of all deliveries(included in cluster) plotted on Google map</li>
+  <li>All clusters have different colors to show deliveries</li>
+  <li>Panel to see all clusters and see their deliveries</li>
+</ol>
 
-logout not working well
+<h3>Agent Management</h3>
+<ol>
+  <li>Add agent</li>
+  <li>Modify Agent</li>
+  <li>View all agents</li>
+  <li>View agent Details</li>
+</ol>
 
+<h3>Delivery Management</h3>
+<ol>
+  <li>Add delivery(single as well as bulk)</li>
+  <li>Change status of delivery(Pending, Transit, Cancelled, Delivered)</li>
+  <li>View delivery information</li>
+  <li>Filter deliveries according to status</li>
+</ol>
 
-AssignedDeliveryArray
-[{hits>>hits>>clusterPoints}]
-
-clusterpoints>>_source>>latitude>>
-
-
-mobile@test
-
-newPassword
-
-
-
-#to ask
-1) give lat and long in profile data
-3) to be explained
-4)   
+<h3>Cluster Management</h3>
+<ol>
+  <li>Create Clusters(From all pending deliveries)</li>
+  <li>View all clusters</li>
+  <li>View all deliveries in one cluster</li>
+</ol>
