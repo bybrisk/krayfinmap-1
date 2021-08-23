@@ -1,5 +1,7 @@
 <h1>Krayfin Map (a depracated feature of Bybrisk)</h1>
 
+Video Preview(little blurred) https://youtu.be/GWPY3hozMUM
+
 <h2>Features</h2>
 
 
