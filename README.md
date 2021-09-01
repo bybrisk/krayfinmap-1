@@ -1,4 +1,4 @@
-<h1>Krayfin Map (a depracated feature of Bybrisk)</h1>
+<h1>Krayfin Map (a deprecated feature of Bybrisk)</h1>
 
 Video Preview(little blurred) https://youtu.be/GWPY3hozMUM
 
